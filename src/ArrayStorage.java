@@ -8,7 +8,6 @@ import java.util.Arrays;
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
     int sizeStorage = 0;
-    boolean resume = true;
 
     void clear() {
         for (int i = 0; i < storage.length; i++) { // очистить весь массив  Arrays.fill(storage, null);
