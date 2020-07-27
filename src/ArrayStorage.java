@@ -7,6 +7,8 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    int sizeStorage = 0;
+    boolean resume = true;
 
     void clear() {
         for (int i = 0; i < storage.length; i++) { // очистить весь массив  Arrays.fill(storage, null);
@@ -14,36 +16,46 @@ public class ArrayStorage {
                 storage[i] = null;
             }
         }
+        sizeStorage = 0;
     }
 
     void save(Resume r) {
         for (int i = 0; i < storage.length; i++) {
             if (storage[i] == null) {
                 storage[i] = r;
+                sizeStorage += 1;
                 break;
             }
         }
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i < storage.length; i++)
+        for (int i = 0; i < sizeStorage; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 return storage[i];
-            } else {
-                Resume dummy = new Resume();
-                dummy.uuid = uuid;
-                return dummy;
             }
+        }
         return null;
     }
 
     void delete(String uuid) {
+        Resume[] tempStorage = new Resume[storage.length];
         for (int i = 0; i < storage.length; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 storage[i] = null;
+                sizeStorage -= 1;
                 break;
             }
         }
+        int counterNull = 0; //переменная считает количество ссылок == null
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i] == null) {
+                counterNull += 1;
+            } else {
+                tempStorage[i - counterNull] = storage[i]; //копируем во временный массив все резюме подряд, все null идут после ссылок на резюме
+            }
+        }
+        storage = Arrays.copyOf(tempStorage, tempStorage.length);
     }
 
     /**
@@ -70,12 +82,6 @@ public class ArrayStorage {
     }
 
     int size() {
-        int sizeStorage = 0;
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] != null) {
-                sizeStorage += 1;
-            }
-        }
         return sizeStorage;
     }
 }
