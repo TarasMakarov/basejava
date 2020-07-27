@@ -54,7 +54,7 @@ public class ArrayStorage {
                 tempStorage[i - counterNull] = storage[i]; //копируем во временный массив все резюме подряд, все null идут после ссылок на резюме
             }
         }
-        storage = Arrays.copyOf(tempStorage, tempStorage.length);
+        storage = Arrays.copyOfRange(tempStorage,0, tempStorage.length - 1);
     }
 
     /**
