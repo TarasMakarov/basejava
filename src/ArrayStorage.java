@@ -1,5 +1,3 @@
-import sun.security.util.ArrayUtil;
-
 import java.util.Arrays;
 
 /**
@@ -10,21 +8,17 @@ public class ArrayStorage {
     int sizeStorage = 0;
 
     void clear() {
-        for (int i = 0; i < storage.length; i++) { // очистить весь массив  Arrays.fill(storage, null);
-            if (storage[i] != null) {
-                storage[i] = null;
-            }
+        for (int i = 0; i < sizeStorage; i++) {
+            storage[i] = null;
         }
         sizeStorage = 0;
     }
 
     void save(Resume r) {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                storage[i] = r;
-                sizeStorage += 1;
-                break;
-            }
+        for (int i = 0; i < sizeStorage + 1; i++) {
+            storage[sizeStorage] = r;
+            sizeStorage++;
+            break;
         }
     }
 
@@ -38,45 +32,29 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        Resume[] tempStorage = new Resume[storage.length];
-        for (int i = 0; i < storage.length; i++) {
+        for (int i = 0; i < sizeStorage; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 storage[i] = null;
-                sizeStorage -= 1;
+                sizeStorage--;
                 break;
             }
         }
-        int counterNull = 0; //переменная считает количество ссылок == null
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                counterNull += 1;
-            } else {
-                tempStorage[i - counterNull] = storage[i]; //копируем во временный массив все резюме подряд, все null идут после ссылок на резюме
+        int y = 0;
+        for (int i = 0; i < sizeStorage + 1; i++) {
+            if (storage[i] != null) {
+                storage[y] = storage[i];
+                y++;
             }
         }
-        storage = Arrays.copyOfRange(tempStorage,0, tempStorage.length - 1);
+        storage = Arrays.copyOf(storage, storage.length);
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] tempStorage = new Resume[storage.length];
-        int counterNull = 0; //переменная считает количество ссылок == null
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                counterNull += 1;
-            } else {
-                tempStorage[i - counterNull] = storage[i]; //копируем во временный массив все резюме подряд, все null идут после ссылок на резюме
-            }
-        }
-        int counterNoNull = 0;
-        for (int i = 0; i < tempStorage.length; i++) {
-            if (tempStorage[i] != null) {
-                counterNoNull++; //считаем количество ссылок != null
-            }
-        }
-        tempStorage = Arrays.copyOfRange(tempStorage, 0, counterNoNull); //новый массив только с резюме (без null)
+        Resume[] tempStorage = new Resume[sizeStorage];
+        tempStorage = Arrays.copyOfRange(storage, 0, sizeStorage);
         return tempStorage;
     }
 
