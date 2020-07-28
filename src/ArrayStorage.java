@@ -32,21 +32,20 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
+        int resumeDelete = 0;
         for (int i = 0; i < sizeStorage; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 storage[i] = null;
                 sizeStorage--;
                 break;
             }
+            resumeDelete++;
         }
-        int y = 0;
-        for (int i = 0; i < sizeStorage + 1; i++) {
-            if (storage[i] != null) {
+        int y = resumeDelete;
+        for (int i = resumeDelete + 1; i < sizeStorage + 1; i++) {
                 storage[y] = storage[i];
                 y++;
-            }
         }
-        storage = Arrays.copyOf(storage, storage.length);
     }
 
     /**
@@ -54,7 +53,7 @@ public class ArrayStorage {
      */
     Resume[] getAll() {
         Resume[] tempStorage = new Resume[sizeStorage];
-        tempStorage = Arrays.copyOfRange(storage, 0, sizeStorage);
+        tempStorage = Arrays.copyOf(storage, sizeStorage);
         return tempStorage;
     }
 
