@@ -15,7 +15,7 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        for (int i = 0; i < sizeStorage + 1; i++) {
+        for (int i = 0; sizeStorage < storage.length; i++) {
             storage[sizeStorage] = r;
             sizeStorage++;
             break;
@@ -32,29 +32,21 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        int resumeDelete = 0;
+        int y = 0;
         for (int i = 0; i < sizeStorage; i++) {
-            if (storage[i].uuid.equals(uuid)) {
-                storage[i] = null;
-                sizeStorage--;
-                break;
-            }
-            resumeDelete++;
-        }
-        int y = resumeDelete;
-        for (int i = resumeDelete + 1; i < sizeStorage + 1; i++) {
+            if (!storage[i].uuid.equals(uuid)) {
                 storage[y] = storage[i];
                 y++;
+            }
         }
+        sizeStorage--;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] tempStorage = new Resume[sizeStorage];
-        tempStorage = Arrays.copyOf(storage, sizeStorage);
-        return tempStorage;
+        return Arrays.copyOf(storage, sizeStorage);
     }
 
     int size() {
