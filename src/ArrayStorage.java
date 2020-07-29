@@ -15,11 +15,11 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        if(sizeStorage < storage.length) {
+        if (sizeStorage < storage.length) {
             storage[sizeStorage] = r;
             sizeStorage++;
         } else {
-            System.out.println("Нельзя добавить. База резюме заполнена");
+            System.out.println("Нельзя добавить. База резюме заполнена.");
         }
     }
 
@@ -33,19 +33,17 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        int resumeDelete = 0;
         for (int i = 0; i < sizeStorage; i++) {
             if (storage[i].uuid.equals(uuid)) {
-                storage[i] = null;
+                int indexDel = i;
                 sizeStorage--;
+                storage[indexDel] = storage[sizeStorage];
                 break;
             }
-            resumeDelete++;
+            if (i + 1 == sizeStorage) {
+                System.out.println("Резюме: " + uuid + " в базе не найдено.");
+            }
         }
-        if(resumeDelete == sizeStorage) {
-            System.out.println("Резюме: " + uuid + " в базе не найдено.");
-        }
-        storage[resumeDelete] = storage[sizeStorage];
     }
 
 
