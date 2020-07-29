@@ -15,10 +15,11 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        for (int i = 0; sizeStorage < storage.length; i++) {
+        if(sizeStorage < storage.length) {
             storage[sizeStorage] = r;
             sizeStorage++;
-            break;
+        } else {
+            System.out.println("Нельзя добавить. База резюме заполнена");
         }
     }
 
@@ -32,15 +33,21 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        int y = 0;
+        int resumeDelete = 0;
         for (int i = 0; i < sizeStorage; i++) {
-            if (!storage[i].uuid.equals(uuid)) {
-                storage[y] = storage[i];
-                y++;
+            if (storage[i].uuid.equals(uuid)) {
+                storage[i] = null;
+                sizeStorage--;
+                break;
             }
+            resumeDelete++;
         }
-        sizeStorage--;
+        if(resumeDelete == sizeStorage) {
+            System.out.println("Резюме: " + uuid + " в базе не найдено.");
+        }
+        storage[resumeDelete] = storage[sizeStorage];
     }
+
 
     /**
      * @return array, contains only Resumes in storage (without null)
