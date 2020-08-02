@@ -8,47 +8,52 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[3];
+    private Resume[] storage = new Resume[10000];
     private int sizeStorage = 0;
+    private int indexResume;
 
     public void clear() {
-        for (int i = 0; i < sizeStorage; i++) {
-            storage[i] = null;
-        }
+        Arrays.fill(storage, 0, sizeStorage - 1, null);
         sizeStorage = 0;
     }
 
-    public void update() {
-
+    public void update(Resume resume) {
+        if (resumeFind(resume.getUuid())) {
+            storage[indexResume] = resume;
+        } else {
+            System.out.println("Resume is not in the database.");
+        }
     }
 
     public void save(Resume r) {
-        if (sizeStorage < storage.length) {
-            storage[sizeStorage] = r;
-            sizeStorage++;
+        if (resumeFind(r.getUuid())) {
+            System.out.println("Resume is already in the database.");
         } else {
-            System.out.println("Нельзя добавить. База резюме заполнена.");
+            if (sizeStorage < storage.length) {
+                storage[sizeStorage] = r;
+                sizeStorage++;
+            } else {
+                System.out.println("Database is full.");
+            }
         }
     }
 
     public Resume get(String uuid) {
-        for (int i = 0; i < sizeStorage; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                return storage[i];
-            }
+        if (resumeFind(uuid)) {
+            return storage[indexResume];
+        } else {
+            System.out.println("Resume is not in the database.");
         }
         return null;
     }
 
     public void delete(String uuid) {
-        for (int i = 0; i < sizeStorage; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                int indexDel = i;
-                storage[indexDel] = storage[sizeStorage - 1];
-                storage[sizeStorage - 1] = null;
-                sizeStorage--;
-                break;
-            }
+        if (resumeFind(uuid)) {
+            storage[indexResume] = storage[sizeStorage - 1];
+            storage[sizeStorage - 1] = null;
+            sizeStorage--;
+        } else {
+            System.out.println("Resume is not in the database.");
         }
     }
 
@@ -61,5 +66,15 @@ public class ArrayStorage {
 
     public int size() {
         return sizeStorage;
+    }
+
+    private boolean resumeFind(String uuid) {
+        for (int i = 0; i < sizeStorage; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
+                indexResume = i;
+                return true;
+            }
+        }
+        return false;
     }
 }
