@@ -3,8 +3,6 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 import org.junit.Assert;
 
-import static org.junit.Assert.*;
-
 public class SortedArrayStorageTest extends AbstractArrayStorageTest{
 
     public SortedArrayStorageTest() {
@@ -13,7 +11,7 @@ public class SortedArrayStorageTest extends AbstractArrayStorageTest{
 
     protected void compareCellsResume() {
         Resume[] arrayResume = storage.getAll();
-        Assert.assertEquals(new Resume(UUID_2), arrayResume[0]);
-        Assert.assertEquals(new Resume(UUID_3), arrayResume[1]);
+        Assert.assertEquals(storage.get(UUID_2), arrayResume[0]);
+        Assert.assertEquals(storage.get(UUID_3), arrayResume[1]);
     }
 }
