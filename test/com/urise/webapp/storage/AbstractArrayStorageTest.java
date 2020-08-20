@@ -2,7 +2,6 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,13 +11,13 @@ public abstract class AbstractArrayStorageTest {
 
     protected Storage storage;
 
-    public AbstractArrayStorageTest(Storage storage) {
-        this.storage = storage;
-    }
-
     protected static final String UUID_1 = "uuid1";
     protected static final String UUID_2 = "uuid2";
     protected static final String UUID_3 = "uuid3";
+
+    public AbstractArrayStorageTest(Storage storage) {
+        this.storage = storage;
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -51,10 +50,10 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] arrayResume = storage.getAll();
-        Resume[] arrayResume2 = new Resume[]{storage.get(UUID_1), storage.get(UUID_2), storage.get(UUID_3)};
+        Resume[] actualResumes = storage.getAll();
+        Resume[] expectedResumes = new Resume[]{storage.get(UUID_1), storage.get(UUID_2), storage.get(UUID_3)};
         Assert.assertEquals(3, storage.size());
-        Assert.assertArrayEquals(arrayResume, arrayResume2);
+        Assert.assertArrayEquals(expectedResumes, actualResumes);
     }
 
     @Test
@@ -66,11 +65,11 @@ public abstract class AbstractArrayStorageTest {
         Assert.assertEquals(arrayResume[2], storage.get(UUID_3));
     }
 
-    @Test
+    @Test (expected = NotExistStorageException.class)
     public void delete() {
         storage.delete(UUID_1);
         Assert.assertEquals(2, storage.size());
-        compareCellsResume();
+        storage.get(UUID_1);
     }
 
     @Test
@@ -89,19 +88,18 @@ public abstract class AbstractArrayStorageTest {
         storage.save(storage.get(UUID_1));
     }
 
-    @Test(expected = RuntimeException.class)
-    public void getStorageException() {
+//    @Test(expected = RuntimeException.class)
+    @Test
+    public void getStorageException() throws RuntimeException {
         Resume[] arrayResume = new Resume[storage.size() - 1];
         Resume[] arrayResume2 = storage.getAll();
         try {
             for (int i = 0; i < storage.size(); i++) {
                 arrayResume[i] = arrayResume2[i];
             }
-        } catch (StorageException e) {
-            Assert.fail();
+            Assert.fail("Storage overflow");
+        } catch (RuntimeException thrown) {
+            Assert.assertNotEquals("", thrown.getMessage());
         }
     }
-
-
-    abstract void compareCellsResume();
 }

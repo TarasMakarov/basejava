@@ -20,5 +20,6 @@ public class MainReflection {
         Method method = r.getClass().getDeclaredMethod("toString");
         method.setAccessible(true);
         System.out.println(method.invoke(r));
+
     }
 }
