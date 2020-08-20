@@ -78,13 +78,13 @@ public abstract class AbstractArrayStorageTest {
     @Test(expected = StorageException.class)
     public void checkArrayOverflow() {
         try {
-            for (int i = 3; i <= 99999; i++) {
+            for (int i = 3; i < 10000; i++) {
                 storage.save(new Resume());
             }
         } catch (StorageException exception) {
-            System.out.println("Storage overflow");
+            Assert.fail("Storage overflow");
         }
-        Assert.fail("Storage overflow");
+        storage.save(new Resume());
     }
 
     @Test(expected = NotExistStorageException.class)
