@@ -95,7 +95,7 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test(expected = NotExistStorageException.class)
-    public void deleteNothing(){
+    public void deleteNothing() {
         storage.delete("dummy");
     }
 
