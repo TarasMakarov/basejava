@@ -1,7 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -10,66 +8,50 @@ import java.util.LinkedList;
 
 public class ListStorage extends AbstractStorage {
 
-    LinkedList <Resume>listResume = new LinkedList<>();
+    LinkedList<Resume> listResume = new LinkedList<>();
 
     @Override
-    protected int sizeStorage() {
+    public int size() {
         return listResume.size();
     }
 
     @Override
-    protected void clearStorage() {
+    public void clear() {
         listResume.clear();
     }
 
     @Override
-    public void updateResume(Resume r) {
-        if (listResume.contains(r)) {
-            int index = listResume.indexOf(r);
-            listResume.set(index, r);
-        } else {
-            throw new NotExistStorageException(r.getUuid());
-        }
+    protected void updateResume(Resume r) {
+        int index = getIndex(r.getUuid());
+        listResume.set(index, r);
     }
 
     @Override
-    public Resume[] getAllResumes() {
+    public Resume[] getAll() {
         Resume[] allResumes = new Resume[listResume.size()];
         return listResume.toArray(allResumes);
     }
 
-
     @Override
-    public void saveResume(Resume r) {
+    protected void saveResume(Resume r) {
         int index = getIndex(r.getUuid());
-        if (listResume.contains(r)) {
-            throw new ExistStorageException(r.getUuid());
-        } else {
-            insertElement(r, index);
-        }
+        insertElement(r, index);
     }
 
     @Override
-    public void deleteResume(String uuid) {
+    protected void deleteResume(String uuid) {
         Resume eraseResume = new Resume(uuid);
-        if (listResume.contains(eraseResume)) {
-            listResume.remove(eraseResume);
-        } else {
-            throw new NotExistStorageException(uuid);
-        }
+        listResume.remove(eraseResume);
     }
 
     @Override
-    public Resume getResume(String uuid) {
-        Resume requestResume = new Resume(uuid);
-        if (listResume.contains(requestResume)) {
-            return requestResume;
-        } else {
-            throw new NotExistStorageException(uuid);
-        }
+    protected Resume getResume(String uuid) {
+        int index = getIndex(uuid);
+        return listResume.get(index);
     }
 
-    private int getIndex(String uuid) {
+    @Override
+    protected int getIndex(String uuid) {
         Resume[] allResumes = new Resume[listResume.size()];
         Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(allResumes, 0, listResume.size(), searchKey);

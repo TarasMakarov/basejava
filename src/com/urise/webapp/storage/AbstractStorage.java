@@ -1,47 +1,57 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    public int size() {
-        return sizeStorage();
-    }
+    public abstract int size();
 
-    public void clear() {
-        clearStorage();
-    }
+    public abstract void clear();
 
     public void update(Resume r) {
-        updateResume(r);
+        int index = getIndex(r.getUuid());
+        if (index < 0) {
+            throw new NotExistStorageException(r.getUuid());
+        } else {
+            updateResume(r);
+        }
     }
 
+    protected abstract int getIndex(String uuid);
 
-    public Resume[] getAll() {
-        return getAllResumes();
+    public abstract Resume[] getAll();
+
+    public void save(Resume r) {
+        int index = getIndex(r.getUuid());
+        if (index > -1) {
+            throw new ExistStorageException(r.getUuid());
+        } else {
+            saveResume(r);
+        }
     }
 
-    final public void save(Resume r) {
-        saveResume(r);
+    public void delete(String uuid) {
+        int index = getIndex(uuid);
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
+        } else {
+            deleteResume(uuid);
+        }
     }
 
-    final public void delete(String uuid) {
-        deleteResume(uuid);
-    }
-
-    final public Resume get(String uuid) {
+    public Resume get(String uuid) {
+        int index = getIndex(uuid);
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
+        }
         return getResume(uuid);
     }
-
-    protected abstract void clearStorage();
-
-    protected abstract int sizeStorage();
-
-    protected abstract void saveResume(Resume r);
-
+    
     protected abstract void updateResume(Resume r);
 
-    protected abstract Resume[] getAllResumes();
+    protected abstract void saveResume(Resume r);
 
     protected abstract void deleteResume(String uuid);
 
