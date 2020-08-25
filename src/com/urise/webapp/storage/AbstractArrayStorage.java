@@ -10,22 +10,22 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_LIMIT = 10000;
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    public int size() {
+    protected int sizeStorage() {
         return size;
     }
 
-    public void clear() {
+    protected void clearStorage() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    public void update(Resume r) {
+    protected void updateResume(Resume r) {
         int index = getIndex(r.getUuid());
         if (index < 0) {
             throw new NotExistStorageException(r.getUuid());
@@ -35,13 +35,13 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     /**
-     * @return array, contains only Resumes in storage (without null)
+     * @return
      */
-    public Resume[] getAll() {
+    public Resume[] getAllResumes() {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    final public void save(Resume r) {
+    final public void saveResume(Resume r) {
         int index = getIndex(r.getUuid());
         if (index > -1) {
             throw new ExistStorageException(r.getUuid());
@@ -53,7 +53,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    final public void delete(String uuid) {
+    final public void deleteResume(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
             throw new NotExistStorageException(uuid);
@@ -64,7 +64,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    final public Resume get(String uuid) {
+    final public Resume getResume(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
             throw new NotExistStorageException(uuid);
