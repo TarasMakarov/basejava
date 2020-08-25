@@ -25,8 +25,9 @@ public class ListStorage extends AbstractStorage {
         if (listResume.contains(r)) {
             int index = listResume.indexOf(r);
             listResume.set(index, r);
+        } else {
+            throw new NotExistStorageException(r.getUuid());
         }
-        throw new NotExistStorageException(r.getUuid());
     }
 
     @Override
@@ -40,8 +41,9 @@ public class ListStorage extends AbstractStorage {
     public void saveResume(Resume r) {
         if (listResume.contains(r)) {
             throw new ExistStorageException(r.getUuid());
+        } else {
+            listResume.add(r);
         }
-        listResume.add(r);
     }
 
     @Override
