@@ -19,8 +19,6 @@ public abstract class AbstractStorage implements Storage {
         }
     }
 
-    protected abstract int getIndex(String uuid);
-
     public abstract Resume[] getAll();
 
     public void save(Resume r) {
@@ -48,7 +46,9 @@ public abstract class AbstractStorage implements Storage {
         }
         return getResume(uuid);
     }
-    
+
+    protected abstract int getIndex(String uuid);
+
     protected abstract void updateResume(Resume r);
 
     protected abstract void saveResume(Resume r);
