@@ -3,12 +3,12 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    LinkedList<Resume> listResume = new LinkedList<>();
+    private List<Resume> listResume = new LinkedList<>();
 
     @Override
     public int size() {
@@ -22,7 +22,6 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void updateResume(Resume r) {
-        int index = getIndex(r.getUuid());
         listResume.set(index, r);
     }
 
@@ -34,8 +33,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void saveResume(Resume r) {
-        int index = getIndex(r.getUuid());
-        insertElement(r, index);
+        listResume.add(r);
     }
 
     @Override
@@ -46,7 +44,6 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected Resume getResume(String uuid) {
-        int index = getIndex(uuid);
         return listResume.get(index);
     }
 
@@ -55,15 +52,5 @@ public class ListStorage extends AbstractStorage {
         Resume[] allResumes = new Resume[listResume.size()];
         Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(allResumes, 0, listResume.size(), searchKey);
-    }
-
-    private void insertElement(Resume r, int index) {
-//      http://codereview.stackexchange.com/questions/36221/binary-search-for-inserting-in-array#answer-36239
-        Resume[] allResumes = new Resume[listResume.size()];
-        int insertIdx = -index - 1;
-        System.arraycopy(allResumes, insertIdx, allResumes, insertIdx + 1, listResume.size() - insertIdx);
-        allResumes[insertIdx] = r;
-        listResume.clear();
-        Collections.addAll(listResume, allResumes);
     }
 }
