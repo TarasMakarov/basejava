@@ -2,13 +2,13 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    private List<Resume> listResume = new LinkedList<>();
+    private List<Resume> listResume = new ArrayList<>();
 
     @Override
     public int size() {
@@ -21,8 +21,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Resume r) {
-        listResume.set(index, r);
+    protected void updateResume(Object o, Resume r) {
+        listResume.set((int) o, r);
     }
 
     @Override
@@ -32,19 +32,19 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveResume(Resume r) {
+    protected void saveResume(Resume r, Object o) {
+        o = null;
         listResume.add(r);
     }
 
     @Override
-    protected void deleteResume(String uuid) {
-        Resume eraseResume = new Resume(uuid);
-        listResume.remove(eraseResume);
+    protected void deleteResume(Object o) {
+        listResume.remove((int)o);
     }
 
     @Override
-    protected Resume getResume(String uuid) {
-        return listResume.get(index);
+    protected Resume getResume(Object o) {
+        return listResume.get((int) o);
     }
 
     @Override
