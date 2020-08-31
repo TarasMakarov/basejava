@@ -1,5 +1,7 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
@@ -21,8 +23,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Object o, Resume r) {
-        listResume.set((int) o, r);
+    protected void updateResume(Resume r) {
+        listResume.set((int)getSearchKey(r.getUuid()), r);
     }
 
     @Override
@@ -32,25 +34,38 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveResume(Resume r, Object o) {
-        o = null;
+    protected void saveResume(Resume r) {
         listResume.add(r);
     }
 
     @Override
-    protected void deleteResume(Object o) {
-        listResume.remove((int)o);
+    protected void deleteResume(String uuid) {
+        listResume.remove((int)getSearchKey(uuid));
     }
 
     @Override
-    protected Resume getResume(Object o) {
-        return listResume.get((int) o);
+    protected Resume getResume(String uuid) {
+        return listResume.get((Integer) getSearchKey(uuid));
     }
 
     @Override
-    protected int getIndex(String uuid) {
+    protected Object getSearchKey(String uuid) {
         Resume[] allResumes = new Resume[listResume.size()];
         Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(allResumes, 0, listResume.size(), searchKey);
+    }
+
+    protected boolean NotExist(String uuid) {
+        if ((int) getSearchKey(uuid) < 0) {
+            throw new NotExistStorageException(uuid);
+        }
+        return true;
+    }
+
+    protected boolean Exist(String uuid) {
+        if ((int) getSearchKey(uuid) > 0) {
+            throw new ExistStorageException(uuid);
+        }
+        return true;
     }
 }

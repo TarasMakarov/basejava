@@ -1,5 +1,7 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
@@ -14,11 +16,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-//    private Object searchKey(Object o) {
-//        Object searchKey = o;
-//        return searchKey;
-//    }
-
     @Override
     final public int size() {
         return size;
@@ -31,8 +28,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    final public void updateResume(Object o, Resume r) {
-        storage[(int)o] = r;
+    final public void updateResume(Resume r) {
+        storage[(int) getSearchKey(r.getUuid())] = r;
     }
 
     /**
@@ -44,27 +41,40 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    final public void saveResume(Resume r, Object o) {
+    final public void saveResume(Resume r) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", r.getUuid());
         } else {
-            insertElement(r, (int)o);
+            insertElement(r, (Integer) getSearchKey(r.getUuid()));
             size++;
         }
     }
 
     @Override
-    final public void deleteResume(Object o) {
-        fillDeletedElement((int)o);
+    final public void deleteResume(String uuid) {
+        fillDeletedElement((Integer) getSearchKey(uuid));
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    final public Resume getResume(Object o) {
-        return storage[(int)o];
+    final public Resume getResume(String uuid) {
+        return storage[(int) getSearchKey(uuid)];
     }
 
+    protected boolean NotExist(String uuid) {
+        if ((int) getSearchKey(uuid) < 0) {
+            throw new NotExistStorageException(uuid);
+        }
+        return false;
+    }
+
+    protected boolean Exist(String uuid) {
+        if ((int) getSearchKey(uuid) > 0) {
+            throw new ExistStorageException(uuid);
+        }
+        return false;
+    }
     protected abstract void fillDeletedElement(int index);
 
     protected abstract void insertElement(Resume r, int index);
