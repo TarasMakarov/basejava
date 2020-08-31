@@ -5,7 +5,9 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
@@ -24,7 +26,8 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return new Resume[0];
+        List<Map.Entry<String, Resume>> Resumes = new ArrayList<>(mapResume.entrySet());
+        return new Resume[Resumes.size()];
     }
 
     @Override
