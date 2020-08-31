@@ -1,5 +1,8 @@
+
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.HashMap;
@@ -19,37 +22,50 @@ public class MapStorage extends AbstractStorage {
         mapResume.clear();
     }
 
-//    @Override
-//    public Resume[] getAll() {
-//        return ;
-//    }
-
     @Override
-    protected int getIndex(String uuid) {
-        if (mapResume.containsKey(uuid)) {
-            return 0;
-        }
-        return -1;
+    public Resume[] getAll() {
+        return new Resume[0];
     }
 
     @Override
-    protected void updateResume(Object o, Resume r) {
-        o  = null;
+    protected void updateResume(Resume r) {
         mapResume.put(r.getUuid(), r);
     }
 
     @Override
-    protected void saveResume(Resume r, Object o) {
-        mapResume.put((String) o, r);
+    protected void saveResume(Resume r) {
+        mapResume.put(r.getUuid(), r);
     }
 
-//    @Override
-//    protected void deleteResume(Object o) {
-//        mapResume.remove(o);
-//    }
+    @Override
+    protected void deleteResume(String uuid) {
+        mapResume.remove(uuid);
+    }
 
-//    @Override
-//    protected Resume getResume(Object o) {
-//        return mapResume.get(o);
-//    }
+    @Override
+    protected Resume getResume(String uuid) {
+        return mapResume.get(uuid);
+    }
+
+    @Override
+    protected Object getSearchKey(String uuid) {
+        if(mapResume.containsKey(uuid)) {
+            return 1;
+        }
+        return -1;
+    }
+
+    protected boolean NotExist(String uuid) {
+        if ((int) getSearchKey(uuid) < 0) {
+            throw new NotExistStorageException(uuid);
+        }
+        return true;
+    }
+
+    protected boolean Exist(String uuid) {
+        if ((int) getSearchKey(uuid) > 0) {
+            throw new ExistStorageException(uuid);
+        }
+        return true;
+    }
 }
