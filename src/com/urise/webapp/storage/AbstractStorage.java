@@ -1,18 +1,20 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    public void update(Resume r) {
-        if (!NotExist(r.getUuid())) {
-            updateResume(r);
+    public void update(Resume resume) {
+        if (!NotExist(resume.getUuid())) {
+            updateResume(resume);
         }
     }
 
-    public void save(Resume r) {
-        if (!Exist(r.getUuid())) {
-            saveResume(r);
+    public void save(Resume resume) {
+        if (!Exist(resume.getUuid())) {
+            saveResume(resume);
         }
     }
 
@@ -29,9 +31,9 @@ public abstract class AbstractStorage implements Storage {
         return null;
     }
 
-    protected abstract void updateResume(Resume r);
+    protected abstract void updateResume(Resume resume);
 
-    protected abstract void saveResume(Resume r);
+    protected abstract void saveResume(Resume resume);
 
     protected abstract void deleteResume(String uuid);
 
@@ -39,7 +41,17 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Object getSearchKey(String uuid);
 
-    protected abstract boolean NotExist(String uuid);
+    protected boolean NotExist(String uuid) {
+        if ((int) getSearchKey(uuid) < 0) {
+            throw new NotExistStorageException(uuid);
+        }
+        return false;
+    }
 
-    protected abstract boolean Exist(String uuid);
+    protected boolean Exist(String uuid) {
+        if ((int) getSearchKey(uuid) > -1) {
+            throw new ExistStorageException(uuid);
+        }
+        return false;
+    }
 }
