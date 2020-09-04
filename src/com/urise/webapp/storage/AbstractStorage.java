@@ -1,31 +1,29 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
     public void update(Resume resume) {
-        if (!NotExist(resume.getUuid())) {
+        if (!notExist(resume.getUuid())) {
             updateResume(resume);
         }
     }
 
-    public void save(Resume resume) {
-        if (!Exist(resume.getUuid())) {
+        public void save(Resume resume) {
+        if (!exist(resume.getUuid())) {
             saveResume(resume);
         }
     }
 
     public void delete(String uuid) {
-        if (!NotExist(uuid)) {
+        if (!notExist(uuid)) {
             deleteResume(uuid);
         }
     }
 
     public Resume get(String uuid) {
-        if (!NotExist(uuid)) {
+        if (!notExist(uuid)) {
             return getResume(uuid);
         }
         return null;
@@ -41,17 +39,21 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Object getSearchKey(String uuid);
 
-    protected boolean NotExist(String uuid) {
-        if ((int) getSearchKey(uuid) < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return false;
-    }
+    protected abstract boolean exist (String uuid);
 
-    protected boolean Exist(String uuid) {
-        if ((int) getSearchKey(uuid) > -1) {
-            throw new ExistStorageException(uuid);
-        }
-        return false;
-    }
+    protected abstract boolean notExist (String uuid);
+
+//    protected boolean notExist(String uuid) {
+//        if ((int) getSearchKey(uuid) < 0) {
+//            throw new NotExistStorageException(uuid);
+//        }
+//        return false;
+//    }
+//
+//    protected boolean exist(String uuid) {
+//        if ((int) getSearchKey(uuid) > -1) {
+//            throw new ExistStorageException(uuid);
+//        }
+//        return false;
+//    }
 }

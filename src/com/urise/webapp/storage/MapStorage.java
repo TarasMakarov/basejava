@@ -1,6 +1,8 @@
 
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
@@ -24,8 +26,8 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        ArrayList<Resume> Resumes = new ArrayList<>(mapStorage.values());
-        Resume[] allResumes = Resumes.toArray(new Resume[mapStorage.size()]);
+        ArrayList<Resume> resumes = new ArrayList<>(mapStorage.values());
+        Resume[] allResumes = resumes.toArray(new Resume[mapStorage.size()]);
         Arrays.sort(allResumes);
         return allResumes;
     }
@@ -50,11 +52,25 @@ public class MapStorage extends AbstractStorage {
         return mapStorage.get(uuid);
     }
 
+    protected boolean exist(String uuid) {
+        if(mapStorage.containsKey(uuid)) {
+            throw new ExistStorageException(uuid);
+        }
+            return false;
+    }
+
+    protected boolean notExist(String uuid) {
+        if(!mapStorage.containsKey(uuid)) {
+            throw new NotExistStorageException(uuid);
+        }
+        return false;
+    }
+
     @Override
     protected Object getSearchKey(String uuid) {
         if(mapStorage.containsKey(uuid)) {
-            return 1;
+            return uuid;
         }
-        return -1;
+        return null;
     }
 }
