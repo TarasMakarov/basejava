@@ -1,8 +1,6 @@
 
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
@@ -33,44 +31,35 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Resume r) {
-        mapStorage.put(r.getUuid(), r);
+    protected void updateResume(Resume r, Object searchKey) {
+        mapStorage.put((String) searchKey, r);
     }
 
     @Override
-    protected void saveResume(Resume r) {
-        mapStorage.put(r.getUuid(), r);
+    protected void saveResume(Resume r, Object searchKey) {
+        mapStorage.put((String) searchKey, r);
     }
 
     @Override
-    protected void deleteResume(String uuid) {
-        mapStorage.remove(uuid);
+    protected void deleteResume(Object searchKey) {
+        mapStorage.remove(searchKey);
     }
 
     @Override
-    protected Resume getResume(String uuid) {
-        return mapStorage.get(uuid);
-    }
-
-    protected boolean exist(String uuid) {
-        if(mapStorage.containsKey(uuid)) {
-            throw new ExistStorageException(uuid);
-        }
-            return false;
-    }
-
-    protected boolean notExist(String uuid) {
-        if(!mapStorage.containsKey(uuid)) {
-            throw new NotExistStorageException(uuid);
-        }
-        return false;
+    protected Resume getResume(Object searchKey) {
+        return mapStorage.get(searchKey);
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected Object existResume(String uuid) {
+        String searchKey = findResume(uuid);
+        return searchKey;
+    }
+
+    private String findResume(String uuid) {
         if(mapStorage.containsKey(uuid)) {
             return uuid;
         }
-        return null;
+        return  null;
     }
 }

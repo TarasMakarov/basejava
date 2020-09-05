@@ -5,55 +5,37 @@ import com.urise.webapp.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     public void update(Resume resume) {
-        if (!notExist(resume.getUuid())) {
-            updateResume(resume);
-        }
+        Object searchKey = getSearchKey(resume.getUuid());
+        updateResume(resume, searchKey);
     }
 
-        public void save(Resume resume) {
-        if (!exist(resume.getUuid())) {
-            saveResume(resume);
-        }
+    public void save(Resume resume) {
+        Object searchKey = getSearchKey(resume.getUuid());
+        saveResume(resume, searchKey);
     }
 
     public void delete(String uuid) {
-        if (!notExist(uuid)) {
-            deleteResume(uuid);
-        }
+        Object searchKey = getSearchKey(uuid);
+        deleteResume(searchKey);
     }
 
     public Resume get(String uuid) {
-        if (!notExist(uuid)) {
-            return getResume(uuid);
-        }
-        return null;
+        Object searchKey = getSearchKey(uuid);
+        return getResume(searchKey);
     }
 
-    protected abstract void updateResume(Resume resume);
+    protected Object getSearchKey(String uuid) {
+        Object searchKey = existResume(uuid);
+        return searchKey;
+    }
 
-    protected abstract void saveResume(Resume resume);
+    protected abstract Object existResume(String uuid);
 
-    protected abstract void deleteResume(String uuid);
+    protected abstract void updateResume(Resume resume, Object searchKey);
 
-    protected abstract Resume getResume(String uuid);
+    protected abstract void saveResume(Resume resume, Object searchKey);
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract void deleteResume(Object searchKey);
 
-    protected abstract boolean exist (String uuid);
-
-    protected abstract boolean notExist (String uuid);
-
-//    protected boolean notExist(String uuid) {
-//        if ((int) getSearchKey(uuid) < 0) {
-//            throw new NotExistStorageException(uuid);
-//        }
-//        return false;
-//    }
-//
-//    protected boolean exist(String uuid) {
-//        if ((int) getSearchKey(uuid) > -1) {
-//            throw new ExistStorageException(uuid);
-//        }
-//        return false;
-//    }
+    protected abstract Resume getResume(Object searchKey);
 }

@@ -1,7 +1,6 @@
 package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
@@ -23,8 +22,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Resume r) {
-        listResume.set((int)getSearchKey(r.getUuid()), r);
+    protected void updateResume(Resume r, Object searchKey) {
+        listResume.set((int)searchKey, r);
     }
 
     @Override
@@ -34,36 +33,30 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveResume(Resume r) {
+    protected void saveResume(Resume r, Object searchKey) {
+        if((int)searchKey > -1) {
+            throw new ExistStorageException(r.getUuid());
+        }
         listResume.add(r);
     }
 
     @Override
-    protected void deleteResume(String uuid) {
-        listResume.remove((int)getSearchKey(uuid));
+    protected void deleteResume(Object searchKey) {
+        listResume.remove((int)searchKey);
     }
 
     @Override
-    protected Resume getResume(String uuid) {
-        return listResume.get((int)getSearchKey(uuid));
-    }
-
-    protected boolean exist(String uuid) {
-        if(listResume.contains(uuid)) {
-            throw new ExistStorageException(uuid);
-        }
-        return false;
-    }
-
-    protected boolean notExist(String uuid) {
-        if(listResume.contains(uuid)) {
-            return false;
-        }
-        throw new NotExistStorageException(uuid);
+    protected Resume getResume(Object searchKey) {
+        return listResume.get((int)searchKey);
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected Object existResume(String uuid) {
+        int searchKey = findResume(uuid);
+        return searchKey;
+    }
+
+    private Integer findResume(String uuid) {
         Resume[] allResumes = listResume.toArray(new Resume[listResume.size()]);
         Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(allResumes, 0, listResume.size(), searchKey);

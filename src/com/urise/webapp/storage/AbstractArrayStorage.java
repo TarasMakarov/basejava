@@ -28,8 +28,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    final public void updateResume(Resume r) {
-        storage[(int) getSearchKey(r.getUuid())] = r;
+    final public void updateResume(Resume r, Object searchKey) {
+        storage[(int) searchKey] = r;
     }
 
     /**
@@ -41,9 +41,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    final public void saveResume(Resume r) {
+    final public void saveResume(Resume r, Object searchKey) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", r.getUuid());
+        } else if ((int) searchKey > -1) {
+            throw new ExistStorageException(r.getUuid());
         } else {
             insertElement(r, (Integer) getSearchKey(r.getUuid()));
             size++;
@@ -51,31 +53,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    final public void deleteResume(String uuid) {
-        fillDeletedElement((Integer) getSearchKey(uuid));
+    final public void deleteResume(Object searchKey) {
+        fillDeletedElement((int)searchKey);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    final public Resume getResume(String uuid) {
-        return storage[(int) getSearchKey(uuid)];
-    }
-
-    protected boolean exist(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].getUuid()))
-                throw new ExistStorageException(uuid);
+    final public Resume getResume(Object searchKey) {
+        if ((int)searchKey < 0) {
+            throw new NotExistStorageException();
         }
-        return false;
-    }
-
-    protected boolean notExist(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].getUuid()))
-                return false;
-        }
-        throw new NotExistStorageException(uuid);
+        return storage[(int) searchKey];
     }
 
     protected abstract void fillDeletedElement(int index);
