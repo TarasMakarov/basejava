@@ -50,17 +50,14 @@ public class MapStorage extends AbstractStorage {
         return mapStorage.get(searchKey);
     }
 
-    protected  boolean findResume(Object searchKey) {
-        if(searchKey != null) {
-            return true;
+    protected boolean findResume(Object searchKey) {
+        if (!mapStorage.containsKey(searchKey)) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     protected String getSearchKey(String uuid) {
-        if(mapStorage.containsKey(uuid)) {
-            return uuid;
-        }
-        return null;
+        return uuid;
     }
 }
