@@ -15,6 +15,7 @@ public abstract class AbstractArrayStorageTest {
 
     private Storage storage;
 
+
     private static final String UUID_1 = "uuid1";
     private static final Resume RESUME_1 = new Resume(UUID_1);
 
@@ -30,6 +31,7 @@ public abstract class AbstractArrayStorageTest {
     public AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
     }
+
 
     @Before
     public void setUp() {

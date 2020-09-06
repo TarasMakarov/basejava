@@ -1,7 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
@@ -44,8 +42,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     final public void saveResume(Resume r, Object searchKey) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", r.getUuid());
-        } else if ((int) searchKey > -1) {
-            throw new ExistStorageException(r.getUuid());
         } else {
             insertElement(r, (Integer) getSearchKey(r.getUuid()));
             size++;
@@ -61,10 +57,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     final public Resume getResume(Object searchKey) {
-        if ((int)searchKey < 0) {
-            throw new NotExistStorageException();
-        }
         return storage[(int) searchKey];
+    }
+
+    protected  boolean findResume(Object searchKey) {
+        if((int) searchKey > -1) {
+            return true;
+        }
+        return false;
     }
 
     protected abstract void fillDeletedElement(int index);

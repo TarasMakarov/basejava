@@ -50,16 +50,17 @@ public class MapStorage extends AbstractStorage {
         return mapStorage.get(searchKey);
     }
 
-    @Override
-    protected Object existResume(String uuid) {
-        String searchKey = findResume(uuid);
-        return searchKey;
+    protected  boolean findResume(Object searchKey) {
+        if(searchKey != null) {
+            return true;
+        }
+        return false;
     }
 
-    private String findResume(String uuid) {
+    protected String getSearchKey(String uuid) {
         if(mapStorage.containsKey(uuid)) {
             return uuid;
         }
-        return  null;
+        return null;
     }
 }
