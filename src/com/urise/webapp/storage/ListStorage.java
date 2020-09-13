@@ -2,9 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class ListStorage extends AbstractStorage {
 
@@ -21,41 +19,56 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Resume r, Object searchKey) {
-        listResume.set((int)searchKey, r);
+    protected void doUpdate(Resume r, Object searchKey) {
+        listResume.set((Integer) searchKey, r);
     }
 
     @Override
-    public Resume[] getAll() {
-        Resume[] allResumes = new Resume[listResume.size()];
-        return listResume.toArray(allResumes);
+    public List<Resume> getAllSorted() {
+        Collections.sort(listResume);
+        return listResume;
     }
 
+
+//    @Override
+//    public Resume[] getAll() {
+//        Resume[] allResumes = new Resume[listResume.size()];
+//        return listResume.toArray(allResumes);
+//    }
+
     @Override
-    protected void saveResume(Resume r, Object searchKey) {
+    protected void doSave(Resume r, Object searchKey) {
         listResume.add(r);
     }
 
     @Override
-    protected void deleteResume(Object searchKey) {
-        listResume.remove((int)searchKey);
+    protected void doDelete(Object searchKey) {
+        listResume.remove(((Integer) searchKey).intValue());
     }
 
     @Override
-    protected Resume getResume(Object searchKey) {
-        return listResume.get((int)searchKey);
+    protected Resume doGet(Object searchKey) {
+        return listResume.get((Integer) searchKey);
     }
 
     protected Integer getSearchKey(String uuid) {
         Resume[] allResumes = listResume.toArray(new Resume[listResume.size()]);
+        Arrays.sort(allResumes);
         Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(allResumes, 0, listResume.size(), searchKey);
     }
 
-    protected  boolean findResume(Object searchKey) {
-        if((int) searchKey > -1) {
-            return true;
-        }
-        return false;
+//    @Override
+//    protected Integer getSearchKey(String uuid) {
+//        for (int i = 0; i < list.size(); i++) {
+//            if (list.get(i).getUuid().equals(uuid)) {
+//                return i;
+//            }
+//        }
+//        return null;
+//    }
+
+    protected boolean isExist(Object searchKey) {
+        return searchKey != null;
     }
 }
