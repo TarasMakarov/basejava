@@ -25,15 +25,16 @@ public class MainCollections {
 
         for (Resume r : collection) {
             System.out.println(r);
-            if (r.getUuid().equals(UUID_1)) {
+            if (Objects.equals(r.getUuid(), UUID_1)) {
 //                collection.remove(r);
             }
         }
+
         Iterator<Resume> iterator = collection.iterator();
         while (iterator.hasNext()) {
             Resume r = iterator.next();
             System.out.println(r);
-            if (r.getUuid().equals(UUID_1)) {
+            if (Objects.equals(r.getUuid(), UUID_1)) {
                 iterator.remove();
             }
         }
@@ -44,8 +45,17 @@ public class MainCollections {
         map.put(UUID_2, RESUME_2);
         map.put(UUID_3, RESUME_3);
 
+        // Bad!
+        for (String uuid : map.keySet()) {
+            System.out.println(map.get(uuid));
+        }
+
         for (Map.Entry<String, Resume> entry : map.entrySet()) {
             System.out.println(entry.getValue());
         }
+
+        List<Resume> resumes = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
+        resumes.remove(1);
+        System.out.println(resumes);
     }
 }
