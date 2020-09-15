@@ -8,7 +8,31 @@ import java.util.Comparator;
 
 public abstract class AbstractStorage implements Storage {
 
-    Comparator<Resume> sortedResumeByFullName = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
+//    Comparator<Resume> sortedByFullName = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
+
+    class SortedByFullName implements Comparator<Resume> {
+
+        @Override
+        public int compare(Resume r1, Resume r2) {
+
+            if(r1.getFullName().compareTo(r2.getFullName()) == 0) {
+                return r1.getUuid().compareTo(r2.getUuid());
+            }
+            return r1.getFullName().compareTo(r2.getFullName());
+        }
+    }
+
+    SortedByFullName fullNameCompare = new SortedByFullName();
+
+    class SortedByUuid implements Comparator<Resume> {
+
+        @Override
+        public int compare(Resume r1, Resume r2) {
+                return r1.getUuid().compareTo(r2.getUuid());
+            }
+    }
+
+
 
     protected abstract Object getSearchKey(String uuid);
 
@@ -21,6 +45,11 @@ public abstract class AbstractStorage implements Storage {
     protected abstract Resume doGet(Object searchKey);
 
     protected abstract void doDelete(Object searchKey);
+
+//    public List<Resume> getAllSorted() {
+//        List list = new ArrayList();
+//        return list;
+//    }
 
     public void update(Resume resume) {
         Object searchKey = getSearchKeyIfExist(resume.getUuid()); // analog getExistedSearchKey()

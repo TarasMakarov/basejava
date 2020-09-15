@@ -6,55 +6,47 @@ import java.util.*;
 
 public class MapFullNameStorage extends AbstractStorage {
 
-    private final Map<String, Resume> mapFullNameStorage = new HashMap<>();
+    private final Map<String, Resume> mapStorage = new HashMap<>();
 
     @Override
     public int size() {
-        return mapFullNameStorage.size();
+        return mapStorage.size();
     }
 
     @Override
     public void clear() {
-        mapFullNameStorage.clear();
+        mapStorage.clear();
     }
 
     @Override
     public List<Resume> getAllSorted() {
-        ArrayList<Resume> resumes = new ArrayList<>(mapFullNameStorage.values());
-        Collections.sort(resumes);
+        ArrayList<Resume> resumes = new ArrayList<>(mapStorage.values());
+        resumes.sort(fullNameCompare);
         return resumes;
     }
 
-//    @Override
-//    public Resume[] getAll() {
-//        ArrayList<Resume> resumes = new ArrayList<>(mapStorage.values());
-//        Resume[] allResumes = resumes.toArray(new Resume[mapStorage.size()]);
-//        Arrays.sort(allResumes);
-//        return allResumes;
-//    }
-
     @Override
     protected void doUpdate(Resume r, Object searchKey) {
-        mapFullNameStorage.put((String) searchKey, r);
+        mapStorage.put((String) searchKey, r);
     }
 
     @Override
     protected void doSave(Resume r, Object searchKey) {
-        mapFullNameStorage.put(r.getUuid(), r);
+        mapStorage.put(r.getUuid(), r);
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        mapFullNameStorage.remove();
+        mapStorage.remove();
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return mapFullNameStorage.get(searchKey);
+        return mapStorage.get(searchKey);
     }
 
     protected boolean isExist(Object searchKey) {
-        return mapFullNameStorage.containsKey(searchKey);
+        return mapStorage.containsKey(searchKey);
     }
 
     protected Resume getSearchKey(String uuid) {
