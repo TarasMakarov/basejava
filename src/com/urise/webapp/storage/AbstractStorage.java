@@ -5,34 +5,33 @@ import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Comparator;
+import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
 
-//    Comparator<Resume> sortedByFullName = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
+    Comparator<Resume> fullNameCompare = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
 
-    class SortedByFullName implements Comparator<Resume> {
-
-        @Override
-        public int compare(Resume r1, Resume r2) {
-
-            if(r1.getFullName().compareTo(r2.getFullName()) == 0) {
-                return r1.getUuid().compareTo(r2.getUuid());
-            }
-            return r1.getFullName().compareTo(r2.getFullName());
-        }
-    }
-
-    SortedByFullName fullNameCompare = new SortedByFullName();
-
-    class SortedByUuid implements Comparator<Resume> {
-
-        @Override
-        public int compare(Resume r1, Resume r2) {
-                return r1.getUuid().compareTo(r2.getUuid());
-            }
-    }
-
-
+//    static class SortedByFullName implements Comparator<Resume> {
+//
+//        @Override
+//        public int compare(Resume r1, Resume r2) {
+//
+//            if(r1.getFullName().compareTo(r2.getFullName()) == 0) {
+//                return r1.getUuid().compareTo(r2.getUuid());
+//            }
+//            return r1.getFullName().compareTo(r2.getFullName());
+//        }
+//    }
+//
+//    SortedByFullName fullNameCompare = new SortedByFullName();
+//
+//    static class SortedByUuid implements Comparator<Resume> {
+//
+//        @Override
+//        public int compare(Resume r1, Resume r2) {
+//                return r1.getUuid().compareTo(r2.getUuid());
+//            }
+//    }
 
     protected abstract Object getSearchKey(String uuid);
 
@@ -46,10 +45,13 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void doDelete(Object searchKey);
 
-//    public List<Resume> getAllSorted() {
-//        List list = new ArrayList();
-//        return list;
-//    }
+    protected abstract List<Resume> convertToArraylist();
+
+    public List<Resume> getAllSorted() {
+        List <Resume> list = convertToArraylist();
+        list.sort(fullNameCompare);
+        return list;
+    }
 
     public void update(Resume resume) {
         Object searchKey = getSearchKeyIfExist(resume.getUuid()); // analog getExistedSearchKey()

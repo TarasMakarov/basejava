@@ -24,12 +24,6 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        listResume.sort(fullNameCompare);
-        return listResume;
-    }
-
-    @Override
     protected void doSave(Resume r, Object searchKey) {
         listResume.add(r);
     }
@@ -49,6 +43,11 @@ public class ListStorage extends AbstractStorage {
         Arrays.sort(allResumes);
         Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(allResumes, 0, listResume.size(), searchKey);
+    }
+
+    @Override
+    final public List <Resume> convertToArraylist() {
+        return listResume;
     }
 
 //    @Override

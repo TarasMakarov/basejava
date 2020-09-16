@@ -6,7 +6,7 @@ import java.util.*;
 
 public class MapFullNameStorage extends AbstractStorage {
 
-    private final Map<String, Resume> mapStorage = new HashMap<>();
+    private final Map<Resume, String> mapStorage = new HashMap<>();
 
     @Override
     public int size() {
@@ -19,10 +19,8 @@ public class MapFullNameStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        ArrayList<Resume> resumes = new ArrayList<>(mapStorage.values());
-        resumes.sort(fullNameCompare);
-        return resumes;
+    final public List<Resume> convertToArraylist() {
+        return new ArrayList<>(mapStorage.keySet());
     }
 
     @Override

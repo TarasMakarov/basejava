@@ -31,10 +31,16 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         storage[(Integer) index] = r;
     }
 
+//    @Override
+//    final public List<Resume> getAllSorted() {
+//        List<Resume> list = Arrays.asList(storage);
+//        list.sort(fullNameCompare);
+//        return list;
+//    }
+
     @Override
-    final public List<Resume> getAllSorted() {
+    final public List <Resume> convertToArraylist() {
         List<Resume> list = Arrays.asList(storage);
-        list.sort(fullNameCompare);
         return list;
     }
 
