@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
 
-    Comparator<Resume> fullNameCompare = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
+    static final Comparator<Resume> fullNameCompare = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
 
 //    static class SortedByFullName implements Comparator<Resume> {
 //

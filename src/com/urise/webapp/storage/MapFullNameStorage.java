@@ -25,22 +25,22 @@ public class MapFullNameStorage extends AbstractStorage {
 
     @Override
     protected void doUpdate(Resume r, Object searchKey) {
-        mapStorage.put((String) searchKey, r);
+        mapStorage.put((Resume) searchKey, r.getFullName());
     }
 
     @Override
     protected void doSave(Resume r, Object searchKey) {
-        mapStorage.put(r.getUuid(), r);
+        mapStorage.put((Resume) searchKey, r.getFullName());
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        mapStorage.remove();
+        mapStorage.remove(searchKey);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return mapStorage.get(searchKey);
+        return (Resume) searchKey;
     }
 
     protected boolean isExist(Object searchKey) {
@@ -48,7 +48,6 @@ public class MapFullNameStorage extends AbstractStorage {
     }
 
     protected Resume getSearchKey(String uuid) {
-        Resume resume = new Resume(uuid);
-        return resume;
+        return new Resume(uuid);
     }
 }
