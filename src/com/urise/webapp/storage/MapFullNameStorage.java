@@ -25,7 +25,7 @@ public class MapFullNameStorage extends AbstractStorage {
 
     @Override
     protected void doUpdate(Resume r, Object searchKey) {
-        storageMap.put(r.getUuid(), r);
+        storageMap.replace(r.getUuid(), r);
     }
 
     @Override
