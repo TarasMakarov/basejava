@@ -32,8 +32,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    final public List <Resume> convertArrayToList() {
-        return Arrays.asList(storage);
+    final public List<Resume> convertToList() {
+        return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
     }
 
     @Override

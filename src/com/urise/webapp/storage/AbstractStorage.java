@@ -23,10 +23,10 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void doDelete(Object searchKey);
 
-    protected abstract List<Resume> convertArrayToList();
+    protected abstract List<Resume> convertToList();
 
     public List<Resume> getAllSorted() {
-        List<Resume> list = convertArrayToList();
+        List<Resume> list = convertToList();
         list.sort(FULL_NAME_COMPARE);
         return list;
     }

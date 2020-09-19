@@ -20,7 +20,7 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    final public List<Resume> convertArrayToList() {
+    final public List<Resume> convertToList() {
         return new ArrayList<>(storageMap.values());
     }
 
