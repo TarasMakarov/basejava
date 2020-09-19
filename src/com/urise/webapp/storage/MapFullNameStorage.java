@@ -6,36 +6,36 @@ import java.util.*;
 
 public class MapFullNameStorage extends AbstractStorage {
 
-    private final Map<Resume, String> mapStorage = new HashMap<>();
+    private final Map<Resume, String> storageMap = new HashMap<>();
 
     @Override
     public int size() {
-        return mapStorage.size();
+        return storageMap.size();
     }
 
     @Override
     public void clear() {
-        mapStorage.clear();
+        storageMap.clear();
     }
 
     @Override
-    final public List<Resume> convertToArraylist() {
-        return new ArrayList<>(mapStorage.keySet());
+    final public List<Resume> convertArrayToList() {
+        return new ArrayList<>(storageMap.keySet());
     }
 
     @Override
     protected void doUpdate(Resume r, Object searchKey) {
-        mapStorage.put((Resume) searchKey, r.getFullName());
+        storageMap.put((Resume) searchKey, r.getFullName());
     }
 
     @Override
     protected void doSave(Resume r, Object searchKey) {
-        mapStorage.put((Resume) searchKey, r.getFullName());
+        storageMap.put((Resume) searchKey, r.getFullName());
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        mapStorage.remove(searchKey);
+        storageMap.remove(searchKey);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MapFullNameStorage extends AbstractStorage {
     }
 
     protected boolean isExist(Object searchKey) {
-        return mapStorage.containsKey(searchKey);
+        return storageMap.containsKey(searchKey);
     }
 
     protected Resume getSearchKey(String uuid) {

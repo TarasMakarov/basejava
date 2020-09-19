@@ -16,8 +16,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
 
-//    SortedByUuid uuidCompare = new SortedByUuid();
-
     @Override
     protected void fillDeletedElement(int index) {
         int numMoved = size - index - 1;

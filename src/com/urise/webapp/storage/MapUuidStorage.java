@@ -7,45 +7,45 @@ import java.util.*;
 
 public class MapUuidStorage extends AbstractStorage {
 
-    private final Map<String, Resume> mapStorage = new HashMap<>();
+    private final Map<String, Resume> storageMap = new HashMap<>();
 
     @Override
     public int size() {
-        return mapStorage.size();
+        return storageMap.size();
     }
 
     @Override
     public void clear() {
-        mapStorage.clear();
+        storageMap.clear();
     }
 
     @Override
-    final public List<Resume> convertToArraylist() {
-        return new ArrayList<>(mapStorage.values());
+    final public List<Resume> convertArrayToList() {
+        return new ArrayList<>(storageMap.values());
     }
 
     @Override
     protected void doUpdate(Resume r, Object searchKey) {
-        mapStorage.put((String) searchKey, r);
+        storageMap.replace((String) searchKey, r);
     }
 
     @Override
     protected void doSave(Resume r, Object searchKey) {
-        mapStorage.put((String) searchKey, r);
+        storageMap.put((String) searchKey, r);
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        mapStorage.remove(searchKey);
+        storageMap.remove(searchKey);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return mapStorage.get(searchKey);
+        return storageMap.get(searchKey);
     }
 
     protected boolean isExist(Object searchKey) {
-        return mapStorage.containsKey(searchKey);
+        return storageMap.containsKey(searchKey);
     }
 
     protected String getSearchKey(String uuid) {

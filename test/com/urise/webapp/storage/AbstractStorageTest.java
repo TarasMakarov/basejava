@@ -16,19 +16,15 @@ public abstract class AbstractStorageTest {
 
     Storage storage;
 
-    private static final String UUID_1 = "uuid1";
-    private static final String FULL_NAME_1 = "uuid11";
+    private static final String FULL_NAME_1 = "Alex Nevin";
     private static final Resume RESUME_1 = new Resume(FULL_NAME_1);
 
-//    private static final String UUID_2 = "uuid2";
-    private static final String FULL_NAME_2 = "uuid22";
+    private static final String FULL_NAME_2 = "Berty Fox";
     private static final Resume RESUME_2 = new Resume(FULL_NAME_2);
 
-//    private static final String UUID_3 = "uuid3";
-    private static final String FULL_NAME_3 = "uuid33";
+    private static final String FULL_NAME_3 = "Charlie Go";
     private static final Resume RESUME_3 = new Resume(FULL_NAME_3);
 
-//    private static final String UUID_4 = "uuid4";
     private static final String FULL_NAME_4 = "uuid44";
     private static final Resume RESUME_4 = new Resume(FULL_NAME_4);
 
@@ -57,21 +53,20 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume newResume = new Resume(UUID_1);
+        Resume newResume = new Resume(FULL_NAME_1);
         storage.update(newResume);
-        assertSame(newResume, storage.get(UUID_1));
+        assertSame(newResume, storage.get(FULL_NAME_1));
     }
 
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() {
-        storage.delete(UUID_1);
-        storage.update(RESUME_1);
+        storage.update(RESUME_4);
     }
 
     @Test
     public void getAllSorted() {
         List<Resume> actualResumes = storage.getAllSorted();
-        List <Resume> expectedResumes = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
+        List<Resume> expectedResumes = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
         assertSize(3);
         assertEquals(actualResumes, expectedResumes);
     }
@@ -90,9 +85,9 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void delete() {
-        storage.delete(UUID_1);
+        storage.delete(FULL_NAME_1);
         assertSize(2);
-        storage.get(UUID_1);
+        storage.get(FULL_NAME_1);
     }
 
     @Test(expected = NotExistStorageException.class)
