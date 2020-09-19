@@ -25,12 +25,12 @@ public class MapFullNameStorage extends AbstractStorage {
 
     @Override
     protected void doUpdate(Resume r, Object searchKey) {
-        storageMap.put(r.getUuid(), (Resume) searchKey);
+        storageMap.put(r.getUuid(), r);
     }
 
     @Override
     protected void doSave(Resume r, Object searchKey) {
-        storageMap.put(r.getUuid(), (Resume) searchKey);
+        storageMap.put(r.getUuid(), r);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MapFullNameStorage extends AbstractStorage {
     }
 
     protected boolean isExist(Object searchKey) {
-        return storageMap.containsKey(searchKey);
+        return searchKey != null;
     }
 
     @Override
