@@ -4,7 +4,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.*;
 
-public class MapFullNameStorage extends AbstractStorage {
+public class MapResumeStorage extends AbstractStorage {
 
     private final Map<String, Resume> storageMap = new HashMap<>();
 
@@ -20,7 +20,8 @@ public class MapFullNameStorage extends AbstractStorage {
 
     @Override
     final public List<Resume> convertToList() {
-        return new ArrayList<>(storageMap.values());
+        ArrayList<Resume> copyStorageMap = new ArrayList<>(storageMap.values());
+        return copyStorageMap;
     }
 
     @Override

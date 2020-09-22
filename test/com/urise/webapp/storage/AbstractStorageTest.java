@@ -17,20 +17,16 @@ public abstract class AbstractStorageTest {
     Storage storage;
 
     private static final String UUID_1 = "uuid1";
-    private static final String FULL_NAME_1 = "Alex Nevin";
-    private static final Resume RESUME_1 = new Resume(UUID_1, FULL_NAME_1);
+    private static final Resume RESUME_1 = new Resume(UUID_1, "Alex Nevin");
 
     private static final String UUID_2 = "uuid2";
-    private static final String FULL_NAME_2 = "Berty Fox";
-    private static final Resume RESUME_2 = new Resume(UUID_2, FULL_NAME_2);
+    private static final Resume RESUME_2 = new Resume(UUID_2, "Berty Fox");
 
     private static final String UUID_3 = "uuid3";
-    private static final String FULL_NAME_3 = "Charlie Go";
-    private static final Resume RESUME_3 = new Resume(UUID_3, FULL_NAME_3);
+    private static final Resume RESUME_3 = new Resume(UUID_3, "Charlie Go");
 
     private static final String UUID_4 = "uuid4";
-    private static final String FULL_NAME_4 = "Din Donn";
-    private static final Resume RESUME_4 = new Resume(UUID_4, FULL_NAME_4);
+    private static final Resume RESUME_4 = new Resume(UUID_4, "Din Donn");
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -57,7 +53,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume newResume = new Resume(UUID_1, FULL_NAME_1);
+        Resume newResume = new Resume(UUID_1, "Lucky Man");
         storage.update(newResume);
         assertSame(newResume, storage.get(UUID_1));
     }
@@ -72,8 +68,9 @@ public abstract class AbstractStorageTest {
         List<Resume> actualResumes = storage.getAllSorted();
         List<Resume> expectedResumes = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
         assertSize(3);
-        assertEquals(actualResumes, expectedResumes);
+        assertEquals(expectedResumes, actualResumes);
     }
+
 
     @Test
     public void save() {
@@ -89,9 +86,9 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void delete() {
-        storage.delete(FULL_NAME_1);
+        storage.delete("Alex Nevin");
         assertSize(2);
-        storage.get(FULL_NAME_1);
+        storage.get("Alex Nevin");
     }
 
     @Test(expected = NotExistStorageException.class)
