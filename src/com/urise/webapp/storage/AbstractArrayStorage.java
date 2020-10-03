@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10000;
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
@@ -27,9 +27,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    final public void doUpdate(Resume r, Object index) {
-        storage[(Integer) index] = r;
+    final public void doUpdate(Resume r, Integer index) {
+        storage[index] = r;
     }
+
+        /**
+     * @return array, contains only Resumes in storage (without null)
+     */
 
     @Override
     final public List<Resume> convertToList() {
@@ -37,29 +41,29 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    final public void doSave(Resume r, Object index) {
+    final public void doSave(Resume r, Integer index) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", r.getUuid());
         } else {
-            insertElement(r, (Integer) index);
+            insertElement(r, index);
             size++;
         }
     }
 
     @Override
-    final public void doDelete(Object index) {
-        fillDeletedElement((Integer) index);
+    final public void doDelete(Integer index) {
+        fillDeletedElement(index);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    final public Resume doGet(Object index) {
-        return storage[(Integer) index];
+    final public Resume doGet(Integer index) {
+        return storage[index];
     }
 
-    protected boolean isExist(Object searchKey) {
-        return (Integer) searchKey > -1;
+    protected boolean isExist(Integer searchKey) {
+        return searchKey > -1;
     }
 
     protected abstract void fillDeletedElement(int index);

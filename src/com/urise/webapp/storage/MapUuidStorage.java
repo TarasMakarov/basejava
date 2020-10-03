@@ -5,13 +5,36 @@ import com.urise.webapp.model.Resume;
 
 import java.util.*;
 
-public class MapUuidStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage<String> {
 
     private final Map<String, Resume> storageMap = new HashMap<>();
 
+    protected String getSearchKey(String uuid) {
+        return uuid;
+    }
+
     @Override
-    public int size() {
-        return storageMap.size();
+    protected void doUpdate(Resume r, String searchKey) {
+        storageMap.replace(searchKey, r);
+        //        map.put(uuid, r);
+    }
+
+    protected boolean isExist(String searchKey) {
+        return storageMap.containsKey(searchKey);
+    }
+    @Override
+    protected void doSave(Resume r, String searchKey) {
+        storageMap.put(searchKey, r);
+    }
+
+    @Override
+    protected Resume doGet(String searchKey) {
+        return storageMap.get(searchKey);
+    }
+
+    @Override
+    protected void doDelete(String searchKey) {
+        storageMap.remove(searchKey);
     }
 
     @Override
@@ -20,36 +43,12 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    final public List<Resume> convertToList() {
-        ArrayList<Resume> copyStorageMap = new ArrayList<>(storageMap.values());
-        return copyStorageMap;
+    public int size() {
+        return storageMap.size();
     }
 
     @Override
-    protected void doUpdate(Resume r, Object searchKey) {
-        storageMap.replace((String) searchKey, r);
-    }
-
-    @Override
-    protected void doSave(Resume r, Object searchKey) {
-        storageMap.put((String) searchKey, r);
-    }
-
-    @Override
-    protected void doDelete(Object searchKey) {
-        storageMap.remove(searchKey);
-    }
-
-    @Override
-    protected Resume doGet(Object searchKey) {
-        return storageMap.get(searchKey);
-    }
-
-    protected boolean isExist(Object searchKey) {
-        return storageMap.containsKey(searchKey);
-    }
-
-    protected String getSearchKey(String uuid) {
-        return uuid;
+    public List<Resume> convertToList() {
+        return new ArrayList<>(storageMap.values());
     }
 }

@@ -20,7 +20,7 @@ public abstract class AbstractStorageTest {
     private static final Resume RESUME_1 = new Resume(UUID_1, "Alex Nevin");
 
     private static final String UUID_2 = "uuid2";
-    private static final Resume RESUME_2 = new Resume(UUID_2, "Berty Fox");
+    private static final Resume RESUME_2 = new Resume(UUID_2, "Ben Kley");
 
     private static final String UUID_3 = "uuid3";
     private static final Resume RESUME_3 = new Resume(UUID_3, "Charlie Go");
@@ -56,6 +56,7 @@ public abstract class AbstractStorageTest {
         Resume newResume = new Resume(UUID_1, "Lucky Man");
         storage.update(newResume);
         assertSame(newResume, storage.get(UUID_1));
+        //        assertTrue(newResume == storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -71,7 +72,6 @@ public abstract class AbstractStorageTest {
         assertEquals(expectedResumes, actualResumes);
     }
 
-
     @Test
     public void save() {
         storage.save(RESUME_4);
@@ -86,9 +86,9 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void delete() {
-        storage.delete("Alex Nevin");
+        storage.delete(UUID_1);
         assertSize(2);
-        storage.get("Alex Nevin");
+        storage.get(UUID_1);
     }
 
     @Test(expected = NotExistStorageException.class)
