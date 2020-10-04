@@ -9,4 +9,8 @@ public class OrganizationSection extends AbstractSection {
     public OrganizationSection(List<Experience> textOrganizationSection) {
         this.textOrganizationSection = textOrganizationSection;
     }
+
+    public List<Experience> getTextOrganizationSection() {
+        return textOrganizationSection;
+    }
 }

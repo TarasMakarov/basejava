@@ -7,4 +7,8 @@ public class OneStringSection extends AbstractSection {
     public OneStringSection(String text) {
         this.text = text;
     }
+
+    public String getText() {
+        return text;
+    }
 }

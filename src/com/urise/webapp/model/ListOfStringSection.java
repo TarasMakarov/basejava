@@ -9,4 +9,8 @@ public class ListOfStringSection extends AbstractSection {
     public ListOfStringSection(List<String> listText) {
         this.listText = listText;
     }
+
+    public List<String> getListText() {
+        return listText;
+    }
 }

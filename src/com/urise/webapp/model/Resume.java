@@ -31,8 +31,8 @@ public class Resume implements Comparable<Resume>{
         return uuid;
     }
 
-    public Contact getContactsMap(ContactType ContactType) {
-        return contactsMap.get(ContactType);
+    public Contact getContactsMap(ContactType contactType) {
+        return contactsMap.get(contactType);
     }
 
     public AbstractSection getAbstractSection(SectionType sectionType) {
