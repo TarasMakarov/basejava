@@ -11,6 +11,10 @@ public class Contact {
         this.textContact = textContact;
     }
 
+    public Contact(Link link) {
+        this.link = link;
+    }
+
     public Contact(String textContact, Link link) {
         this.textContact = textContact;
         this.link = link;

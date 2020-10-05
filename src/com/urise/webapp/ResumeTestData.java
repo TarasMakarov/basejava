@@ -5,16 +5,19 @@ import com.urise.webapp.model.ContactType;
 import com.urise.webapp.model.OneStringSection;
 import com.urise.webapp.model.Resume;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ResumeTestData {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MalformedURLException {
 
 
 
         Contact phoneKislin = new Contact("+7(921)855-0482)");
-        Contact skypeKislin = new Contact("grigory.kislin");
+        URL skype = new URL("skype:grigory.kislin");
+        Contact skypeKislin = new Contact(skype);
 
         Resume gKislin = new Resume("Григорий Кислин");
 
