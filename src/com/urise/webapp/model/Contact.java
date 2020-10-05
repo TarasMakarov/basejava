@@ -7,6 +7,10 @@ public class Contact {
     private String textContact;
     private Link link;
 
+    public Contact(String textContact) {
+        this.textContact = textContact;
+    }
+
     public Contact(String textContact, Link link) {
         this.textContact = textContact;
         this.link = link;
