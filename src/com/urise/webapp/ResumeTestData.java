@@ -1,27 +1,24 @@
 package com.urise.webapp;
 
-import com.urise.webapp.model.Contact;
-import com.urise.webapp.model.ContactType;
-import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.*;
 
-import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResumeTestData {
-    public static void main(String[] args) throws MalformedURLException {
-
-
-
-//        Link skype = new Link(132, "grigory.kislin");
+    public static void main(String[] args) {
 
         Resume gKislin = new Resume("Григорий Кислин");
 
-        Contact phoneKislin = new Contact("+7(921)855-0482)");
-        Contact skypeKislin = new Contact("skype:grigory.kislin");
-        Contact emailKislin = new Contact("mailto:gkislin@yandex.ru");
-        Contact linkedinKislin = new Contact("https://www.linkedin.com/in/gkislin");
-        Contact githubKislin = new Contact("https://github.com/gkislin");
-        Contact stackOverFlowKislin = new Contact("https://stackoverflow.com/users/548473");
-        Contact homepageKislin = new Contact("http://gkislin.ru/");
+        String phoneKislin = "Тел.:+7(921)855-0482";
+        String skypeKislin = "Skype:grigory.kislin";
+        String emailKislin = "Почта:gkislin@yandex.ru";
+        String linkedinKislin = "Профиль LinkedIn";
+        String githubKislin = "Профиль GitHub";
+        String stackOverFlowKislin = "Профиль StackOverFlow";
+        String homepageKislin = "Домашняя страница";
+
+        LinkInResume skypeK = new LinkInResume("Skype", "grigory.kislin");
 
         gKislin.setContactsMap(ContactType.PHONE, phoneKislin);
         gKislin.setContactsMap(ContactType.SKYPE, skypeKislin);
@@ -31,16 +28,33 @@ public class ResumeTestData {
         gKislin.setContactsMap(ContactType.STACKOVERFLOW, stackOverFlowKislin);
         gKislin.setContactsMap(ContactType.HOMEPAGE, homepageKislin);
 
+//        gKislin.setContactsMap(ContactType.SKYPE, skypeK);
 
 
+        OneStringSection personalString = new OneStringSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям.");
+        OneStringSection objectiveString = new OneStringSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.");
 
-//        OneStringSection personalString = new OneStringSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям.");
-//        OneStringSection objectiveString = new OneStringSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.");
-//        List<String> list = new ArrayList<>();
-//        list.add("С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", \"Многомодульный maven. Многопоточность. XML (JAXB/StAX). "+
-//                "Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.");
-//        List<String> achievementList = list;
+        List<String> list = new ArrayList<>();
+
+        list.add("С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", \"Многомодульный maven. Многопоточность. XML (JAXB/StAX). "+
+                "Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.");
+
+        ListOfStringSection listOfStringSection = new ListOfStringSection(list);
 
 
+        gKislin.setSectionMap(SectionType.PERSONAL, personalString);
+        gKislin.setSectionMap(SectionType.OBJECTIVE, objectiveString);
+        gKislin.setSectionMap(SectionType.ACHIEVEMENT, listOfStringSection);
+//        gKislin.setSectionMap(SectionType.QUALIFICATIONS, );
+//        gKislin.setSectionMap(SectionType.EXPERIENCE, );
+//        gKislin.setSectionMap(SectionType.EDUCATION, );
+
+        for (ContactType type : ContactType.values()) {
+            System.out.println(gKislin.getContactsMap(type));
+        }
+
+        for (SectionType type : SectionType.values()) {
+            System.out.println(gKislin.getSectionMap(type));
+        }
     }
 }
