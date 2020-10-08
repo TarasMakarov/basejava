@@ -4,13 +4,13 @@ import java.util.List;
 
 public class OrganizationSection extends AbstractSection {
 
-    private List<Experience> textOrganizationSection;
+    private List<Experience> experience;
 
-    public OrganizationSection(List<Experience> textOrganizationSection) {
-        this.textOrganizationSection = textOrganizationSection;
+    public OrganizationSection(List<Experience> experience) {
+        this.experience = experience;
     }
 
-    public List<Experience> getTextOrganizationSection() {
-        return textOrganizationSection;
+    public List<Experience> getExperience() {
+        return experience;
     }
 }

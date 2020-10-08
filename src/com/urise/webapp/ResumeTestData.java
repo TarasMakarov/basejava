@@ -2,12 +2,12 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.*;
 
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ResumeTestData {
     public static void main(String[] args) {
-
         Resume gKislin = new Resume("Григорий Кислин");
 
         String phoneKislin = "+7(921)855-0482";
@@ -18,16 +18,16 @@ public class ResumeTestData {
         String stackOverFlowKislin = "https://stackoverflow.com/users/548473";
         String homepageKislin = "http://gkislin.ru/";
 
-        gKislin.setContactsMap(ContactType.PHONE, phoneKislin);
-        gKislin.setContactsMap(ContactType.SKYPE, skypeKislin);
-        gKislin.setContactsMap(ContactType.EMAIL, emailKislin);
-        gKislin.setContactsMap(ContactType.LINKEDIN, linkedinKislin);
-        gKislin.setContactsMap(ContactType.GITHUB, githubKislin);
-        gKislin.setContactsMap(ContactType.STACKOVERFLOW, stackOverFlowKislin);
-        gKislin.setContactsMap(ContactType.HOMEPAGE, homepageKislin);
+        gKislin.setContacts(ContactType.PHONE, phoneKislin);
+        gKislin.setContacts(ContactType.SKYPE, skypeKislin);
+        gKislin.setContacts(ContactType.EMAIL, emailKislin);
+        gKislin.setContacts(ContactType.LINKEDIN, linkedinKislin);
+        gKislin.setContacts(ContactType.GITHUB, githubKislin);
+        gKislin.setContacts(ContactType.STACKOVERFLOW, stackOverFlowKislin);
+        gKislin.setContacts(ContactType.HOMEPAGE, homepageKislin);
 
-        OneStringSection personalString = new OneStringSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям.");
-        OneStringSection objectiveString = new OneStringSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.");
+        SimpleTextSection personalString = new SimpleTextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям.");
+        SimpleTextSection objectiveString = new SimpleTextSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.");
 
         List<String> achievementList = new ArrayList<>();
 
@@ -43,7 +43,7 @@ public class ResumeTestData {
                 "Сбор статистики сервисов и информации о состоянии через систему мониторинга Nagios. Реализация онлайн клиента для администрирования и мониторинга системы по JMX " +
                 "(Jython/ Django).");
         achievementList.add("Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
-        ListOfStringSection achievementSection = new ListOfStringSection(achievementList);
+        BulletListSection achievementSection = new BulletListSection(achievementList);
 
         List<String> qualificationsList = new ArrayList<>();
 
@@ -65,30 +65,43 @@ public class ResumeTestData {
         qualificationsList.add("Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования, архитектурных шаблонов, UML, функционального программирования");
         qualificationsList.add("Родной русский, английский \"upper intermediate\"");
 
-        ListOfStringSection qualificationSection = new ListOfStringSection(qualificationsList);
+        BulletListSection qualificationSection = new BulletListSection(qualificationsList);
 
-        LinkInResume javaOnlineProjects = new LinkInResume("Java Online Projects", "http://javaops.ru/");
-        LinkInResume wrike = new LinkInResume("Wrike", "https://www.wrike.com/");
-        LinkInResume rITCenter = new LinkInResume("RIT Center", null);
-        LinkInResume luxoft = new LinkInResume("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/");
-        LinkInResume yota = new LinkInResume("Yota", "https://www.yota.ru/");
+        Link javaOnline = new Link("Java Online Projects", "http://javaops.ru/");
+        Link wrike = new Link("Wrike", "https://www.wrike.com/");
+        Link rITCenter = new Link("RIT Center", null);
+        Link luxoft = new Link("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/");
+        Link enkata = new Link("Enkata", "http://enkata.com/");
+        Link siemens = new Link("Siemens AG", "https://www.siemens.com/ru/ru/home.html");
+        Link alcatel = new Link("Alcatel", "http://www.alcatel.ru/");
 
-        gKislin.setSectionMap(SectionType.PERSONAL, personalString);
-        gKislin.setSectionMap(SectionType.OBJECTIVE, objectiveString);
-        gKislin.setSectionMap(SectionType.ACHIEVEMENT, achievementSection);
-        gKislin.setSectionMap(SectionType.QUALIFICATIONS, qualificationSection);
+        YearMonth javaStart = YearMonth.of(2013, 10);
+        YearMonth javaFinish = YearMonth.now();
+
+
+        Experience javaOnlineExp = new Experience(javaStart, javaFinish,javaOnline, "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
+//        Experience javaOnlineExp = new Experience(javaStart, javaFinish,javaOnline, "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
+//        Experience javaOnlineExp = new Experience(javaStart, javaFinish,javaOnline, "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
+//        Experience javaOnlineExp = new Experience(javaStart, javaFinish,javaOnline, "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
+//        Experience javaOnlineExp = new Experience(javaStart, javaFinish,javaOnline, "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
+//        Experience javaOnlineExp = new Experience(javaStart, javaFinish,javaOnline, "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
+
+        gKislin.setSection(SectionType.PERSONAL, personalString);
+        gKislin.setSection(SectionType.OBJECTIVE, objectiveString);
+        gKislin.setSection(SectionType.ACHIEVEMENT, achievementSection);
+        gKislin.setSection(SectionType.QUALIFICATIONS, qualificationSection);
 //        gKislin.setSectionMap(SectionType.EXPERIENCE, );
 //        gKislin.setSectionMap(SectionType.EDUCATION, );
 
         for (ContactType type : ContactType.values()) {
             System.out.print(type.getTitle());
-            System.out.println(gKislin.getContactsMap(type));
+            System.out.println(gKislin.getContacts(type));
         }
 
 
         for (SectionType type : SectionType.values()) {
             System.out.println(type.getTitle());
-            System.out.println(gKislin.getSectionMap(type));
+            System.out.println(gKislin.getSection(type));
         }
 
     }

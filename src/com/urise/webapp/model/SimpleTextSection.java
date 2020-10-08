@@ -1,10 +1,10 @@
 package com.urise.webapp.model;
 
-public class OneStringSection extends AbstractSection {
+public class SimpleTextSection extends AbstractSection {
 
     private String text;
 
-    public OneStringSection(String text) {
+    public SimpleTextSection(String text) {
         this.text = text;
     }
 

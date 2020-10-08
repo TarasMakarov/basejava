@@ -2,11 +2,15 @@ package com.urise.webapp.model;
 
 import java.util.List;
 
-public class ListOfStringSection extends AbstractSection {
+public class BulletListSection extends AbstractSection {
 
     private List<String> listText;
 
-    public ListOfStringSection(List<String> listText) {
+    public BulletListSection(List<String> listText) {
+        this.listText = listText;
+    }
+
+    public void setListText(List<String> listText) {
         this.listText = listText;
     }
 
