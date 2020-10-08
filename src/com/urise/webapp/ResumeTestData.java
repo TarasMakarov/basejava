@@ -67,6 +67,12 @@ public class ResumeTestData {
 
         ListOfStringSection qualificationSection = new ListOfStringSection(qualificationsList);
 
+        LinkInResume javaOnlineProjects = new LinkInResume("Java Online Projects", "http://javaops.ru/");
+        LinkInResume wrike = new LinkInResume("Wrike", "https://www.wrike.com/");
+        LinkInResume rITCenter = new LinkInResume("RIT Center", null);
+        LinkInResume luxoft = new LinkInResume("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/");
+        LinkInResume yota = new LinkInResume("Yota", "https://www.yota.ru/");
+
         gKislin.setSectionMap(SectionType.PERSONAL, personalString);
         gKislin.setSectionMap(SectionType.OBJECTIVE, objectiveString);
         gKislin.setSectionMap(SectionType.ACHIEVEMENT, achievementSection);
