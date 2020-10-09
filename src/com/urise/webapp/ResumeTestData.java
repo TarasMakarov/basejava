@@ -69,17 +69,33 @@ public class ResumeTestData {
 
         Link javaOnline = new Link("Java Online Projects", "http://javaops.ru/");
         Link wrike = new Link("Wrike", "https://www.wrike.com/");
-        Link rITCenter = new Link("RIT Center", null);
+        Link ritCenter = new Link("RIT Center", null);
         Link luxoft = new Link("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/");
+        Link yota = new Link("Yota", "https://www.yota.ru/");
         Link enkata = new Link("Enkata", "http://enkata.com/");
         Link siemens = new Link("Siemens AG", "https://www.siemens.com/ru/ru/home.html");
         Link alcatel = new Link("Alcatel", "http://www.alcatel.ru/");
 
         YearMonth javaStart = YearMonth.of(2013, 10);
         YearMonth javaFinish = YearMonth.now();
+        YearMonth wrikeStart = YearMonth.of(2014, 10);
+        YearMonth wrikeFinish = YearMonth.of(2016, 01);
+        YearMonth ritCenterStart = YearMonth.of(2012, 04);
+        YearMonth ritCenterFinish = YearMonth.of(2014, 10);
+        YearMonth luxoftStart = YearMonth.of(2010, 12);
+        YearMonth luxoftFinish = YearMonth.of(2012, 04);
+        YearMonth yotatStart = YearMonth.of(2008, 06);
+        YearMonth yotaFinish = YearMonth.of(2010, 12);
+        YearMonth enkataStart = YearMonth.of(2007, 03);
+        YearMonth enkataFinish = YearMonth.of(2008, 06);
+        YearMonth siemensStart = YearMonth.of(2005, 01);
+        YearMonth siemensFinish = YearMonth.of(2007, 02);
+        YearMonth alcatelStart = YearMonth.of(1997, 9);
+        YearMonth alcatelFinish = YearMonth.of(2005, 01);
 
-
-        Experience javaOnlineExp = new Experience(javaStart, javaFinish,javaOnline, "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
+        Experience javaOnlineExp = new Experience(javaStart, javaFinish, javaOnline, "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
+        Experience wrikeExp = new Experience(wrikeStart, wrikeFinish, wrike, "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления " +
+                "проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
 //        Experience javaOnlineExp = new Experience(javaStart, javaFinish,javaOnline, "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
 //        Experience javaOnlineExp = new Experience(javaStart, javaFinish,javaOnline, "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
 //        Experience javaOnlineExp = new Experience(javaStart, javaFinish,javaOnline, "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
