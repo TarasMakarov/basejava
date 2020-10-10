@@ -43,6 +43,7 @@ public class ResumeTestData {
                 "Сбор статистики сервисов и информации о состоянии через систему мониторинга Nagios. Реализация онлайн клиента для администрирования и мониторинга системы по JMX " +
                 "(Jython/ Django).");
         achievementList.add("Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
+
         BulletListSection achievementSection = new BulletListSection(achievementList);
 
         List<String> qualificationsList = new ArrayList<>();
@@ -81,19 +82,19 @@ public class ResumeTestData {
         YearMonth javaStart = YearMonth.of(2013, 10);
         YearMonth javaFinish = YearMonth.now();
         YearMonth wrikeStart = YearMonth.of(2014, 10);
-        YearMonth wrikeFinish = YearMonth.of(2016, 01);
-        YearMonth ritCenterStart = YearMonth.of(2012, 04);
+        YearMonth wrikeFinish = YearMonth.of(2016, 1);
+        YearMonth ritCenterStart = YearMonth.of(2012, 4);
         YearMonth ritCenterFinish = YearMonth.of(2014, 10);
         YearMonth luxoftStart = YearMonth.of(2010, 12);
-        YearMonth luxoftFinish = YearMonth.of(2012, 04);
-        YearMonth yotatStart = YearMonth.of(2008, 06);
+        YearMonth luxoftFinish = YearMonth.of(2012, 4);
+        YearMonth yotatStart = YearMonth.of(2008, 6);
         YearMonth yotaFinish = YearMonth.of(2010, 12);
-        YearMonth enkataStart = YearMonth.of(2007, 03);
-        YearMonth enkataFinish = YearMonth.of(2008, 06);
-        YearMonth siemensStart = YearMonth.of(2005, 01);
-        YearMonth siemensFinish = YearMonth.of(2007, 02);
+        YearMonth enkataStart = YearMonth.of(2007, 3);
+        YearMonth enkataFinish = YearMonth.of(2008, 6);
+        YearMonth siemensStart = YearMonth.of(2005, 1);
+        YearMonth siemensFinish = YearMonth.of(2007, 2);
         YearMonth alcatelStart = YearMonth.of(1997, 9);
-        YearMonth alcatelFinish = YearMonth.of(2005, 01);
+        YearMonth alcatelFinish = YearMonth.of(2005, 1);
 
         Experience javaOnlineExp = new Experience(javaStart, javaFinish, javaOnline, "Автор проекта.", "Создание, организация и проведение Java " +
                 "онлайн проектов и стажировок.");
@@ -186,10 +187,35 @@ public class ResumeTestData {
             System.out.print(type.getTitle());
             System.out.println(gKislin.getContacts(type));
         }
-
         for (SectionType type : SectionType.values()) {
             System.out.println(type.getTitle());
-            System.out.println(gKislin.getSection(type).toString());
+            switch (type) {
+                case PERSONAL:
+                    System.out.println(personalString.getText());
+                    break;
+                case OBJECTIVE:
+                    System.out.println(objectiveString.getText());
+                    break;
+                case ACHIEVEMENT:
+                    for (int i = 0; i < achievementList.size(); i++) {
+                        System.out.println(achievementList.get(i));
+                    }
+                    break;
+                case QUALIFICATIONS:
+                    for (int i = 0; i < qualificationsList.size(); i++) {
+                        System.out.println(qualificationsList.get(i));
+                    }
+                    break;
+                case EXPERIENCE:
+                    for (int i = 0; i < jobList.size(); i++) {
+                        System.out.println(jobSection.getExperience());
+                    }
+                    break;
+                default:
+                    for (int i = 0; i < educationList.size(); i++) {
+                        System.out.println(educationSection.getExperience().get(i));
+                    }
+            }
         }
     }
 }
