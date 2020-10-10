@@ -120,6 +120,15 @@ public class ResumeTestData {
         Experience alcatelExp = new Experience(alcatelStart, alcatelFinish, alcatel, "Инженер по аппаратному и программному тестированию", "Тестирование, отладка, " +
                 "внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).");
 
+        jobList.add(javaOnlineExp);
+        jobList.add(wrikeExp);
+        jobList.add(ritCenterExp);
+        jobList.add(luxoftExp);
+        jobList.add(yotaExp);
+        jobList.add(enkataExp);
+        jobList.add(siemensExp);
+        jobList.add(alcatelExp);
+
         OrganizationSection jobSection = new OrganizationSection(jobList);
 
         List<Experience> educationList = new ArrayList<>();
@@ -156,6 +165,14 @@ public class ResumeTestData {
         Experience engineerExp = new Experience(engineerStart, engineerFinish, null, "\tИнженер (программист Fortran, C)", null);
         Experience mftiExp = new Experience(mftiStart, mftiFinish, mfti, "\tЗакончил с отличием", null);
 
+        educationList.add(courseraExp);
+        educationList.add(luxoftEduExp);
+        educationList.add(siemensEduExp);
+        educationList.add(alcatelEduExp);
+        educationList.add(graduateExp);
+        educationList.add(engineerExp);
+        educationList.add(mftiExp);
+
         OrganizationSection educationSection = new OrganizationSection(educationList);
 
         gKislin.setSection(SectionType.PERSONAL, personalString);
@@ -172,7 +189,7 @@ public class ResumeTestData {
 
         for (SectionType type : SectionType.values()) {
             System.out.println(type.getTitle());
-            System.out.println(gKislin.getSection(type));
+            System.out.println(gKislin.getSection(type).toString());
         }
     }
 }
