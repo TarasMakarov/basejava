@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * Initial resume class
  */
-public class Resume implements Comparable<Resume>{
+public class Resume implements Comparable<Resume> {
 
     // Unique identifier
     private final String uuid;
@@ -31,20 +31,20 @@ public class Resume implements Comparable<Resume>{
         return uuid;
     }
 
-    public void setContacts (ContactType contactType, String contact) {
-        contacts.put(contactType, contact);
-    }
-
-    public void setSection (SectionType sectionType, AbstractSection abstractSection) {
-        section.put(sectionType, abstractSection);
-    }
-
     public String getContacts(ContactType contactType) {
         return contacts.get(contactType);
     }
 
     public AbstractSection getSection(SectionType sectionType) {
         return section.get(sectionType);
+    }
+
+    public void setContacts(ContactType contactType, String contact) {
+        contacts.put(contactType, contact);
+    }
+
+    public void setSection(SectionType sectionType, AbstractSection abstractSection) {
+        section.put(sectionType, abstractSection);
     }
 
     @Override

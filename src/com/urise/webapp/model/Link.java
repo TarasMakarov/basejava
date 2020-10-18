@@ -1,20 +1,14 @@
 package com.urise.webapp.model;
 
+import java.util.Objects;
+
 public class Link {
 
-    private String name;
-    private String url;
+    private final String name;
+    private final String url;
 
-    public Link(String contactName, String contactLink) {
-        this.name = contactName;
-        this.url = contactLink;
-    }
-
-    public void setName(String name) {
+    public Link(String name, String url) {
         this.name = name;
-    }
-
-    public void setUrl(String url) {
         this.url = url;
     }
 
@@ -24,5 +18,29 @@ public class Link {
 
     public String getUrl() {
         return url;
+    }
+
+    @Override
+    public String toString() {
+        return " " + name + ',' + url;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Link link = (Link) o;
+
+        if (!name.equals(link.name)) return false;
+        return Objects.equals(url, link.url);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        return result;
     }
 }
