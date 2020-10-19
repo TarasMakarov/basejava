@@ -169,5 +169,19 @@ public class ResumeTestData {
                     }
             }
         }
+
+//        private String uuid;
+//        private String fullName = Resume.
+
+//        Storage storage = new ArrayStorage();
+//
+//        public Resume createResume() {
+//            Resume resume = new Resume();
+//
+//        }
     }
 }
+
+//    Реализуйте в ResumeTestData метод, который будет принимать uuid и fullName, создавать резюме, заполнять его данными
+//    (все секции резюме должны быть заполнены) и возвращать для тестирования в AbstractStorageTest. Используйте его для всех резюме,
+//    создаваемых в AbstractStorageTest
