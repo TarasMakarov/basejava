@@ -32,11 +32,11 @@ public class MainFile {
         File[] files = fileOrDir.listFiles();
 
         if (files != null) {
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isFile()) {
-                    System.out.println(files[i].getName());
+            for (File file : files) {
+                if (file.isFile()) {
+                    System.out.println(file.getName());
                 } else {
-                    workWithFile(files[i]);
+                    workWithFile(file);
                 }
             }
         }
