@@ -104,7 +104,7 @@ public class ResumeTestData {
         jobList.add(siemensExp);
         jobList.add(alcatelExp);
 
-        OrganizationSection jobSection = new OrganizationSection(jobList);
+        OrganizationSection jobSection = new OrganizationSection(jobList, organizationLink);
 
         List<Experience> educationList = new ArrayList<>();
 
@@ -126,7 +126,7 @@ public class ResumeTestData {
         educationList.add(engineerExp);
         educationList.add(mftiExp);
 
-        OrganizationSection educationSection = new OrganizationSection(educationList);
+        OrganizationSection educationSection = new OrganizationSection(educationList, organizationLink);
 
         gKislin.setSection(SectionType.PERSONAL, personalString);
         gKislin.setSection(SectionType.OBJECTIVE, objectiveString);
@@ -159,7 +159,7 @@ public class ResumeTestData {
                     }
                     break;
                 case EXPERIENCE:
-                    for (Experience value : jobList) {
+                    for (Organization value : jobList) {
                         System.out.println(value);
                     }
                     break;

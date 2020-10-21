@@ -5,7 +5,6 @@ import java.time.YearMonth;
 import java.util.Objects;
 
 public class Experience {
-    private final Link organizationLink;
 
     private final YearMonth start;
     private final YearMonth finish;
@@ -13,12 +12,10 @@ public class Experience {
     private final String duties;
 
     public Experience(String name, String url, YearMonth start, YearMonth finish, String position, String duties) {
-
         Objects.requireNonNull(start, "start must not be null");
         Objects.requireNonNull(finish, "finish must not be null");
         Objects.requireNonNull(position, "position must not be null");
 
-        this.organizationLink = new Link(name, url);
         this.start = start;
         this.finish = finish;
         this.position = position;
@@ -28,7 +25,6 @@ public class Experience {
     @Override
     public String toString() {
         return " " +
-                organizationLink + " " +
                 start + " " +
                 finish + " " +
                 position +
@@ -42,7 +38,6 @@ public class Experience {
 
         Experience that = (Experience) o;
 
-        if (!organizationLink.equals(that.organizationLink)) return false;
         if (!start.equals(that.start)) return false;
         if (!finish.equals(that.finish)) return false;
         if (!position.equals(that.position)) return false;
@@ -51,8 +46,7 @@ public class Experience {
 
     @Override
     public int hashCode() {
-        int result = organizationLink.hashCode();
-        result = 31 * result + start.hashCode();
+        int result = start.hashCode();
         result = 31 * result + finish.hashCode();
         result = 31 * result + position.hashCode();
         result = 31 * result + duties.hashCode();
