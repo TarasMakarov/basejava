@@ -33,7 +33,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         storage.clear();
         storage.save(RESUME_1);
         storage.save(RESUME_2);
@@ -73,14 +73,14 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void save() {
+    public void save() throws Exception {
         storage.save(RESUME_4);
         assertSize(4);
         assertGet(RESUME_4);
     }
 
     @Test(expected = ExistStorageException.class)
-    public void saveExist() {
+    public void saveExist() throws Exception {
         storage.save(RESUME_1);
     }
 

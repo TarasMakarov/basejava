@@ -8,12 +8,12 @@ import java.util.List;
 
 public class ResumeTestData {
 
-    public Resume createResume(String uuid, String fullName) {
-        Resume resume = new Resume(uuid, fullName);
-        resume.setContacts(ContactType.PHONE,);
-        resume.setSection();
-        return resume;
-    }
+//    public Resume createResume(String uuid, String fullName) {
+//        Resume resume = new Resume(uuid, fullName);
+//        resume.setContacts(ContactType.PHONE,);
+//        resume.setSection();
+//        return resume;
+//    }
 
     public static void main(String[] args) {
         Resume gKislin = new Resume("Григорий Кислин");
