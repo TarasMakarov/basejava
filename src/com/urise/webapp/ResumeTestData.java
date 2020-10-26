@@ -7,6 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResumeTestData {
+
+    public Resume createResume(String uuid, String fullName) {
+        Resume resume = new Resume(uuid, fullName);
+        resume.setContacts(ContactType.PHONE,);
+        resume.setSection();
+        return resume;
+    }
+
     public static void main(String[] args) {
         Resume gKislin = new Resume("Григорий Кислин");
 
@@ -68,55 +76,73 @@ public class ResumeTestData {
 
         BulletListSection qualificationSection = new BulletListSection(qualificationsList);
 
-        List<Experience> jobList = new ArrayList<>();
+        List<Experience> experienceList = new ArrayList<>();
 
-        Experience javaOnlineExp = new Experience("Java Online Projects", "http://javaops.ru/", YearMonth.of(2013, 10), YearMonth.now(), "Автор проекта.", "Создание, организация и проведение Java " +
-                "онлайн проектов и стажировок.");
-        Experience wrikeExp = new Experience("Wrike", "https://www.wrike.com/", YearMonth.of(2014, 10), YearMonth.of(2016, 1), "Старший разработчик (backend)", "Проектирование и разработка " +
+        Experience javaOnlineExp = new Experience(YearMonth.of(2013, 10), YearMonth.now(), "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
+        Experience wrikeExp = new Experience(YearMonth.of(2014, 10), YearMonth.of(2016, 1), "Старший разработчик (backend)", "Проектирование и разработка " +
                 "онлайн платформы управления " +
                 "проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, " +
                 "OAuth2, JWT SSO.");
-        Experience ritCenterExp = new Experience("RIT Center", null, YearMonth.of(2012, 4), YearMonth.of(2014, 10), "Java архитектор", "Организация процесса разработки " +
+        Experience ritCenterExp = new Experience(YearMonth.of(2012, 4), YearMonth.of(2014, 10), "Java архитектор", "Организация процесса разработки " +
                 "системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), " +
                 "конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, " +
                 "BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из " +
                 "браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, " +
                 "Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python");
-        Experience luxoftExp = new Experience("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/", YearMonth.of(2010, 12), YearMonth.of(2012, 4), "Ведущий программист", "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, " +
+        Experience luxoftExp = new Experience(YearMonth.of(2010, 12), YearMonth.of(2012, 4), "Ведущий программист", "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, " +
                 "Spring, Spring MVC, SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM. Реализация RIA-приложения для администрирования, мониторинга и " +
                 "анализа результатов в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, Commet, HTML5.");
-        Experience yotaExp = new Experience("Yota", "https://www.yota.ru/", YearMonth.of(2008, 6), YearMonth.of(2010, 12), "Ведущий специалист", "Дизайн и имплементация Java EE фреймворка для отдела " +
+        Experience yotaExp = new Experience(YearMonth.of(2008, 6), YearMonth.of(2010, 12), "Ведущий специалист", "Дизайн и имплементация Java EE фреймворка для отдела " +
                 "\"Платежные Системы\" (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, Servlet 2.4, JSP, JMX, JMS, Maven2). Реализация администрирования, статистики и мониторинга " +
                 "фреймворка. Разработка online JMX клиента (Python/ Jython, Django, ExtJS)");
-        Experience enkataExp = new Experience("Enkata", "http://enkata.com/", YearMonth.of(2007, 3), YearMonth.of(2008, 6), "Разработчик ПО", "Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, " +
+        Experience enkataExp = new Experience(YearMonth.of(2007, 3), YearMonth.of(2008, 6), "Разработчик ПО", "Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, " +
                 "Hibernate 3.0, Tomcat, JMS) частей кластерного J2EE приложения (OLAP, Data mining).");
-        Experience siemensExp = new Experience("Siemens AG", "https://www.siemens.com/ru/ru/home.html", YearMonth.of(2005, 1), YearMonth.of(2007, 2), "Разработчик ПО", "Разработка информационной модели, проектирование интерфейсов, " +
+        Experience siemensExp = new Experience(YearMonth.of(2005, 1), YearMonth.of(2007, 2), "Разработчик ПО", "Разработка информационной модели, проектирование интерфейсов, " +
                 "реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix).");
-        Experience alcatelExp = new Experience("Alcatel", "http://www.alcatel.ru/", YearMonth.of(1997, 9), YearMonth.of(2005, 1), "Инженер по аппаратному и программному тестированию", "Тестирование, отладка, " +
+        Experience alcatelExp = new Experience(YearMonth.of(1997, 9), YearMonth.of(2005, 1), "Инженер по аппаратному и программному тестированию", "Тестирование, отладка, " +
                 "внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).");
 
-        jobList.add(javaOnlineExp);
-        jobList.add(wrikeExp);
-        jobList.add(ritCenterExp);
-        jobList.add(luxoftExp);
-        jobList.add(yotaExp);
-        jobList.add(enkataExp);
-        jobList.add(siemensExp);
-        jobList.add(alcatelExp);
+        experienceList.add(javaOnlineExp);
+        experienceList.add(wrikeExp);
+        experienceList.add(ritCenterExp);
+        experienceList.add(luxoftExp);
+        experienceList.add(yotaExp);
+        experienceList.add(enkataExp);
+        experienceList.add(siemensExp);
+        experienceList.add(alcatelExp);
 
-        OrganizationSection jobSection = new OrganizationSection(jobList, organizationLink);
+        Organization javaOnlineOrg = new Organization("Java Online Projects", "http://javaops.ru/", experienceList.get(0));
+        Organization wrikeOrg = new Organization("Wrike", "https://www.wrike.com/", experienceList.get(1));
+        Organization ritCenterOrg = new Organization("RIT Center", null, experienceList.get(2));
+        Organization luxoftOrg = new Organization("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/", experienceList.get(3));
+        Organization yotaOrg = new Organization("Yota", "https://www.yota.ru/", experienceList.get(4));
+        Organization enkataOrg = new Organization("Enkata", "http://enkata.com/", experienceList.get(5));
+        Organization siemensOrg = new Organization("Siemens AG", "https://www.siemens.com/ru/ru/home.html", experienceList.get(6));
+        Organization alcatelOrg = new Organization("Alcatel", "http://www.alcatel.ru/", experienceList.get(7));
+
+        List<Organization> jobList = new ArrayList<>();
+
+        jobList.add(javaOnlineOrg);
+        jobList.add(wrikeOrg);
+        jobList.add(ritCenterOrg);
+        jobList.add(luxoftOrg);
+        jobList.add(yotaOrg);
+        jobList.add(enkataOrg);
+        jobList.add(siemensOrg);
+        jobList.add(alcatelOrg);
+
+        OrganizationSection jobSection = new OrganizationSection(jobList);
 
         List<Experience> educationList = new ArrayList<>();
 
-        Experience courseraExp = new Experience("Coursera", "https://www.coursera.org/course/progfun", YearMonth.of(2013, 3), YearMonth.of(2013, 5), "\t\"Functional Programming Principles in Scala\" by Martin Odersky", null);
-        Experience luxoftEduExp = new Experience("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366", YearMonth.of(2011, 3), YearMonth.of(2011, 4), "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
+        Experience courseraExp = new Experience(YearMonth.of(2013, 3), YearMonth.of(2013, 5), "\t\"Functional Programming Principles in Scala\" by Martin Odersky", null);
+        Experience luxoftEduExp = new Experience(YearMonth.of(2011, 3), YearMonth.of(2011, 4), "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
                 null);
-        Experience siemensEduExp = new Experience("Siemens AG", "http://www.siemens.ru/", YearMonth.of(2005, 1), YearMonth.of(2005, 4), "3 месяца обучения мобильным IN сетям (Берлин)", null);
-        Experience alcatelEduExp = new Experience("Alcatel", "http://www.alcatel.ru/", YearMonth.of(1997, 9), YearMonth.of(1998, 3), "6 месяцев обучения цифровым телефонным сетям (Москва)", null);
-        Experience graduateExp = new Experience("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
-                "http://www.ifmo.ru/", YearMonth.of(1993, 9), YearMonth.of(1996, 7), "Аспирантура (программист С, С++)", null);
-        Experience engineerExp = new Experience(null, null, YearMonth.of(1987, 9), YearMonth.of(1993, 7), "\tИнженер (программист Fortran, C)", null);
-        Experience mftiExp = new Experience("Заочная физико-техническая школа при МФТИ", " http://www.school.mipt.ru/", YearMonth.of(1984, 9), YearMonth.of(1987, 6), "\tЗакончил с отличием", null);
+        Experience siemensEduExp = new Experience(YearMonth.of(2005, 1), YearMonth.of(2005, 4), "3 месяца обучения мобильным IN сетям (Берлин)", null);
+        Experience alcatelEduExp = new Experience(YearMonth.of(1997, 9), YearMonth.of(1998, 3), "6 месяцев обучения цифровым телефонным сетям (Москва)", null);
+        Experience graduateExp = new Experience(YearMonth.of(1993, 9), YearMonth.of(1996, 7), "Аспирантура (программист С, С++)", null);
+        Experience engineerExp = new Experience(YearMonth.of(1987, 9), YearMonth.of(1993, 7), "\tИнженер (программист Fortran, C)", null);
+        Experience mftiExp = new Experience(YearMonth.of(1984, 9), YearMonth.of(1987, 6), "\tЗакончил с отличием", null);
 
         educationList.add(courseraExp);
         educationList.add(luxoftEduExp);
@@ -126,7 +152,27 @@ public class ResumeTestData {
         educationList.add(engineerExp);
         educationList.add(mftiExp);
 
-        OrganizationSection educationSection = new OrganizationSection(educationList, organizationLink);
+        Organization courseraOrg = new Organization("Coursera", "https://www.coursera.org/course/progfun", educationList.get(0));
+        Organization luxoftEduOrg = new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366", educationList.get(1));
+        Organization siemensEduOrg = new Organization("Siemens AG", "http://www.siemens.ru/", educationList.get(2));
+        Organization alcatelEduOrg = new Organization("Alcatel", "http://www.alcatel.ru/", educationList.get(3));
+        Organization graduateEduOrg = new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
+                "http://www.ifmo.ru/", educationList.get(4));
+        Organization engineerEduOrg = new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
+                "http://www.ifmo.ru/", educationList.get(5));
+        Organization mftiEduOrg = new Organization("Заочная физико-техническая школа при МФТИ", " http://www.school.mipt.ru/", educationList.get(6));
+
+        List<Organization> educationOrgList = new ArrayList<>();
+
+        educationOrgList.add(courseraOrg);
+        educationOrgList.add(luxoftEduOrg);
+        educationOrgList.add(siemensEduOrg);
+        educationOrgList.add(alcatelEduOrg);
+        educationOrgList.add(graduateEduOrg);
+        educationOrgList.add(engineerEduOrg);
+        educationOrgList.add(mftiEduOrg);
+
+        OrganizationSection educationSection = new OrganizationSection(educationOrgList);
 
         gKislin.setSection(SectionType.PERSONAL, personalString);
         gKislin.setSection(SectionType.OBJECTIVE, objectiveString);
@@ -164,24 +210,15 @@ public class ResumeTestData {
                     }
                     break;
                 default:
-                    for (Experience experience : educationList) {
-                        System.out.println(experience);
+                    for (Organization value : educationOrgList) {
+                        System.out.println(value);
                     }
             }
         }
-
-//        private String uuid;
-//        private String fullName = Resume.
-
-//        Storage storage = new ArrayStorage();
-//
-//        public Resume createResume() {
-//            Resume resume = new Resume();
-//
-//        }
     }
 }
 
 //    Реализуйте в ResumeTestData метод, который будет принимать uuid и fullName, создавать резюме, заполнять его данными
 //    (все секции резюме должны быть заполнены) и возвращать для тестирования в AbstractStorageTest. Используйте его для всех резюме,
 //    создаваемых в AbstractStorageTest
+//Реализовать AbstractFileStorage, базовый класс для хранения резюме в файлах

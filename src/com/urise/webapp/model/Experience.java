@@ -11,7 +11,7 @@ public class Experience {
     private final String position;
     private final String duties;
 
-    public Experience(String name, String url, YearMonth start, YearMonth finish, String position, String duties) {
+    public Experience(YearMonth start, YearMonth finish, String position, String duties) {
         Objects.requireNonNull(start, "start must not be null");
         Objects.requireNonNull(finish, "finish must not be null");
         Objects.requireNonNull(position, "position must not be null");
@@ -24,11 +24,18 @@ public class Experience {
 
     @Override
     public String toString() {
-        return " " +
-                start + " " +
-                finish + " " +
-                position +
-                duties;
+        if (duties != null) {
+            return " " +
+                    start + " " +
+                    finish + " " +
+                    position + " " +
+                    duties;
+        } else {
+            return " " +
+                    start + " " +
+                    finish + " " +
+                    position;
+        }
     }
 
     @Override

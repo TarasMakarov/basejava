@@ -23,7 +23,11 @@ public class Link {
 
     @Override
     public String toString() {
-        return " " + name + ',' + url;
+        if (url == null) {
+            return " " + name;
+        } else {
+            return " " + name + url;
+        }
     }
 
     @Override

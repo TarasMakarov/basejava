@@ -22,6 +22,7 @@ public class MapUuidStorage extends AbstractStorage<String> {
     protected boolean isExist(String searchKey) {
         return storageMap.containsKey(searchKey);
     }
+
     @Override
     protected void doSave(Resume r, String searchKey) {
         storageMap.put(searchKey, r);
