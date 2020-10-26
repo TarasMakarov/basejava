@@ -76,8 +76,6 @@ public class ResumeTestData {
 
         BulletListSection qualificationSection = new BulletListSection(qualificationsList);
 
-        List<Experience> experienceList = new ArrayList<>();
-
         Experience javaOnlineExp = new Experience(YearMonth.of(2013, 10), YearMonth.now(), "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
         Experience wrikeExp = new Experience(YearMonth.of(2014, 10), YearMonth.of(2016, 1), "Старший разработчик (backend)", "Проектирование и разработка " +
                 "онлайн платформы управления " +
@@ -102,23 +100,15 @@ public class ResumeTestData {
         Experience alcatelExp = new Experience(YearMonth.of(1997, 9), YearMonth.of(2005, 1), "Инженер по аппаратному и программному тестированию", "Тестирование, отладка, " +
                 "внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).");
 
-        experienceList.add(javaOnlineExp);
-        experienceList.add(wrikeExp);
-        experienceList.add(ritCenterExp);
-        experienceList.add(luxoftExp);
-        experienceList.add(yotaExp);
-        experienceList.add(enkataExp);
-        experienceList.add(siemensExp);
-        experienceList.add(alcatelExp);
+        Organization javaOnlineOrg = new Organization("Java Online Projects", "http://javaops.ru/", javaOnlineExp);
+        Organization wrikeOrg = new Organization("Wrike", "https://www.wrike.com/", wrikeExp);
+        Organization ritCenterOrg = new Organization("RIT Center", null, ritCenterExp);
+        Organization luxoftOrg = new Organization("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/", luxoftExp);
+        Organization yotaOrg = new Organization("Yota", "https://www.yota.ru/", yotaExp);
+        Organization enkataOrg = new Organization("Enkata", "http://enkata.com/", enkataExp);
+        Organization siemensOrg = new Organization("Siemens AG", "https://www.siemens.com/ru/ru/home.html", siemensExp);
+        Organization alcatelOrg = new Organization("Alcatel", "http://www.alcatel.ru/", alcatelExp);
 
-        Organization javaOnlineOrg = new Organization("Java Online Projects", "http://javaops.ru/", experienceList.get(0));
-        Organization wrikeOrg = new Organization("Wrike", "https://www.wrike.com/", experienceList.get(1));
-        Organization ritCenterOrg = new Organization("RIT Center", null, experienceList.get(2));
-        Organization luxoftOrg = new Organization("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/", experienceList.get(3));
-        Organization yotaOrg = new Organization("Yota", "https://www.yota.ru/", experienceList.get(4));
-        Organization enkataOrg = new Organization("Enkata", "http://enkata.com/", experienceList.get(5));
-        Organization siemensOrg = new Organization("Siemens AG", "https://www.siemens.com/ru/ru/home.html", experienceList.get(6));
-        Organization alcatelOrg = new Organization("Alcatel", "http://www.alcatel.ru/", experienceList.get(7));
 
         List<Organization> jobList = new ArrayList<>();
 
@@ -133,8 +123,6 @@ public class ResumeTestData {
 
         OrganizationSection jobSection = new OrganizationSection(jobList);
 
-        List<Experience> educationList = new ArrayList<>();
-
         Experience courseraExp = new Experience(YearMonth.of(2013, 3), YearMonth.of(2013, 5), "\t\"Functional Programming Principles in Scala\" by Martin Odersky", null);
         Experience luxoftEduExp = new Experience(YearMonth.of(2011, 3), YearMonth.of(2011, 4), "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
                 null);
@@ -144,23 +132,14 @@ public class ResumeTestData {
         Experience engineerExp = new Experience(YearMonth.of(1987, 9), YearMonth.of(1993, 7), "\tИнженер (программист Fortran, C)", null);
         Experience mftiExp = new Experience(YearMonth.of(1984, 9), YearMonth.of(1987, 6), "\tЗакончил с отличием", null);
 
-        educationList.add(courseraExp);
-        educationList.add(luxoftEduExp);
-        educationList.add(siemensEduExp);
-        educationList.add(alcatelEduExp);
-        educationList.add(graduateExp);
-        educationList.add(engineerExp);
-        educationList.add(mftiExp);
-
-        Organization courseraOrg = new Organization("Coursera", "https://www.coursera.org/course/progfun", educationList.get(0));
-        Organization luxoftEduOrg = new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366", educationList.get(1));
-        Organization siemensEduOrg = new Organization("Siemens AG", "http://www.siemens.ru/", educationList.get(2));
-        Organization alcatelEduOrg = new Organization("Alcatel", "http://www.alcatel.ru/", educationList.get(3));
+        Organization courseraOrg = new Organization("Coursera", "https://www.coursera.org/course/progfun", courseraExp);
+        Organization luxoftEduOrg = new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366", luxoftEduExp);
+        Organization siemensEduOrg = new Organization("Siemens AG", "http://www.siemens.ru/", siemensEduExp);
+        Organization alcatelEduOrg = new Organization("Alcatel", "http://www.alcatel.ru/", alcatelEduExp);
         Organization graduateEduOrg = new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
-                "http://www.ifmo.ru/", educationList.get(4));
-        Organization engineerEduOrg = new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
-                "http://www.ifmo.ru/", educationList.get(5));
-        Organization mftiEduOrg = new Organization("Заочная физико-техническая школа при МФТИ", " http://www.school.mipt.ru/", educationList.get(6));
+                "http://www.ifmo.ru/", graduateExp);
+        Organization engineerEduOrg = new Organization(engineerExp);
+        Organization mftiEduOrg = new Organization("Заочная физико-техническая школа при МФТИ", " http://www.school.mipt.ru/", mftiExp);
 
         List<Organization> educationOrgList = new ArrayList<>();
 
@@ -205,7 +184,7 @@ public class ResumeTestData {
                     }
                     break;
                 case EXPERIENCE:
-                    for (Organization value : jobList) {
+                    for (Organization value : jobSection.getOrganizationList()) {
                         System.out.println(value);
                     }
                     break;

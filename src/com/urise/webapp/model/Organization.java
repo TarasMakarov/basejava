@@ -1,6 +1,5 @@
 package com.urise.webapp.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,9 +13,14 @@ public class Organization {
         this.experience = experience;
     }
 
-    public Organization(String name, String url, Experience ...experience) {
+    public Organization(String name, String url, Experience... experience) {
         this.experience = Arrays.asList(experience);
         this.organizationLink = new Link(name, url);
+    }
+
+    public Organization(Experience... experience) {
+        this.experience = Arrays.asList(experience);
+        organizationLink = null;
     }
 
     public List<Experience> getExperience() {
@@ -47,8 +51,11 @@ public class Organization {
 
     @Override
     public String toString() {
-        return " " +
-                organizationLink +
-                experience;
+        if (organizationLink == null) {
+            return "" + experience;
+        } else
+            return " " +
+                    organizationLink +
+                    experience;
     }
 }
