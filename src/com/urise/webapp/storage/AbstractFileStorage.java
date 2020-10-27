@@ -30,7 +30,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doUpdate(Resume r, File file) {
-
+        try {
+            doWrite(r, file);
+        } catch (IOException e) {
+            throw new StorageException("IO error", file.getName(), e);
+        }
     }
 
     @Override
@@ -74,8 +78,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        for (File file: Objects.requireNonNull(directory.listFiles())) {
-            if(file.isFile()) {
+        for (File file : Objects.requireNonNull(directory.listFiles())) {
+            if (file.isFile()) {
                 file.delete();
             }
         }
