@@ -8,13 +8,6 @@ import java.util.List;
 
 public class ResumeTestData {
 
-//    public Resume createResume(String uuid, String fullName) {
-//        Resume resume = new Resume(uuid, fullName);
-//        resume.setContacts(ContactType.PHONE,);
-//        resume.setSection();
-//        return resume;
-//    }
-
     public static void main(String[] args) {
         Resume gKislin = new Resume("Григорий Кислин");
 
@@ -109,7 +102,6 @@ public class ResumeTestData {
         Organization siemensOrg = new Organization("Siemens AG", "https://www.siemens.com/ru/ru/home.html", siemensExp);
         Organization alcatelOrg = new Organization("Alcatel", "http://www.alcatel.ru/", alcatelExp);
 
-
         List<Organization> jobList = new ArrayList<>();
 
         jobList.add(javaOnlineOrg);
@@ -132,13 +124,19 @@ public class ResumeTestData {
         Experience engineerExp = new Experience(YearMonth.of(1987, 9), YearMonth.of(1993, 7), "\tИнженер (программист Fortran, C)", null);
         Experience mftiExp = new Experience(YearMonth.of(1984, 9), YearMonth.of(1987, 6), "\tЗакончил с отличием", null);
 
+        List<Experience> educationExperience = new ArrayList<>();
+
+        educationExperience.add(graduateExp);
+        educationExperience.add(engineerExp);
+
+        Link ifmoLink = new Link("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
+                "http://www.ifmo.ru/");
+
         Organization courseraOrg = new Organization("Coursera", "https://www.coursera.org/course/progfun", courseraExp);
         Organization luxoftEduOrg = new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366", luxoftEduExp);
         Organization siemensEduOrg = new Organization("Siemens AG", "http://www.siemens.ru/", siemensEduExp);
         Organization alcatelEduOrg = new Organization("Alcatel", "http://www.alcatel.ru/", alcatelEduExp);
-        Organization graduateEduOrg = new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
-                "http://www.ifmo.ru/", graduateExp);
-        Organization engineerEduOrg = new Organization(engineerExp);
+        Organization ifmoEduOrg = new Organization(ifmoLink, educationExperience);
         Organization mftiEduOrg = new Organization("Заочная физико-техническая школа при МФТИ", " http://www.school.mipt.ru/", mftiExp);
 
         List<Organization> educationOrgList = new ArrayList<>();
@@ -147,8 +145,7 @@ public class ResumeTestData {
         educationOrgList.add(luxoftEduOrg);
         educationOrgList.add(siemensEduOrg);
         educationOrgList.add(alcatelEduOrg);
-        educationOrgList.add(graduateEduOrg);
-        educationOrgList.add(engineerEduOrg);
+        educationOrgList.add(ifmoEduOrg);
         educationOrgList.add(mftiEduOrg);
 
         OrganizationSection educationSection = new OrganizationSection(educationOrgList);

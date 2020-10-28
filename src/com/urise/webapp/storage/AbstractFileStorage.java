@@ -56,15 +56,14 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected Resume doGet(File file) {
-//        try {
-//            FileReader fileReader = new FileReader(file);
-//
-//        } catch (FileNotFoundException e) {
-//            throw new StorageException("This file not found: ", file.getName());
-//        }
-//    }
-        return null;
+        try {
+            return doRead(file);
+        } catch (IOException e) {
+            throw new StorageException("This file not found: ", file.getName(), e);
+        }
     }
+
+    protected abstract Resume doRead(File file) throws IOException;
 
     @Override
     protected void doDelete(File file) {  //Check???

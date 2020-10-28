@@ -38,6 +38,6 @@ public class OrganizationSection extends AbstractSection {
 
     @Override
     public String toString() {
-        return "" + organizationList;
+        return organizationList.toString();
     }
 }

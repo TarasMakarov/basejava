@@ -18,11 +18,6 @@ public class Organization {
         this.organizationLink = new Link(name, url);
     }
 
-    public Organization(Experience... experience) {
-        this.experience = Arrays.asList(experience);
-        organizationLink = null;
-    }
-
     public List<Experience> getExperience() {
         return experience;
     }
@@ -51,11 +46,8 @@ public class Organization {
 
     @Override
     public String toString() {
-        if (organizationLink == null) {
-            return "" + experience;
-        } else
-            return " " +
-                    organizationLink +
-                    experience;
+        return " " +
+                organizationLink +
+                experience;
     }
 }
