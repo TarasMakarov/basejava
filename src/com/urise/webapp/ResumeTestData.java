@@ -8,7 +8,18 @@ import java.util.List;
 
 public class ResumeTestData {
 
+    public Resume addResume(String uuid, String fullName) {
+
+        Resume resume = new Resume(uuid, fullName);
+        resume.setContacts(ContactType.PHONE, "212-85-06");
+        resume.setContacts(ContactType.EMAIL, "SkyBot@ye.fi");
+        resume.setSection(SectionType.PERSONAL, new SimpleTextSection("Boss"));
+
+        return resume;
+    }
+
     public static void main(String[] args) {
+
         Resume gKislin = new Resume("Григорий Кислин");
 
         String phoneKislin = "+7(921)855-0482";
@@ -197,4 +208,3 @@ public class ResumeTestData {
 //    Реализуйте в ResumeTestData метод, который будет принимать uuid и fullName, создавать резюме, заполнять его данными
 //    (все секции резюме должны быть заполнены) и возвращать для тестирования в AbstractStorageTest. Используйте его для всех резюме,
 //    создаваемых в AbstractStorageTest
-//Реализовать AbstractFileStorage, базовый класс для хранения резюме в файлах
