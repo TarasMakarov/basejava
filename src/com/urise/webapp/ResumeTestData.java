@@ -20,6 +20,8 @@ public class ResumeTestData {
 
     public static void main(String[] args) {
 
+
+
         Resume gKislin = new Resume("Григорий Кислин");
 
         String phoneKislin = "+7(921)855-0482";

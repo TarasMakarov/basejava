@@ -36,14 +36,11 @@ public abstract class AbstractStorageTest {
 
     @Before
     public void setUp() throws Exception {
-        ResumeTestData resumeTestData = new ResumeTestData();
-        resumeTestData.addResume(UUID_1, "Alex Nevin");
-        resumeTestData.addResume(UUID_2, "Ben Kley");
-        resumeTestData.addResume(UUID_3, "Charlie Go");
         storage.clear();
-        storage.save(RESUME_1);
-        storage.save(RESUME_2);
-        storage.save(RESUME_3);
+        ResumeTestData resumeTestData = new ResumeTestData();
+        storage.save(resumeTestData.addResume(UUID_1, "Alex Nevin"));
+        storage.save(resumeTestData.addResume(UUID_2, "Ben Kley"));
+        storage.save(resumeTestData.addResume(UUID_3, "Charlie Go"));
     }
 
     @Test
