@@ -1,5 +1,6 @@
 package com.urise.webapp.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,6 +11,10 @@ public class BulletListSection extends AbstractSection {
     public BulletListSection(List<String> listText) {
         Objects.requireNonNull(listText, "listText must not be null");
         this.listText = listText;
+    }
+
+    public BulletListSection(String... strings) {
+        this.listText = Arrays.asList(strings);
     }
 
     public List<String> getListText() {
