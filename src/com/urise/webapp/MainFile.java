@@ -16,27 +16,28 @@ public class MainFile {
             throw new RuntimeException("Error", e);
         }
 
-        String dirPath = "./src/com/urise/webapp";
-        File fileOrDir = new File(dirPath);
-        workWithFile(fileOrDir);
-
         try (FileInputStream fis = new FileInputStream(filePath)) {
             System.out.println(fis.read());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        String dirPath = "./src/com/urise/webapp";
+        File fileOrDir = new File(dirPath);
+
+        workWithFile(fileOrDir, "");
     }
 
-
-    static void workWithFile(File fileOrDir) {
+    static void workWithFile(File fileOrDir, String gap) {
         File[] files = fileOrDir.listFiles();
 
         if (files != null) {
             for (File file : files) {
                 if (file.isFile()) {
-                    System.out.println(file.getName());
+                    System.out.println(gap + file.getName());
                 } else {
-                    workWithFile(file);
+                    System.out.println(gap + file.getName());
+                    workWithFile(file, " ");
                 }
             }
         }
