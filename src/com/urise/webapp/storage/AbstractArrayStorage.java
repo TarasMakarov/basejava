@@ -31,7 +31,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
         storage[index] = r;
     }
 
-        /**
+    /**
      * @return array, contains only Resumes in storage (without null)
      */
 
