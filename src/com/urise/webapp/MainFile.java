@@ -32,8 +32,6 @@ public class MainFile {
         workWithFile(fileOrDir, "");
     }
 
-    static String space = "";
-
     static void workWithFile(File fileOrDir, String gap) {
 
         File[] files = fileOrDir.listFiles();
@@ -54,18 +52,15 @@ public class MainFile {
             filesAndDir.addAll(onlyDir);
             filesAndDir.addAll(onlyFiles);
 
-            space = space + gap;
-
             for (File file : filesAndDir) {
                 if (onlyDir.isEmpty()) {
-                    System.out.println(space + space + gap + file.getName());
+                    System.out.println(gap + file.getName());
                 } else {
                     if (file.isFile()) {
                         System.out.println(gap + file.getName());
                     } else if (file.isDirectory()) {
                         System.out.println(gap + file.getName());
-                        space = gap;
-                        workWithFile(file, " ");
+                        workWithFile(file, gap + " ");
                     }
                 }
             }
