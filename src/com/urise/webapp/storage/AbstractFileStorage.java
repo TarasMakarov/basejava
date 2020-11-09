@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
-    private File directory;
+    private final File directory;
 
     protected abstract void doWrite(Resume r, OutputStream os) throws IOException;
 
