@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Organization implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private final Link organizationLink;
     private final List<Experience> experience;
@@ -55,7 +56,7 @@ public class Organization implements Serializable {
     }
 
 
-    public static class Experience {
+    public static class Experience implements Serializable {
 
         private final YearMonth start;
         private final YearMonth finish;
@@ -105,7 +106,7 @@ public class Organization implements Serializable {
             if (!start.equals(that.start)) return false;
             if (!finish.equals(that.finish)) return false;
             if (!position.equals(that.position)) return false;
-            return duties.equals(that.duties);
+            return Objects.equals(duties, that.duties);
         }
 
         @Override
