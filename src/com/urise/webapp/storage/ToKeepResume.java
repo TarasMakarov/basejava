@@ -9,6 +9,6 @@ import java.io.OutputStream;
 public interface ToKeepResume {
 
     void doWrite(Resume r, OutputStream os) throws IOException;
-    
-    void doRead(InputStream is) throws IOException;
+
+    Resume doRead(InputStream is) throws IOException;
 }

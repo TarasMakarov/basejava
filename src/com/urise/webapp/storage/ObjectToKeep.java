@@ -5,10 +5,10 @@ import com.urise.webapp.model.Resume;
 
 import java.io.*;
 
-public class ObjectStreamStorage implements ToKeepResume {
-    protected ObjectStreamStorage(File directory) {
-        super(directory);
-    }
+public class ObjectToKeep implements ToKeepResume {
+//    protected ObjectStreamStorage(File directory) {
+//        super(directory);
+//    }
 
     @Override
     public void doWrite(Resume r, OutputStream os) throws IOException {
