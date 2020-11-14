@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class AbstractPathStorage extends AbstractStorage<Path> {
+public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
 
     ToKeepResume option;
 
-    protected AbstractPathStorage(String dir, ToKeepResume option) {
+    protected PathStorage(String dir, ToKeepResume option) {
         directory = Paths.get(dir);
         this.option = option;
         Objects.requireNonNull(directory, "directory must not be null");
@@ -39,14 +39,24 @@ public class AbstractPathStorage extends AbstractStorage<Path> {
         }
     }
 
+    //    @Override
+//    public int size() {
+//        String[] files = directory.toFile().list();
+//        if (files == null) {
+//            throw new StorageException("Directory read error", null);
+//        }
+//        return files.length;
+//    }
     @Override
     public int size() {
+
         String[] files = directory.toFile().list();
         if (files == null) {
             throw new StorageException("Directory read error", null);
         }
         return files.length;
     }
+
 
     @Override
     protected void doUpdate(Resume r, Path path) {
