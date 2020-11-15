@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.saver.Saver;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -17,9 +18,9 @@ import java.util.stream.Stream;
 public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
 
-    ToKeepResume option;
+    private Saver option;
 
-    protected PathStorage(String dir, ToKeepResume option) {
+    protected PathStorage(String dir, Saver option) {
         directory = Paths.get(dir);
         this.option = option;
         Objects.requireNonNull(directory, "directory must not be null");

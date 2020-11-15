@@ -1,14 +1,11 @@
-package com.urise.webapp.storage;
+package com.urise.webapp.storage.saver;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.io.*;
 
-public class ObjectToKeep implements ToKeepResume {
-//    protected ObjectStreamStorage(File directory) {
-//        super(directory);
-//    }
+public class ObjectSaver implements Saver {
 
     @Override
     public void doWrite(Resume r, OutputStream os) throws IOException {

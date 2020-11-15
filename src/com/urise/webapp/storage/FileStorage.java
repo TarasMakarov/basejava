@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.saver.Saver;
 
 import java.io.*;
 import java.util.Arrays;
@@ -13,9 +14,9 @@ public class FileStorage extends AbstractStorage<File> {
 
     private final File directory;
 
-    ToKeepResume option;
+    private Saver option;
 
-    protected FileStorage(File directory, ToKeepResume option) {
+    protected FileStorage(File directory, Saver option) {
         Objects.requireNonNull(directory, "must not be null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory.");
