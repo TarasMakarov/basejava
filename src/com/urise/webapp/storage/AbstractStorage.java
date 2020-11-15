@@ -25,7 +25,7 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     protected abstract void doDelete(SK searchKey);
 
-    protected abstract List<Resume> convertToList();
+    protected abstract List<Resume> copyAllResume();
 
     public void update(Resume resume) {
         LOG.info("Update " + resume);
@@ -71,7 +71,7 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     public List<Resume> getAllSorted() {
         LOG.info("getAllSorted");
-        List<Resume> list = convertToList();
+        List<Resume> list = copyAllResume();
         Collections.sort(list);
         return list;
     }

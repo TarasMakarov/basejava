@@ -49,7 +49,7 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
     }
 
     @Override
-    final public List<Resume> convertToList() {
+    final public List<Resume> copyAllResume() {
         return new ArrayList<>(storageMap.values());
     }
 }

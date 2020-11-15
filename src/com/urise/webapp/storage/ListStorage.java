@@ -39,7 +39,7 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    final public List<Resume> convertToList() {
+    final public List<Resume> copyAllResume() {
         return new ArrayList<>(storageList);
     }
 

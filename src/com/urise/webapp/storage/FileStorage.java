@@ -73,7 +73,7 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected List<Resume> convertToList() {
+    protected List<Resume> copyAllResume() {
         File[] files = checkFilesNull();
         List<Resume> listFiles = Arrays.stream(files).map(this::doGet).collect(Collectors.toList());
         return listFiles;
@@ -89,7 +89,7 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public int size() {
-     return (checkFilesNull()).length;
+        return (checkFilesNull()).length;
     }
 
     private File[] checkFilesNull() {

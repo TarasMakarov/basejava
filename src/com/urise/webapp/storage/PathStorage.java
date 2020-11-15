@@ -88,7 +88,7 @@ public class PathStorage extends AbstractStorage<Path> {
     }
 
     @Override
-    protected List<Resume> convertToList() {
+    protected List<Resume> copyAllResume() {
         return getStreamPath().map(this::doGet).collect(Collectors.toList());
     }
 
