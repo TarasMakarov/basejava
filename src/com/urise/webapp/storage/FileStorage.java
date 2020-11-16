@@ -75,23 +75,23 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> copyAllResume() {
-        File[] files = checkFilesNull();
+        File[] files = getAllFiles();
         return Arrays.stream(files).map(this::doGet).collect(Collectors.toList());
     }
 
     @Override
     public void clear() {
-        for (File file : checkFilesNull()) {
+        for (File file : getAllFiles()) {
             doDelete(file);
         }
     }
 
     @Override
     public int size() {
-        return (checkFilesNull()).length;
+        return (getAllFiles()).length;
     }
 
-    private File[] checkFilesNull() {
+    private File[] getAllFiles() {
         File[] files = directory.listFiles();
         if (files == null) {
             throw new StorageException("Directory read error", null);
