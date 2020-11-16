@@ -76,14 +76,12 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected List<Resume> copyAllResume() {
         File[] files = checkFilesNull();
-        List<Resume> listFiles = Arrays.stream(files).map(this::doGet).collect(Collectors.toList());
-        return listFiles;
+        return Arrays.stream(files).map(this::doGet).collect(Collectors.toList());
     }
 
     @Override
     public void clear() {
-        File[] files = checkFilesNull();
-        for (File file : files) {
+        for (File file : checkFilesNull()) {
             doDelete(file);
         }
     }

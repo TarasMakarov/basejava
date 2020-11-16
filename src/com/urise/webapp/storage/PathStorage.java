@@ -41,8 +41,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public int size() {
-        List<Resume> listFiles = getStreamPath().map(this::doGet).collect(Collectors.toList());
-        return listFiles.size();
+        return (int) getStreamPath().map(this::doGet).collect(Collectors.toList()).stream().count();
     }
 
     @Override
@@ -95,8 +94,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     private Stream<Path> getStreamPath() {
         try {
-            Stream<Path> pathStream = Files.list(directory);
-            return pathStream;
+            return Files.list(directory);
         } catch (IOException e) {
             throw new StorageException("Directory read error", null);
         }
