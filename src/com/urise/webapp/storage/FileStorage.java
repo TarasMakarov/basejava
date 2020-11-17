@@ -75,8 +75,7 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> copyAllResume() {
-        File[] files = getAllFiles();
-        return Arrays.stream(files).map(this::doGet).collect(Collectors.toList());
+        return Arrays.stream(getAllFiles()).map(this::doGet).collect(Collectors.toList());
     }
 
     @Override

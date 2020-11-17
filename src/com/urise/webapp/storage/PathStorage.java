@@ -41,7 +41,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public int size() {
-        return (int) getStreamPath().map(this::doGet).collect(Collectors.toList()).stream().count();
+        return (int) getStreamPath().map(this::doGet).count();
     }
 
     @Override
