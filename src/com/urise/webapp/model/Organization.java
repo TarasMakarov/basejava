@@ -1,7 +1,10 @@
 package com.urise.webapp.model;
 
+import com.urise.webapp.util.YearMonthAdapter;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.Arrays;
@@ -62,8 +65,9 @@ public class Organization implements Serializable {
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Experience implements Serializable {
-
+        @XmlJavaTypeAdapter(YearMonthAdapter.class)
         private YearMonth start;
+        @XmlJavaTypeAdapter(YearMonthAdapter.class)
         private YearMonth finish;
         private String position;
         private String duties;
