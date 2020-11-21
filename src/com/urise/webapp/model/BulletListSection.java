@@ -7,7 +7,10 @@ import java.util.Objects;
 public class BulletListSection extends AbstractSection {
     private static final long serialVersionUID = 1L;
 
-    private final List<String> listText;
+    public BulletListSection() {
+    }
+
+    private List<String> listText;
 
     public BulletListSection(List<String> listText) {
         Objects.requireNonNull(listText, "listText must not be null");

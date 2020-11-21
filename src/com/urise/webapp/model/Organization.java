@@ -1,5 +1,7 @@
 package com.urise.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.Arrays;
@@ -9,9 +11,13 @@ import java.util.Objects;
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final Link organizationLink;
-    private final List<Experience> experience;
+    private Link organizationLink;
+    private List<Experience> experience;
 //    private List<Position> positions = new ArrayList<>();
+
+
+    public Organization() {
+    }
 
     public Organization(Link organizationLink, List<Experience> experience) {
         this.organizationLink = organizationLink;
@@ -34,11 +40,9 @@ public class Organization implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Organization that = (Organization) o;
-
-        if (!organizationLink.equals(that.organizationLink)) return false;
-        return experience.equals(that.experience);
+        return Objects.equals(organizationLink, that.organizationLink) &&
+                Objects.equals(experience, that.experience);
     }
 
     @Override
@@ -55,17 +59,19 @@ public class Organization implements Serializable {
                 experience;
     }
 
-
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Experience implements Serializable {
 
-        private final YearMonth start;
-        private final YearMonth finish;
-        private final String position;
-        private final String duties;
+        private YearMonth start;
+        private YearMonth finish;
+        private String position;
+        private String duties;
 
 //        public static final YearMonth NOW = YearMonth.of(3000, 1);
-//
 //        public Experience(YearMonth start, String position, String duties) {
+
+        public Experience() {
+        }
 //            this(start, NOW, position, duties);
 //        }
 
@@ -100,13 +106,11 @@ public class Organization implements Serializable {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-
             Experience that = (Experience) o;
-
-            if (!start.equals(that.start)) return false;
-            if (!finish.equals(that.finish)) return false;
-            if (!position.equals(that.position)) return false;
-            return Objects.equals(duties, that.duties);
+            return Objects.equals(start, that.start) &&
+                    Objects.equals(finish, that.finish) &&
+                    Objects.equals(position, that.position) &&
+                    Objects.equals(duties, that.duties);
         }
 
         @Override

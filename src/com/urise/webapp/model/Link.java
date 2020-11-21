@@ -41,7 +41,6 @@ public class Link implements Serializable {
 
         if (!name.equals(link.name)) return false;
         return Objects.equals(url, link.url);
-
     }
 
     @Override
