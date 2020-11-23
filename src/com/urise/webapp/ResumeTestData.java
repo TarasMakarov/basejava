@@ -21,7 +21,6 @@ public class ResumeTestData {
                 new Organization.Experience(YearMonth.of(2005, 7), YearMonth.of(2007, 10), "engineer", "make a smart face"))));
         resume.setSection(SectionType.EDUCATION, new OrganizationSection(new Organization("СПбГАСУ", "https://www.spbgasu.ru/",
                 new Organization.Experience(YearMonth.of(1995, 9), YearMonth.of(2000, 4), "student", null))));
-
         return resume;
     }
 
@@ -210,7 +209,3 @@ public class ResumeTestData {
         }
     }
 }
-
-//    Реализуйте в ResumeTestData метод, который будет принимать uuid и fullName, создавать резюме, заполнять его данными
-//    (все секции резюме должны быть заполнены) и возвращать для тестирования в AbstractStorageTest. Используйте его для всех резюме,
-//    создаваемых в AbstractStorageTest
