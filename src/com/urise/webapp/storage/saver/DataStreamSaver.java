@@ -39,12 +39,13 @@ public class DataStreamSaver implements Saver {
                             Organization organization = ((OrganizationSection) entry.getValue()).getOrganizationList().get(i);
                             String name = organization.getOrganizationLink().getName();
                             String url = organization.getOrganizationLink().getUrl();
+                            dos.writeUTF(name + url);
                             for (int y = 0; y < organization.getExperience().size(); y++) {
                                 YearMonth start = organization.getExperience().get(y).getStart();
                                 YearMonth finish = organization.getExperience().get(y).getFinish();
                                 String position = organization.getExperience().get(y).getPosition();
                                 String duties = organization.getExperience().get(y).getDuties();
-                                dos.writeUTF(name + url + start + finish + position + duties);
+                                dos.writeUTF("" + start + finish + position + duties);
                             }
                         }
                         break;
