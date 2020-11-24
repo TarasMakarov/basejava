@@ -99,6 +99,9 @@ public class DataStreamSaver implements Saver {
                         for (int y = 0; y < quantityStringsOrg; y++) {
                             String name = dis.readUTF();
                             String url = dis.readUTF();
+                            if(url.equals("")) {
+                                url = null;
+                            }
                             orgLink = new Link(name, url);
                             int quantityStringsExp = dis.readInt();
                             for (int z = 0; z < quantityStringsExp; z++) {
@@ -110,6 +113,9 @@ public class DataStreamSaver implements Saver {
                                 YearMonth finish = YearMonth.of(yearFinish, monthFinish);
                                 String position = dis.readUTF();
                                 String duties = dis.readUTF();
+                                if(duties.equals("")) {
+                                    duties = null;
+                                }
                                 Organization.Experience experience = new Organization.Experience(start, finish, position, duties);
                                 expList.add(experience);
                             }
