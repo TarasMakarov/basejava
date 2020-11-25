@@ -88,11 +88,7 @@ public class Organization implements Serializable {
             this.start = start;
             this.finish = finish;
             this.position = position;
-            if (duties == null) {
-                this.duties = "";
-            } else {
-                this.duties = duties;
-            }
+            this.duties = (duties == null) ? "" : duties;
         }
 
         public YearMonth getStart() {
