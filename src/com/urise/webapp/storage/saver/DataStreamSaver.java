@@ -5,6 +5,7 @@ import com.urise.webapp.model.*;
 import java.io.*;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -15,11 +16,19 @@ public class DataStreamSaver implements Saver {
             dos.writeUTF(r.getUuid());
             dos.writeUTF(r.getFullName());
             Map<ContactType, String> contacts = r.getContactsMap();
-            dos.writeInt(contacts.size());
-            for (Map.Entry<ContactType, String> entry : r.getContactsMap().entrySet()) {
-                dos.writeUTF(entry.getKey().name());
-                dos.writeUTF(entry.getValue());
-            }
+//            dos.writeInt(contacts.size());
+//            for (Map.Entry<ContactType, String> entry : r.getContactsMap().entrySet()) {
+//                dos.writeUTF(entry.getKey().name());
+//                dos.writeUTF(entry.getValue());
+//            }
+//            EachWriter <T>eWriter = x -> {
+//                dos.writeUTF(x.getKey().name());
+//                dos.writeUTF(x.getValue());
+//            };
+            writeWithException(contacts.entrySet(), dos, n -> {
+                dos.writeUTF(n.getKey().name());
+                dos.writeUTF(n.getValue());
+            });
             Map<SectionType, AbstractSection> sections = r.getSectionMap();
             dos.writeInt(sections.size());
             for (Map.Entry<SectionType, AbstractSection> entry : r.getSectionMap().entrySet()) {
@@ -63,13 +72,41 @@ public class DataStreamSaver implements Saver {
         }
     }
 
+    //    теперь надо зарефакторить запись всех коллекций (т.е. все for в doWrite) через функц интерфейс
+//    посмотри на реализацию forEach
+
+
+    interface EachWriter<T> {
+        void write(T t) throws IOException;
+    }
+
+    private <T> void writeWithException(Collection<T> c, DataOutputStream dos, EachWriter<T> t) throws IOException {
+        dos.writeInt(c.size());
+        for (T part : c) {
+            t.write(part);
+        }
+    }
+
+
+//    default void forEach(Consumer<? super T> action) {
+//        Objects.requireNonNull(action);
+//        for (T t : this) {
+//            action.accept(t);
+//        }
+//    }
+//надо сделать что-то подобное, т.к. использование готового forEach в нашей ситуации не подходит, нам нужен метод который прокидывает IOException дальше,
+// и свой кастомный функциональный интерфейс (как записывать каждый отд элемент коллекции) который тоже прокидывает IOException
+//    т.е. должен получится некий метод writeWithExeption (...) throws IOException, который как параметры принимает коллекцию, DataOutputStream и
+//    твой функциональный интерфейс
+
     @Override
     public Resume doRead(InputStream is) throws IOException {
         try (DataInputStream dis = new DataInputStream(is)) {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int sizeContact = dis.readInt();
+            int sizeContact =
+                    dis.readInt();
             for (int i = 0; i < sizeContact; i++) {
                 resume.setContacts(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             }
@@ -94,15 +131,15 @@ public class DataStreamSaver implements Saver {
                     case EDUCATION:
                         int quantityStringsOrg = dis.readInt();
                         List<Organization> orgList = new ArrayList<>();
-                        List<Organization.Experience> expList = new ArrayList<>();
                         Link orgLink;
                         for (int y = 0; y < quantityStringsOrg; y++) {
                             String name = dis.readUTF();
                             String url = dis.readUTF();
-                            if(url.equals("")) {
+                            if (url.equals("")) {
                                 url = null;
                             }
                             orgLink = new Link(name, url);
+                            List<Organization.Experience> expList = new ArrayList<>();
                             int quantityStringsExp = dis.readInt();
                             for (int z = 0; z < quantityStringsExp; z++) {
                                 int yearStart = dis.readInt();
@@ -113,12 +150,13 @@ public class DataStreamSaver implements Saver {
                                 YearMonth finish = YearMonth.of(yearFinish, monthFinish);
                                 String position = dis.readUTF();
                                 String duties = dis.readUTF();
-                                if(duties.equals("")) {
+                                if (duties.equals("")) {
                                     duties = null;
                                 }
                                 Organization.Experience experience = new Organization.Experience(start, finish, position, duties);
                                 expList.add(experience);
                             }
+//                            List<Organization.Experience> expList = readList(, dis);
                             Organization organization = new Organization(orgLink, expList);
                             orgList.add(organization);
                         }
@@ -128,4 +166,31 @@ public class DataStreamSaver implements Saver {
             return resume;
         }
     }
+
+//    private List<Organization.Experience> readListExp(DataInputStream dis) throws IOException {
+//        List<Organization.Experience> expList = new ArrayList<>();
+//        int size = dis.readInt();
+//        for (int i = 0; i < size; i++) {
+//            YearMonth start = YearMonth.of(dis.readInt(), dis.readInt());
+//            YearMonth finish = YearMonth.of(dis.readInt(), dis.readInt());
+//            String position = dis.readUTF();
+//            String duties = dis.readUTF();
+//            if (duties.equals("")) {
+//                duties = null;
+//            }
+//            Organization.Experience experience = new Organization.Experience(start, finish, position, duties);
+//            expList.add(experience);
+//        }
+//        return expList;
+//    }
+
+//    private <T> List<T> readList(Class<T> c, DataInputStream dis) throws IOException {
+//        int size = dis.readInt();
+//        List<T> list = new ArrayList<T>();
+//        for (Object o : list) {
+//            T t = c.cast(o);
+//            list.add(t);
+//        }
+//        return list;
+//    }
 }
