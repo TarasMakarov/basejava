@@ -16,65 +16,50 @@ public class DataStreamSaver implements Saver {
             dos.writeUTF(r.getUuid());
             dos.writeUTF(r.getFullName());
             Map<ContactType, String> contacts = r.getContactsMap();
-//            dos.writeInt(contacts.size());
-//            for (Map.Entry<ContactType, String> entry : r.getContactsMap().entrySet()) {
-//                dos.writeUTF(entry.getKey().name());
-//                dos.writeUTF(entry.getValue());
-//            }
-//            EachWriter <T>eWriter = x -> {
-//                dos.writeUTF(x.getKey().name());
-//                dos.writeUTF(x.getValue());
-//            };
             writeWithException(contacts.entrySet(), dos, n -> {
                 dos.writeUTF(n.getKey().name());
                 dos.writeUTF(n.getValue());
             });
             Map<SectionType, AbstractSection> sections = r.getSectionMap();
-            dos.writeInt(sections.size());
-            for (Map.Entry<SectionType, AbstractSection> entry : r.getSectionMap().entrySet()) {
-                dos.writeUTF(entry.getKey().name());
-                switch (entry.getKey()) {
+            writeWithException(sections.entrySet(), dos, n -> {
+                dos.writeUTF(n.getKey().name());
+                switch (n.getKey()) {
                     case PERSONAL:
                     case OBJECTIVE:
-                        dos.writeUTF(((SimpleTextSection) entry.getValue()).getText());
+                        dos.writeUTF(((SimpleTextSection) n.getValue()).getText());
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        dos.writeInt(((BulletListSection) entry.getValue()).getListText().size());
-                        for (int i = 0; i < ((BulletListSection) entry.getValue()).getListText().size(); i++) {
-                            dos.writeUTF(((BulletListSection) entry.getValue()).getListText().get(i));
-                        }
+                        List<String> stringList = ((BulletListSection) n.getValue()).getListText();
+                        writeWithExcList(stringList, dos, dos::writeUTF);
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
-                        dos.writeInt(((OrganizationSection) entry.getValue()).getOrganizationList().size());
-                        for (int i = 0; i < ((OrganizationSection) entry.getValue()).getOrganizationList().size(); i++) {
-                            Organization organization = ((OrganizationSection) entry.getValue()).getOrganizationList().get(i);
+                        List<Organization> orgList = ((OrganizationSection) n.getValue()).getOrganizationList();
+                        writeWithExcList(orgList, dos, organization -> {
                             dos.writeUTF(organization.getOrganizationLink().getName());
                             dos.writeUTF(organization.getOrganizationLink().getUrl());
-                            dos.writeInt(organization.getExperience().size());
-                            for (int y = 0; y < organization.getExperience().size(); y++) {
-                                YearMonth start = organization.getExperience().get(y).getStart();
-                                dos.writeInt(start.getYear());
-                                dos.writeInt(start.getMonthValue());
-                                YearMonth finish = organization.getExperience().get(y).getFinish();
-                                dos.writeInt(finish.getYear());
-                                dos.writeInt(finish.getMonthValue());
-                                String position = organization.getExperience().get(y).getPosition();
-                                dos.writeUTF(position);
-                                String duties = organization.getExperience().get(y).getDuties();
-                                dos.writeUTF(duties);
-                            }
-                        }
-                        break;
+                            List<Organization.Experience> expList = organization.getExperience();
+                            writeWithExcList(expList, dos, experience -> {
+                                dos.writeInt(experience.getStart().getYear());
+                                dos.writeInt(experience.getStart().getMonthValue());
+                                dos.writeInt(experience.getFinish().getYear());
+                                dos.writeInt(experience.getFinish().getMonthValue());
+                                dos.writeUTF(experience.getPosition());
+                                dos.writeUTF(experience.getDuties());
+                            });
+                        });
                 }
-            }
+            });
         }
     }
 
-    //    теперь надо зарефакторить запись всех коллекций (т.е. все for в doWrite) через функц интерфейс
-//    посмотри на реализацию forEach
-
+    private <T> void writeWithExcList(List<T> list, DataOutputStream dos, EachWriter<T> t) throws IOException {
+        dos.writeInt(list.size());
+        for (T part : list) {
+            t.write(part);
+        }
+    }
 
     interface EachWriter<T> {
         void write(T t) throws IOException;
@@ -86,18 +71,6 @@ public class DataStreamSaver implements Saver {
             t.write(part);
         }
     }
-
-
-//    default void forEach(Consumer<? super T> action) {
-//        Objects.requireNonNull(action);
-//        for (T t : this) {
-//            action.accept(t);
-//        }
-//    }
-//надо сделать что-то подобное, т.к. использование готового forEach в нашей ситуации не подходит, нам нужен метод который прокидывает IOException дальше,
-// и свой кастомный функциональный интерфейс (как записывать каждый отд элемент коллекции) который тоже прокидывает IOException
-//    т.е. должен получится некий метод writeWithExeption (...) throws IOException, который как параметры принимает коллекцию, DataOutputStream и
-//    твой функциональный интерфейс
 
     @Override
     public Resume doRead(InputStream is) throws IOException {
