@@ -78,11 +78,10 @@ public class DataStreamSaver implements Saver {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int sizeContact =
-                    dis.readInt();
-            for (int i = 0; i < sizeContact; i++) {
-                resume.setContacts(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
+            readWithException(dis, () -> resume.setContacts(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+//            SectionType sectionType = SectionType.valueOf(dis.readUTF());
+//            switch ()
+//            readWithException(dis, () -> resume.setSection(sectionType, );
             int sizeSection = dis.readInt();
             for (int i = 0; i < sizeSection; i++) {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
@@ -95,6 +94,7 @@ public class DataStreamSaver implements Saver {
                     case QUALIFICATIONS:
                         int quantityStringsBullet = dis.readInt();
                         List<String> stringList = new ArrayList<>();
+//                       List list =  readWithExcList(stringList, dis);
                         for (int y = 0; y < quantityStringsBullet; y++) {
                             stringList.add(dis.readUTF());
                         }
@@ -140,6 +140,19 @@ public class DataStreamSaver implements Saver {
         }
     }
 
+    interface EachReader<T> {
+        void read() throws IOException;
+    }
+
+    private <T> void readWithException(DataInputStream dis, EachReader<T> t) throws IOException {
+        int size = dis.readInt();
+        while (size > 0) {
+            t.read();
+            size--;
+        }
+    }
+}
+
 //    private List<Organization.Experience> readListExp(DataInputStream dis) throws IOException {
 //        List<Organization.Experience> expList = new ArrayList<>();
 //        int size = dis.readInt();
@@ -166,4 +179,4 @@ public class DataStreamSaver implements Saver {
 //        }
 //        return list;
 //    }
-}
+//}
