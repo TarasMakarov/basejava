@@ -31,20 +31,18 @@ public class DataStreamSaver implements Saver {
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
                         List<String> stringList = ((BulletListSection) n.getValue()).getListText();
-                        writeWithExcList(stringList, dos, dos::writeUTF);
+                        writeWithException(stringList, dos, dos::writeUTF);
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
                         List<Organization> orgList = ((OrganizationSection) n.getValue()).getOrganizationList();
-                        writeWithExcList(orgList, dos, organization -> {
+                        writeWithException(orgList, dos, organization -> {
                             dos.writeUTF(organization.getOrganizationLink().getName());
                             dos.writeUTF(organization.getOrganizationLink().getUrl());
                             List<Organization.Experience> expList = organization.getExperience();
-                            writeWithExcList(expList, dos, experience -> {
-                                dos.writeInt(experience.getStart().getYear());
-                                dos.writeInt(experience.getStart().getMonthValue());
-                                dos.writeInt(experience.getFinish().getYear());
-                                dos.writeInt(experience.getFinish().getMonthValue());
+                            writeWithException(expList, dos, experience -> {
+                                writeDate(dos, experience.getStart());
+                                writeDate(dos, experience.getFinish());
                                 dos.writeUTF(experience.getPosition());
                                 dos.writeUTF(experience.getDuties());
                             });
@@ -54,11 +52,9 @@ public class DataStreamSaver implements Saver {
         }
     }
 
-    private <T> void writeWithExcList(List<T> list, DataOutputStream dos, EachWriter<T> t) throws IOException {
-        dos.writeInt(list.size());
-        for (T part : list) {
-            t.write(part);
-        }
+    private void writeDate(DataOutputStream dos, YearMonth yearMonth) throws IOException {
+        dos.writeInt(yearMonth.getYear());
+        dos.writeInt(yearMonth.getMonthValue());
     }
 
     interface EachWriter<T> {
@@ -79,9 +75,7 @@ public class DataStreamSaver implements Saver {
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
             readWithException(dis, () -> resume.setContacts(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
-//            SectionType sectionType = SectionType.valueOf(dis.readUTF());
-//            switch ()
-//            readWithException(dis, () -> resume.setSection(sectionType, );
+//            readWithException(dis, () -> resume.setSection(SectionType.valueOf(dis.readUTF()), new SimpleTextSection(dis.readUTF())));
             int sizeSection = dis.readInt();
             for (int i = 0; i < sizeSection; i++) {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
@@ -94,7 +88,6 @@ public class DataStreamSaver implements Saver {
                     case QUALIFICATIONS:
                         int quantityStringsBullet = dis.readInt();
                         List<String> stringList = new ArrayList<>();
-//                       List list =  readWithExcList(stringList, dis);
                         for (int y = 0; y < quantityStringsBullet; y++) {
                             stringList.add(dis.readUTF());
                         }
@@ -129,7 +122,6 @@ public class DataStreamSaver implements Saver {
                                 Organization.Experience experience = new Organization.Experience(start, finish, position, duties);
                                 expList.add(experience);
                             }
-//                            List<Organization.Experience> expList = readList(, dis);
                             Organization organization = new Organization(orgLink, expList);
                             orgList.add(organization);
                         }
