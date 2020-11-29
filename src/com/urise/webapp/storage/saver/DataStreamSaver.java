@@ -108,12 +108,8 @@ public class DataStreamSaver implements Saver {
                             List<Organization.Experience> expList = new ArrayList<>();
                             int quantityStringsExp = dis.readInt();
                             for (int z = 0; z < quantityStringsExp; z++) {
-                                int yearStart = dis.readInt();
-                                int monthStart = dis.readInt();
-                                int yearFinish = dis.readInt();
-                                int monthFinish = dis.readInt();
-                                YearMonth start = YearMonth.of(yearStart, monthStart);
-                                YearMonth finish = YearMonth.of(yearFinish, monthFinish);
+                                YearMonth start = readDate(dis);
+                                YearMonth finish = readDate(dis);
                                 String position = dis.readUTF();
                                 String duties = dis.readUTF();
                                 if (duties.equals("")) {
@@ -130,6 +126,12 @@ public class DataStreamSaver implements Saver {
             }
             return resume;
         }
+    }
+
+    private YearMonth readDate(DataInputStream dis) throws IOException {
+        int year = dis.readInt();
+        int month = dis.readInt();
+        return YearMonth.of(year, month);
     }
 
     interface EachReader<T> {
