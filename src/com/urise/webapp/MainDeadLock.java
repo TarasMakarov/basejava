@@ -7,47 +7,25 @@ public class MainDeadLock {
 
     public static void main(String[] args) {
 
-        Thread1 thread1 = new Thread1();
-        Thread2 thread2 = new Thread2();
-        thread1.start();
-        thread2.start();
-    }
-
-
-    static class Thread1 extends Thread {
-
-        @Override
-        public void run() {
+        new Thread(() -> {
             synchronized (LOCK1) {
-                System.out.println("Lock 1 T1");
-//                try {
-//                    Thread.sleep(10);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-                synchronized (LOCK2) {
-                    System.out.println("Lock 2 T1");
-                }
-            }
-        }
-    }
-
-    static class Thread2 extends Thread {
-
-        @Override
-        public void run() {
-            synchronized (LOCK2) {
-                System.out.println("Lock 1 T2");
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                synchronized (LOCK1) {
-                    System.out.println("Lock 2 T2");
+                synchronized (LOCK2) {
+                    System.out.println("1 " + Thread.currentThread().getState());
                 }
             }
-        }
+        }).start();
 
+        new Thread(() -> {
+            synchronized (LOCK2) {
+                synchronized (LOCK1) {
+                    System.out.println("2 " + Thread.currentThread().getState());
+                }
+            }
+        }).start();
     }
 }
