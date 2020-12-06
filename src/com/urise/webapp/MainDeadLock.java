@@ -2,30 +2,38 @@ package com.urise.webapp;
 
 public class MainDeadLock {
 
-    public static final Object LOCK1 = new Object();
-    public static final Object LOCK2 = new Object();
-
-    public static void main(String[] args) {
-
-        new Thread(() -> {
-            synchronized (LOCK1) {
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                synchronized (LOCK2) {
-                    System.out.println("1 " + Thread.currentThread().getState());
-                }
+    public static void locking(River river1, River river2) {
+        synchronized (river1) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        }).start();
-
-        new Thread(() -> {
-            synchronized (LOCK2) {
-                synchronized (LOCK1) {
-                    System.out.println("2 " + Thread.currentThread().getState());
-                }
+            synchronized (river2) {
+                System.out.println(Thread.currentThread().getName() + " " + Thread.currentThread().getState());
             }
-        }).start();
+        }
     }
-}
+
+    static class River {
+    }
+
+        public static void main(String[] args) {
+            River river1 = new River();
+            River river2 = new River();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    locking(river2, river1);
+                }
+            }).start();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    locking(river1, river2);
+                }
+            }).start();
+        }
+    }
