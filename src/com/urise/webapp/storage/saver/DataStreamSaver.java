@@ -74,11 +74,17 @@ public class DataStreamSaver implements Saver {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
+//            int sizeContact = dis.readInt();
+//            for (int i = 0; i < sizeContact; i++) {
+//                resume.setContacts(ContactType.valueOf(dis.readUTF()), dis.readUTF());
+//            }
             readWithException(dis, () -> resume.setContacts(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
-//            readWithException(dis, () -> resume.setSection(SectionType.valueOf(dis.readUTF()), new SimpleTextSection(dis.readUTF())));
+//            SectionType sectionType = SectionType.valueOf(dis.readUTF());
+//            readWithException(dis, () -> resume.setSection(sectionType, readSection(dis, sectionType)));
             int sizeSection = dis.readInt();
             for (int i = 0; i < sizeSection; i++) {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
+//                resume.setSection(sectionType, readSection(dis, sectionType));
                 switch (sectionType) {
                     case PERSONAL:
                     case OBJECTIVE:
@@ -101,9 +107,7 @@ public class DataStreamSaver implements Saver {
                         for (int y = 0; y < quantityStringsOrg; y++) {
                             String name = dis.readUTF();
                             String url = dis.readUTF();
-                            if (url.equals("")) {
-                                url = null;
-                            }
+                            url = (url.equals("")) ? null : url;
                             orgLink = new Link(name, url);
                             List<Organization.Experience> expList = new ArrayList<>();
                             int quantityStringsExp = dis.readInt();
@@ -112,9 +116,7 @@ public class DataStreamSaver implements Saver {
                                 YearMonth finish = readDate(dis);
                                 String position = dis.readUTF();
                                 String duties = dis.readUTF();
-                                if (duties.equals("")) {
-                                    duties = null;
-                                }
+                                duties = (duties.equals("")) ? null : duties;
                                 Organization.Experience experience = new Organization.Experience(start, finish, position, duties);
                                 expList.add(experience);
                             }
@@ -128,49 +130,51 @@ public class DataStreamSaver implements Saver {
         }
     }
 
+
+//    private AbstractSection readSection(DataInputStream dis, SectionType sectionType) throws IOException {
+//        switch (sectionType) {
+//            case PERSONAL:
+//            case OBJECTIVE:
+//                return new SimpleTextSection(dis.readUTF());
+//            break;
+//            case ACHIEVEMENT:
+//            case QUALIFICATIONS:
+//                List<String> stringList = readWithException(dis,);
+//                return new BulletListSection(stringList);
+//            break;
+//            case EXPERIENCE:
+//            case EDUCATION:
+//                List<Organization> orgList = readList(dis, () -> dis.readUTF());
+//                return new OrganizationSection(orgList);
+//        }
+//        return null;
+//    }
+
+
     private YearMonth readDate(DataInputStream dis) throws IOException {
         int year = dis.readInt();
         int month = dis.readInt();
         return YearMonth.of(year, month);
     }
 
-    interface EachReader<T> {
+//    private <T> List<T> readList(DataInputStream dis, EachReader<T> t) throws IOException {
+//        int size = dis.readInt();
+//        List<T> list = new ArrayList<T>();
+//        for (int i = 0; i < size; i++) {
+//            list.add(t.read());
+//        }
+//        return list;
+//    }
+
+    interface EachReader {
         void read() throws IOException;
     }
 
-    private <T> void readWithException(DataInputStream dis, EachReader<T> t) throws IOException {
+    private void readWithException(DataInputStream dis, EachReader e) throws IOException {
         int size = dis.readInt();
         while (size > 0) {
-            t.read();
+            e.read();
             size--;
         }
     }
 }
-
-//    private List<Organization.Experience> readListExp(DataInputStream dis) throws IOException {
-//        List<Organization.Experience> expList = new ArrayList<>();
-//        int size = dis.readInt();
-//        for (int i = 0; i < size; i++) {
-//            YearMonth start = YearMonth.of(dis.readInt(), dis.readInt());
-//            YearMonth finish = YearMonth.of(dis.readInt(), dis.readInt());
-//            String position = dis.readUTF();
-//            String duties = dis.readUTF();
-//            if (duties.equals("")) {
-//                duties = null;
-//            }
-//            Organization.Experience experience = new Organization.Experience(start, finish, position, duties);
-//            expList.add(experience);
-//        }
-//        return expList;
-//    }
-
-//    private <T> List<T> readList(Class<T> c, DataInputStream dis) throws IOException {
-//        int size = dis.readInt();
-//        List<T> list = new ArrayList<T>();
-//        for (Object o : list) {
-//            T t = c.cast(o);
-//            list.add(t);
-//        }
-//        return list;
-//    }
-//}
