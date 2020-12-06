@@ -2,7 +2,7 @@ package com.urise.webapp;
 
 public class LazySingleton {
 
-    volatile private static LazySingleton INSTANCE;
+    private static volatile LazySingleton INSTANCE;
 
     private LazySingleton() {
     }
