@@ -1,17 +1,18 @@
 package com.urise.webapp;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Lesson12 {
     public static void main(String[] args) {
 
         int[] intArr = new int[]{1, 2, 5, 5, 1, 8};
-        minValue(intArr);
+//        minValue(intArr);
         List<Integer> integerList = new ArrayList<Integer>();
         integerList.add(1);
-        integerList.add(5);
+        integerList.add(6);
         integerList.add(6);
         integerList.add(4);
         integerList.add(3);
@@ -19,9 +20,13 @@ public class Lesson12 {
         System.out.println(oddOrEven(integerList));
     }
 
-    private static void minValue(int[] values) {
-        Arrays.stream(values).sorted().distinct().forEach(System.out::print);
-    }
+//    private static int minValue(int[] values) {
+//        int i = 0;
+//        i =
+//        i = Arrays.stream(values).distinct().sorted().
+//        Arrays.stream(values).sorted().distinct().forEach(System.out::print);
+//        return i;
+//    }
 
     //    Метод принимает массив цифр от 1 до 9, надо выбрать уникальные и вернуть минимально возможное число, составленное из этих уникальных цифр.
 //    Не использовать преобразование в строку и обратно. Например {1,2,3,3,2,3} вернет 123, а {9,8} вернет 89
@@ -33,19 +38,13 @@ public class Lesson12 {
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
         int sum = integers.stream().mapToInt(Integer::intValue).sum();
-        ArrayList<Integer> list = new ArrayList<>();
+        ArrayList<Integer> list;
         if (sum % 2 != 0) {
-            for (int i = 0; i < integers.size(); i++) {
-                if (integers.get(i) % 2 != 0) {
-                    list.add(integers.get(i));
-                }
-            }
+            list = IntStream.range(0, integers.size()).filter(i -> integers.get(i) % 2 != 0)
+                    .mapToObj(integers::get).collect(Collectors.toCollection(ArrayList::new));
         } else {
-            for (int i = 0; i < integers.size(); i++) {
-                if (integers.get(i) % 2 == 0) {
-                    list.add(integers.get(i));
-                }
-            }
+            list = IntStream.range(0, integers.size()).filter(i -> integers.get(i) % 2 != 0)
+                    .mapToObj(integers::get).collect(Collectors.toCollection(ArrayList::new));
         }
         return list;
     }
