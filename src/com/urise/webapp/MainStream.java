@@ -33,15 +33,6 @@ public class MainStream {
         return list;
     }
 }
-
-//    Stream<Integer> evenIntegers = ints.stream()
-//            .filter(i -> i.intValue() % 2 == 0);
-//    Stream<Integer> oddIntegers = ints.stream()
-//            .filter(i -> i.intValue() % 2 != 0);
-//
-//        evenIntegers.forEach(i -> Assert.assertTrue(i.intValue() % 2 == 0));
-//        oddIntegers.forEach(i -> Assert.assertTrue(i.intValue() % 2 != 0));
-
 //        1. to stream
 //        2. sum
 //        3. filter
