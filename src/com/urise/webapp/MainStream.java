@@ -34,6 +34,7 @@ public class MainStream {
         return list;
     }
 }
+
 //        1. to stream
 //        2. sum
 //        3. filter
