@@ -19,19 +19,28 @@ public class MainStream {
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
-//        int sum = integers.stream().mapToInt(Integer::intValue).sum();
         int sum = IntStream.range(0, integers.size()).sum();
         ArrayList<Integer> list;
         if (sum % 2 != 0) {
-            list = IntStream.range(0, integers.size()).filter(i -> integers.get(i) % 2 != 0)
-                    .mapToObj(integers::get).collect(Collectors.toCollection(ArrayList::new));
+            list = (ArrayList<Integer>) integers.stream()
+                    .filter(i -> i % 2 != 0)
+                    .collect(Collectors.toList());
         } else {
-            list = IntStream.range(0, integers.size()).filter(i -> integers.get(i) % 2 != 0)
-                    .mapToObj(integers::get).collect(Collectors.toCollection(ArrayList::new));
+            list = (ArrayList<Integer>) integers.stream()
+                    .filter(i -> i % 2 == 0)
+                    .collect(Collectors.toList());
         }
         return list;
     }
 }
+
+//    Stream<Integer> evenIntegers = ints.stream()
+//            .filter(i -> i.intValue() % 2 == 0);
+//    Stream<Integer> oddIntegers = ints.stream()
+//            .filter(i -> i.intValue() % 2 != 0);
+//
+//        evenIntegers.forEach(i -> Assert.assertTrue(i.intValue() % 2 == 0));
+//        oddIntegers.forEach(i -> Assert.assertTrue(i.intValue() % 2 != 0));
 
 //        1. to stream
 //        2. sum
