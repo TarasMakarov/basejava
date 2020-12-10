@@ -139,12 +139,12 @@ public class DataStreamSaver implements Saver {
 //            break;
 //            case ACHIEVEMENT:
 //            case QUALIFICATIONS:
-//                List<String> stringList = readWithException(dis,);
+//                List<String> stringList = readList(dis, dis::readUTF);
 //                return new BulletListSection(stringList);
 //            break;
 //            case EXPERIENCE:
 //            case EDUCATION:
-//                List<Organization> orgList = readList(dis, () -> dis.readUTF());
+//                List<Organization> orgList = readList(dis, () -> );
 //                return new OrganizationSection(orgList);
 //        }
 //        return null;
@@ -157,14 +157,18 @@ public class DataStreamSaver implements Saver {
         return YearMonth.of(year, month);
     }
 
-//    private <T> List<T> readList(DataInputStream dis, EachReader<T> t) throws IOException {
-//        int size = dis.readInt();
-//        List<T> list = new ArrayList<T>();
-//        for (int i = 0; i < size; i++) {
-//            list.add(t.read());
-//        }
-//        return list;
-//    }
+    interface ListReader<T> {
+        T readElement() throws IOException;
+    }
+
+    private <T> List<T> readList(DataInputStream dis, ListReader<T> t) throws IOException {
+        int size = dis.readInt();
+        List<T> list = new ArrayList<T>();
+        for (int i = 0; i < size; i++) {
+            list.add(t.readElement());
+        }
+        return list;
+    }
 
     interface EachReader {
         void read() throws IOException;
