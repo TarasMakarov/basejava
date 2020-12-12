@@ -23,8 +23,8 @@ public class MainStream {
         int sum = integers.stream()
                 .mapToInt(Integer::intValue)
                 .sum();
-        List<Integer> oddList;
         List<Integer> evenList;
+        List<Integer> oddList;
         evenList = integers.stream()
                 .filter(s -> sum % 2 == 0)
                 .filter(x -> x % 2 != 0)
