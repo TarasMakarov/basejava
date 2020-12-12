@@ -8,7 +8,7 @@ public class MainStream {
     public static void main(String[] args) {
         int[] intArr = new int[]{1, 2, 5, 5, 1, 8};
         System.out.println(minValue(intArr));
-        List<Integer> integerList = Arrays.asList(1, 3, 5, 4, 4, 8);
+        List<Integer> integerList = Arrays.asList(8, 4, 5, 4, 2, 9);
         System.out.println(oddOrEven(integerList));
     }
 
@@ -20,9 +20,17 @@ public class MainStream {
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
-        return integers.stream()
-                .filter(integers.stream().mapToInt(Integer::intValue)
-                        .sum() % 2 == 0 ? x -> x % 2 != 0 : x -> x % 2 == 0)
-                .collect(Collectors.toList());
+
+        int sum = integers.stream().mapToInt(Integer::intValue).sum();
+        List<Integer> oddList;
+        List<Integer> evenList;
+        evenList = integers.stream().filter(s -> sum % 2 == 0).filter(x -> x % 2 != 0).collect(Collectors.toList());
+        oddList = integers.stream().filter(s -> sum % 2 != 0).filter(x -> x % 2 == 0).collect(Collectors.toList());
+
+//        return integers.stream()
+//                .filter(integers.stream().mapToInt(Integer::intValue)
+//                        .sum() % 2 == 0 ? x -> x % 2 != 0 : x -> x % 2 == 0)
+//                .collect(Collectors.toList());
+        return sum % 2 == 0 ? evenList : oddList;
     }
 }
