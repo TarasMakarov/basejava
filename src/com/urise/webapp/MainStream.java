@@ -23,20 +23,12 @@ public class MainStream {
         int sum = integers.stream()
                 .mapToInt(Integer::intValue)
                 .sum();
-        List<Integer> evenList;
-        List<Integer> oddList;
-        evenList = integers.stream()
-                .filter(s -> sum % 2 == 0)
-                .filter(x -> x % 2 != 0)
-                .collect(Collectors.toList());
-        oddList = integers.stream()
-                .filter(s -> sum % 2 != 0)
-                .filter(x -> x % 2 == 0)
+        return integers.stream()
+                .filter(sum % 2 == 0 ? x -> x % 2 != 0 : x -> x % 2 == 0)
                 .collect(Collectors.toList());
 //        return integers.stream()
 //                .filter(integers.stream().mapToInt(Integer::intValue)
 //                        .sum() % 2 == 0 ? x -> x % 2 != 0 : x -> x % 2 == 0)
 //                .collect(Collectors.toList());
-        return sum % 2 == 0 ? evenList : oddList;
     }
 }
