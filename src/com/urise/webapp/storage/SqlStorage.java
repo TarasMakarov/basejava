@@ -6,6 +6,7 @@ import com.urise.webapp.model.Resume;
 import com.urise.webapp.sql.ConnectionFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SqlStorage implements Storage {
@@ -14,6 +15,10 @@ public class SqlStorage implements Storage {
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
         connectionFactory = () -> DriverManager.getConnection(dbUrl, dbUser, dbPassword);
     }
+
+//    public SqlStorage(Storage storage) {
+//
+//    }
 
     @Override
     public void clear() {
@@ -27,7 +32,14 @@ public class SqlStorage implements Storage {
 
     @Override
     public void update(Resume r) {
-
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement("UPDATE resume SET full_name  = ? WHERE uuid = ?")) {
+            ps.setString(1, r.getFullName());
+            ps.setString(2, r.getUuid());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 
     @Override
@@ -60,26 +72,38 @@ public class SqlStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement("DELETE FROM resume  WHERE uuid = ?")) {
+            ps.setString(1, uuid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 
     @Override
     public List<Resume> getAllSorted() {
-        return null;
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume r ORDER BY full_name, uuid")) {
+            ResultSet rs = ps.executeQuery();
+            List<Resume> list = new ArrayList<>();
+            while (rs.next()) {
+                list.add(new Resume("uuid", "full_name"));
+            }
+            return list;
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 
     @Override
     public int size() {
-        int quantity = 0;
         try (Connection conn = connectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement("SELECT COUNT (*) FROM resume")) {
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-             quantity = rs.getInt(1);
-            }
+            return (rs.next()) ? rs.getInt(1) : 0;
         } catch (SQLException e) {
             throw new StorageException(e);
         }
-        return quantity;
     }
 }
