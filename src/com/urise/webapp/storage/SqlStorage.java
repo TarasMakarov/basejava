@@ -16,10 +16,6 @@ public class SqlStorage implements Storage {
         connectionFactory = () -> DriverManager.getConnection(dbUrl, dbUser, dbPassword);
     }
 
-//    public SqlStorage(Storage storage) {
-//
-//    }
-
     @Override
     public void clear() {
         try (Connection conn = connectionFactory.getConnection();

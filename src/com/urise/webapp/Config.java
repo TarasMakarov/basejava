@@ -12,16 +12,15 @@ public class Config {
     protected static final File PROPS = new File("/home/taras_v_m/javaops/basejava/config/resumes.properties");
     private static final Config INSTANCE = new Config();
 
-    private Properties props = new Properties();
-    private File storageDir;
-    private SqlStorage storage;
-
+    private final File storageDir;
+    private final SqlStorage storage;
 
 //    private File storageDir;
 //    private File storageDir;
 //    private File storageDir;
     private Config() {
         try (InputStream is = new FileInputStream(PROPS)) {
+            Properties props = new Properties();
             props.load(is);
             storageDir = new File(props.getProperty("storage.dir"));
             storage = new SqlStorage(props.getProperty("db.url"), props.getProperty("db.user"), props.getProperty("db.password"));
