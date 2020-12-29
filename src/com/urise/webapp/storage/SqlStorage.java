@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqlStorage implements Storage {
+
     public final ConnectionFactory connectionFactory;
 
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
@@ -50,7 +51,11 @@ public class SqlStorage implements Storage {
             ps.setString(2, r.getFullName());
             ps.execute();
         } catch (SQLException e) {
-            throw new ExistStorageException(r.getUuid());
+            if (e.getSQLState().equals("23505")) {
+                throw new ExistStorageException(r.getUuid());
+            } else {
+                throw new StorageException(e);
+            }
         }
     }
 
