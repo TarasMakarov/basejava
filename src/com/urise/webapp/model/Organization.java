@@ -17,11 +17,6 @@ public class Organization implements Serializable {
 
     private Link organizationLink;
     private List<Experience> experience;
-//    private List<Position> positions = new ArrayList<>();
-
-
-    public Organization() {
-    }
 
     public Organization(Link organizationLink, List<Experience> experience) {
         this.organizationLink = organizationLink;
@@ -71,14 +66,6 @@ public class Organization implements Serializable {
         private YearMonth finish;
         private String position;
         private String duties;
-
-//        public static final YearMonth NOW = YearMonth.of(3000, 1);
-//        public Experience(YearMonth start, String position, String duties) {
-
-        public Experience() {
-        }
-//            this(start, NOW, position, duties);
-//        }
 
         public Experience(YearMonth start, YearMonth finish, String position, String duties) {
             Objects.requireNonNull(start, "start must not be null");
