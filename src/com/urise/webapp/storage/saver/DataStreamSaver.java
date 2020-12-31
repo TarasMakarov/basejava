@@ -74,82 +74,35 @@ public class DataStreamSaver implements Saver {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-//            int sizeContact = dis.readInt();
-//            for (int i = 0; i < sizeContact; i++) {
-//                resume.setContacts(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-//            }
             readWithException(dis, () -> resume.setContacts(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
-//            SectionType sectionType = SectionType.valueOf(dis.readUTF());
-//            readWithException(dis, () -> resume.setSection(sectionType, readSection(dis, sectionType)));
-            int sizeSection = dis.readInt();
-            for (int i = 0; i < sizeSection; i++) {
+            readWithException(dis, () ->
+            {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
-//                resume.setSection(sectionType, readSection(dis, sectionType));
-                switch (sectionType) {
-                    case PERSONAL:
-                    case OBJECTIVE:
-                        resume.setSection(sectionType, new SimpleTextSection(dis.readUTF()));
-                        break;
-                    case ACHIEVEMENT:
-                    case QUALIFICATIONS:
-                        int quantityStringsBullet = dis.readInt();
-                        List<String> stringList = new ArrayList<>();
-                        for (int y = 0; y < quantityStringsBullet; y++) {
-                            stringList.add(dis.readUTF());
-                        }
-                        resume.setSection(sectionType, new BulletListSection(stringList));
-                        break;
-                    case EXPERIENCE:
-                    case EDUCATION:
-                        int quantityStringsOrg = dis.readInt();
-                        List<Organization> orgList = new ArrayList<>();
-                        Link orgLink;
-                        for (int y = 0; y < quantityStringsOrg; y++) {
-                            String name = dis.readUTF();
-                            String url = dis.readUTF();
-                            url = (url.equals("")) ? null : url;
-                            orgLink = new Link(name, url);
-                            List<Organization.Experience> expList = new ArrayList<>();
-                            int quantityStringsExp = dis.readInt();
-                            for (int z = 0; z < quantityStringsExp; z++) {
-                                YearMonth start = readDate(dis);
-                                YearMonth finish = readDate(dis);
-                                String position = dis.readUTF();
-                                String duties = dis.readUTF();
-                                duties = (duties.equals("")) ? null : duties;
-                                Organization.Experience experience = new Organization.Experience(start, finish, position, duties);
-                                expList.add(experience);
-                            }
-                            Organization organization = new Organization(orgLink, expList);
-                            orgList.add(organization);
-                        }
-                        resume.setSection(sectionType, new OrganizationSection(orgList));
-                }
-            }
+                resume.setSection(sectionType, readSection(dis, sectionType));
+            });
             return resume;
         }
     }
 
-
-//    private AbstractSection readSection(DataInputStream dis, SectionType sectionType) throws IOException {
-//        switch (sectionType) {
-//            case PERSONAL:
-//            case OBJECTIVE:
-//                return new SimpleTextSection(dis.readUTF());
-//            break;
-//            case ACHIEVEMENT:
-//            case QUALIFICATIONS:
-//                List<String> stringList = readList(dis, dis::readUTF);
-//                return new BulletListSection(stringList);
-//            break;
-//            case EXPERIENCE:
-//            case EDUCATION:
-//                List<Organization> orgList = readList(dis, () -> );
-//                return new OrganizationSection(orgList);
-//        }
-//        return null;
-//    }
-
+    private AbstractSection readSection(DataInputStream dis, SectionType sectionType) throws IOException {
+        switch (sectionType) {
+            case PERSONAL:
+            case OBJECTIVE:
+                return new SimpleTextSection(dis.readUTF());
+            case ACHIEVEMENT:
+            case QUALIFICATIONS:
+                List<String> stringList = readList(dis, dis::readUTF);
+                return new BulletListSection(stringList);
+            case EXPERIENCE:
+            case EDUCATION:
+                List<Organization.Experience> orgList = readList(dis,
+                        () -> new Organization.Experience(readDate(dis), readDate(dis), dis.readUTF(), dis.readUTF()));
+                Link orgLink = new Link(dis.readUTF(), dis.readUTF());
+                Organization organization = new Organization(orgLink, orgList);
+                return new OrganizationSection(organization);
+        }
+        return null;
+    }
 
     private YearMonth readDate(DataInputStream dis) throws IOException {
         int year = dis.readInt();
