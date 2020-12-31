@@ -95,13 +95,11 @@ public class DataStreamSaver implements Saver {
                 return new BulletListSection(stringList);
             case EXPERIENCE:
             case EDUCATION:
-                List<Organization.Experience> orgList = readList(dis,
-                        () -> new Organization.Experience(readDate(dis), readDate(dis), dis.readUTF(), dis.readUTF()));
-                Link orgLink = new Link(dis.readUTF(), dis.readUTF());
-                Organization organization = new Organization(orgLink, orgList);
-                return new OrganizationSection(organization);
+                return new OrganizationSection(readList(dis, () -> new Organization(new Link(dis.readUTF(), dis.readUTF()),
+                        readList(dis, () -> new Organization.Experience(readDate(dis), readDate(dis), dis.readUTF(), dis.readUTF())))));
+            default:
+                throw new IllegalStateException();
         }
-        return null;
     }
 
     private YearMonth readDate(DataInputStream dis) throws IOException {
