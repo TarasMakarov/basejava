@@ -1,9 +1,11 @@
 package com.urise.webapp.sql;
 
+import com.urise.webapp.exception.StorageException;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class SqlHelper implements Executant{
+public class SqlHelper {
 
     public final ConnectionFactory connectionFactory;
 
@@ -11,10 +13,15 @@ public class SqlHelper implements Executant{
         this.connectionFactory = connectionFactory;
     }
 
-    @Override
-    public <T> T execute (Executant<T> executant, String commandSql) throws SQLException {
-        PreparedStatement ps = connectionFactory.getConnection().prepareStatement(commandSql);
+    public <T> T execute(Executant<T> executant, String commandSql) {
+        try (PreparedStatement ps = connectionFactory.getConnection().prepareStatement(commandSql)){
+            return executant.execute(ps);
+        } catch (SQLException e) {
+            throw new StorageException(e.getMessage());
+        }
+    }
 
-        return null;
+    public void accept(String commandSql) {
+        execute(PreparedStatement::execute, commandSql);
     }
 }
