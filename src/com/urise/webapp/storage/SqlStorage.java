@@ -1,13 +1,11 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.sql.Executant;
 import com.urise.webapp.sql.SqlHelper;
 
-import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,29 +37,13 @@ public class SqlStorage implements Storage {
 
     @Override
     public void save(Resume r) throws Exception {
-//        try (Connection conn = connectionFactory.getConnection();
-//             PreparedStatement ps = conn.prepareStatement("INSERT INTO  resume (uuid, full_name) VALUES (?, ?)")) {
-//            ps.setString(1, r.getUuid());
-//            ps.setString(2, r.getFullName());
-//            ps.execute();
-//        } catch (SQLException e) {
-//            if (e.getSQLState().equals("23505")) {
-//                throw new ExistStorageException(r.getUuid());
-//            } else {
-//                throw new StorageException(e);
-//            }
-//        }
+//        sqlHelper.setId(r.getUuid());
         sqlHelper.execute(preparedStatement -> {
             preparedStatement.setString(1, r.getUuid());
             preparedStatement.setString(2, r.getFullName());
             preparedStatement.execute();
-        } catch(SQLException e){
-            if (e.getSQLState().equals("23505")) {
-                throw new ExistStorageException(r.getUuid());
-            } else {
-                throw new StorageException(e);
-            }
-        })
+            return null;
+        }, "INSERT INTO  resume (uuid, full_name) VALUES (?, ?)");
     }
 
     @Override
@@ -99,7 +81,7 @@ public class SqlStorage implements Storage {
                 list.add(new Resume("uuid", "full_name"));
             }
             return list;
-        }, "SELECT * FROM resume r ORDER BY full_name, uuid")
+        }, "SELECT * FROM resume r ORDER BY full_name, uuid");
     }
 
     @Override
