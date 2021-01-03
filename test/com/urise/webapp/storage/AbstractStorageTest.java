@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static com.urise.webapp.ResumeTestData.fillResume;
 import static org.junit.Assert.assertEquals;
@@ -20,16 +21,16 @@ public abstract class AbstractStorageTest {
 
     Storage storage;
 
-    private static final String UUID_1 = "uuid1                               ";
+    private static final String UUID_1 = UUID.randomUUID().toString();
     private static final Resume RESUME_1 = fillResume(UUID_1, "Alex Nevin");
 
-    private static final String UUID_2 = "uuid2                               ";
+    private static final String UUID_2 = UUID.randomUUID().toString();
     private static final Resume RESUME_2 = fillResume(UUID_2, "Ben Kley");
 
-    private static final String UUID_3 = "uuid3                               ";
+    private static final String UUID_3 = UUID.randomUUID().toString();
     private static final Resume RESUME_3 = fillResume(UUID_3, "Charlie Go");
 
-    private static final String UUID_4 = "uuid4                                ";
+    private static final String UUID_4 = UUID.randomUUID().toString();
     private static final Resume RESUME_4 = new Resume(UUID_4, "Din Donn");
 
     public AbstractStorageTest(Storage storage) {
