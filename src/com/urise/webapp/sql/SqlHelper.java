@@ -8,19 +8,13 @@ import java.sql.SQLException;
 
 public class SqlHelper {
 
-//    private String uuid;
-
-    public final ConnectionFactory connectionFactory;
+    private final ConnectionFactory connectionFactory;
 
     public SqlHelper(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
     }
 
-//    public void setId(String id) {
-//        this.uuid = id;
-//    }
-
-    public <T> T execute(Executant<T> executant, String commandSql) {
+    public <T> T execute(String commandSql, Executant<T> executant) {
         try (PreparedStatement ps = connectionFactory.getConnection().prepareStatement(commandSql)){
             return executant.execute(ps);
         } catch (SQLException e) {
@@ -32,6 +26,6 @@ public class SqlHelper {
     }
 
     public void accept(String commandSql) {
-        execute(PreparedStatement::execute, commandSql);
+        execute(commandSql, PreparedStatement::execute);
     }
 }
