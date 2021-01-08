@@ -22,16 +22,16 @@ public abstract class AbstractStorageTest {
     Storage storage;
 
     private static final String UUID_1 = UUID.randomUUID().toString();
-    private static final Resume RESUME_1 = fillResume(UUID_1, "Alex Nevin");
+    private static final Resume RESUME_1 = fillResume(UUID_1, "Name1");
 
     private static final String UUID_2 = UUID.randomUUID().toString();
-    private static final Resume RESUME_2 = fillResume(UUID_2, "Ben Kley");
+    private static final Resume RESUME_2 = fillResume(UUID_2, "Name2");
 
     private static final String UUID_3 = UUID.randomUUID().toString();
-    private static final Resume RESUME_3 = fillResume(UUID_3, "Charlie Go");
+    private static final Resume RESUME_3 = fillResume(UUID_3, "Name3");
 
     private static final String UUID_4 = UUID.randomUUID().toString();
-    private static final Resume RESUME_4 = new Resume(UUID_4, "Din Donn");
+    private static final Resume RESUME_4 = fillResume(UUID_4, "Name4");
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -105,7 +105,6 @@ public abstract class AbstractStorageTest {
         assertGet(RESUME_1);
         assertGet(RESUME_2);
         assertGet(RESUME_3);
-
     }
 
     @Test(expected = NotExistStorageException.class)
