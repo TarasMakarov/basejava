@@ -3,6 +3,7 @@ package com.urise.webapp.storage;
 import com.urise.webapp.Config;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.model.ContactType;
 import com.urise.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,7 @@ public abstract class AbstractStorageTest {
     Storage storage;
 
     private static final String UUID_1 = UUID.randomUUID().toString();
-    private static final Resume RESUME_1 = fillResume(UUID_1, "Name1");
+    private static final Resume RESUME_1 = new Resume(UUID_1, "Name1");
 
     private static final String UUID_2 = UUID.randomUUID().toString();
     private static final Resume RESUME_2 = fillResume(UUID_2, "Name2");
@@ -60,6 +61,7 @@ public abstract class AbstractStorageTest {
     public void update() {
         Resume newResume = new Resume(UUID_1, "Lucky Man");
         storage.update(newResume);
+        RESUME_1.setContacts(ContactType.PHONE, "221-85-00");
         assertEquals(newResume, storage.get(UUID_1));
     }
 
