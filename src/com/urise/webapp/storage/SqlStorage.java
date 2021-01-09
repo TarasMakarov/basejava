@@ -25,15 +25,30 @@ public class SqlStorage implements Storage {
 
     @Override
     public void update(Resume r) {
-        sqlHelper.execute("UPDATE resume SET full_name  = ? WHERE uuid = ?", preparedStatement -> {
-            String uuid = r.getUuid();
-            preparedStatement.setString(1, r.getFullName());
-            preparedStatement.setString(2, uuid);
-            preparedStatement.executeUpdate();
-            if (preparedStatement.executeUpdate() == 0) {
-                throw new NotExistStorageException(uuid);
+        sqlHelper.transactionalExecute(conn -> {
+            try (PreparedStatement ps = conn.prepareStatement("UPDATE resume SET full_name  = ? WHERE uuid = ?")) {
+                String uuid = r.getUuid();
+                ps.setString(1, r.getFullName());
+                ps.setString(2, uuid);
+                ps.executeUpdate();
+                if (ps.executeUpdate() == 0) {
+                    throw new NotExistStorageException(uuid);
+                }
             }
-            return null;
+            try (PreparedStatement ps = conn.prepareStatement("UPDATE contact SET type = ? AND value = ? WHERE resume_uuid = ?")) {
+                for (Map.Entry<ContactType, String> e : r.getContactsMap().entrySet()) {
+                    String uuid = r.getUuid();
+                    ps.setString(1, e.getKey().name());
+                    ps.setString(2, e.getValue());
+                    ps.setString(3,uuid);
+                    ps.addBatch();
+                    if (ps.executeUpdate() == 0) {
+                        throw new NotExistStorageException(uuid);
+                    }
+                }
+                ps.executeBatch();
+                return null;
+            }
         });
     }
 
@@ -73,11 +88,14 @@ public class SqlStorage implements Storage {
                         throw new NotExistStorageException(uuid);
                     }
                     Resume r = new Resume(uuid, rs.getString("full_name"));
-                    do {
-                        ContactType type = ContactType.valueOf(rs.getString("type"));
-                        String value = rs.getString("value");
-                        r.setContacts(type, value);
-                    } while (rs.next());
+                    String value = rs.getString("value");
+                    if (value != null) {
+                        do {
+                            value = rs.getString("value");
+                            ContactType type = ContactType.valueOf(rs.getString("type"));
+                            r.setContacts(type, value);
+                        } while (rs.next());
+                    }
                     return r;
                 });
 
@@ -102,18 +120,22 @@ public class SqlStorage implements Storage {
                 "ON r.uuid = c.resume_uuid " +
                 "ORDER BY full_name, uuid", preparedStatement -> {
             ResultSet rs = preparedStatement.executeQuery();
-            Map<String, Resume> resumeMap = new HashMap<>();
+            Map<String, Resume> resumeMap = new LinkedHashMap<>();
             while (rs.next()) {
                 String uuid = rs.getString("uuid");
-                Resume r = new Resume(uuid, rs.getString("full_name"));
-                resumeMap.put(uuid, r);
+                Resume r = resumeMap.get(uuid);
+                if (r == null) {
+                    r = new Resume(uuid, rs.getString("full_name"));
+                    resumeMap.put(uuid, r);
+                }
                 String value = rs.getString("value");
-                ContactType type = ContactType.valueOf(rs.getString("type"));
-                r.setContacts(type, value);
+                if (value != null) {
+                    value = rs.getString("value");
+                    ContactType type = ContactType.valueOf(rs.getString("type"));
+                    r.setContacts(type, value);
+                }
             }
-            ArrayList<Resume> list = new ArrayList<>(resumeMap.values());
-            Collections.sort(list);
-            return list;
+            return new ArrayList<>(resumeMap.values());
         });
     }
 
