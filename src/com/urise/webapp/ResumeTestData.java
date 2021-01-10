@@ -12,6 +12,7 @@ public class ResumeTestData {
         Resume resume = new Resume(uuid, fullName);
         resume.setContacts(ContactType.PHONE, "212-85-06");
         resume.setContacts(ContactType.EMAIL, "SkyBot@ye.fi");
+        resume.setContacts(ContactType.SKYPE, "skype");
 //        resume.setSection(SectionType.PERSONAL, new SimpleTextSection("Boss"));
 //        resume.setSection(SectionType.OBJECTIVE, new SimpleTextSection("Simple clever"));
 //        resume.setSection(SectionType.ACHIEVEMENT, new BulletListSection("Created the steering wheel, " + "designed nut"));
