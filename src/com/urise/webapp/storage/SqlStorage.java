@@ -88,26 +88,54 @@ public class SqlStorage implements Storage {
         });
     }
 
+//    @Override
+//    public List<Resume> getAllSorted() {
+//        return sqlHelper.execute("" +
+//                "SELECT * FROM resume r " +
+//                "LEFT JOIN contact c " +
+//                "ON r.uuid = c.resume_uuid " +
+//                "ORDER BY full_name, uuid", preparedStatement -> {
+//            ResultSet rs = preparedStatement.executeQuery();
+//            Map<String, Resume> resumeMap = new LinkedHashMap<>();
+//            while (rs.next()) {
+//                String uuid = rs.getString("uuid");
+//                Resume r = resumeMap.get(uuid);
+//                if (r == null) {
+//                    r = new Resume(uuid, rs.getString("full_name"));
+//                    resumeMap.put(uuid, r);
+//                }
+//                addContact(rs, r);
+//            }
+//            return new ArrayList<>(resumeMap.values());
+//        });
+//    }
+
     @Override
     public List<Resume> getAllSorted() {
-        return sqlHelper.execute("" +
-                "SELECT * FROM resume r " +
-                "LEFT JOIN contact c " +
-                "ON r.uuid = c.resume_uuid " +
-                "ORDER BY full_name, uuid", preparedStatement -> {
-            ResultSet rs = preparedStatement.executeQuery();
-            Map<String, Resume> resumeMap = new LinkedHashMap<>();
-            while (rs.next()) {
-                String uuid = rs.getString("uuid");
-                Resume r = resumeMap.get(uuid);
-                if (r == null) {
-                    r = new Resume(uuid, rs.getString("full_name"));
+        Map<String, Resume> resumeMap = new LinkedHashMap<>();
+        sqlHelper.transactionalExecute(conn -> {
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume ORDER BY full_name, uuid")) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    String uuid = rs.getString("uuid");
+                    Resume r = resumeMap.get(uuid);
                     resumeMap.put(uuid, r);
                 }
-                addContact(rs, r);
             }
-            return new ArrayList<>(resumeMap.values());
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM contact ORDER BY resume_uuid")) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    String contactUuid = rs.getString("resume_uuid");
+                    Resume r = resumeMap.get(contactUuid);
+                    if (r == null) {
+                        r = new Resume(contactUuid, rs.getString("full_name"));
+                        addContact(rs, r);
+                    }
+                }
+            }
+            return null;
         });
+        return new ArrayList<>(resumeMap.values());
     }
 
     @Override
