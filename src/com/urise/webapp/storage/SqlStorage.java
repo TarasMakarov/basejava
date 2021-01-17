@@ -87,7 +87,6 @@ public class SqlStorage implements Storage {
             return null;
         });
     }
-
 //    @Override
 //    public List<Resume> getAllSorted() {
 //        return sqlHelper.execute("" +
@@ -119,6 +118,9 @@ public class SqlStorage implements Storage {
                 while (rs.next()) {
                     String uuid = rs.getString("uuid");
                     Resume r = resumeMap.get(uuid);
+                    if (r == null) {
+                        r = new Resume(uuid, rs.getString("full_name"));
+                    }
                     resumeMap.put(uuid, r);
                 }
             }
@@ -127,10 +129,7 @@ public class SqlStorage implements Storage {
                 while (rs.next()) {
                     String contactUuid = rs.getString("resume_uuid");
                     Resume r = resumeMap.get(contactUuid);
-                    if (r == null) {
-                        r = new Resume(contactUuid, rs.getString("full_name"));
                         addContact(rs, r);
-                    }
                 }
             }
             return null;
