@@ -3,8 +3,7 @@ package com.urise.webapp.storage;
 import com.urise.webapp.Config;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.model.ContactType;
-import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -63,6 +62,10 @@ public abstract class AbstractStorageTest {
         newResume.setContacts(ContactType.PHONE, "333-85-00");
         newResume.setContacts(ContactType.SKYPE, "skypeTWO");
         newResume.setContacts(ContactType.EMAIL, "New_Mail");
+        newResume.setSection(SectionType.PERSONAL, new SimpleTextSection("SpyderMan"));
+        newResume.setSection(SectionType.OBJECTIVE, new SimpleTextSection("weaving a network"));
+        newResume.setSection(SectionType.ACHIEVEMENT, new BulletListSection("destroyed the chaos" + "created new chaos"));
+        newResume.setSection(SectionType.QUALIFICATIONS, new BulletListSection("junior" + "master"));
         storage.update(newResume);
         assertEquals(newResume, storage.get(UUID_3));
     }
