@@ -31,10 +31,10 @@ create table section
     id            serial not null
         constraint section_pk
             primary key,
-    type_section  text   not null,
-    value_section text   not null,
-    res_uuid_sec  char(36)
-        constraint section_res_uuid_sec_fk
+    type  text   not null,
+    value text   not null,
+    resume_uuid  char(36)
+        constraint section_resume_uuid_fk
             references resume
             on delete cascade
 );
