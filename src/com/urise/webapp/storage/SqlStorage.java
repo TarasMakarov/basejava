@@ -7,6 +7,7 @@ import com.urise.webapp.sql.SqlHelper;
 import java.sql.*;
 import java.util.*;
 
+import static java.lang.String.join;
 
 public class SqlStorage implements Storage {
 
@@ -80,7 +81,7 @@ public class SqlStorage implements Storage {
                 }
             }
 
-            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM section WHERE res_uuid_sec = ?")) {
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM section WHERE resume_uuid = ?")) {
                 ps.setString(1, uuid);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
@@ -128,7 +129,7 @@ public class SqlStorage implements Storage {
             try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM section")) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
-                    String sectionUuid = rs.getString("res_uuid_sec");
+                    String sectionUuid = rs.getString("resume_uuid");
                     Resume r = resumeMap.get(sectionUuid);
                     addSection(rs, r);
                 }
@@ -161,7 +162,7 @@ public class SqlStorage implements Storage {
 
     private void insertSection(Connection conn, Resume r) throws SQLException {
         if (!r.getSectionMap().isEmpty()) {
-            try (PreparedStatement ps = conn.prepareStatement("INSERT INTO  section (res_uuid_sec, type_section, value_section) VALUES (?, ?, ?)")) {
+            try (PreparedStatement ps = conn.prepareStatement("INSERT INTO  section (resume_uuid, type, value) VALUES (?, ?, ?)")) {
                 for (Map.Entry<SectionType, AbstractSection> e : r.getSectionMap().entrySet()) {
                     SectionType type = e.getKey();
                     ps.setString(1, r.getUuid());
@@ -176,11 +177,8 @@ public class SqlStorage implements Storage {
                         case ACHIEVEMENT:
                         case QUALIFICATIONS:
                             BulletListSection bulletListSection = (BulletListSection) e.getValue();
-                            StringBuilder sb = new StringBuilder();
-                            for (String str : bulletListSection.getListText()) {
-                                sb.append(str).append('\n');
-                            }
-                            ps.setString(3, sb.toString());
+                            String strings = join("\n", bulletListSection.getListText());
+                            ps.setString(3, strings);
                             ps.addBatch();
                             break;
                         case EDUCATION:
@@ -202,7 +200,7 @@ public class SqlStorage implements Storage {
     }
 
     private void deleteSection(Connection conn, String uuid) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM section  WHERE res_uuid_sec = ?")) {
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM section  WHERE resume_uuid = ?")) {
             ps.setString(1, uuid);
             ps.execute();
         }
@@ -217,9 +215,9 @@ public class SqlStorage implements Storage {
     }
 
     private void addSection(ResultSet rs, Resume r) throws SQLException {
-        String strings = rs.getString("value_section");
+        String strings = rs.getString("value");
         if (strings != null) {
-            SectionType type = SectionType.valueOf(rs.getString("type_section"));
+            SectionType type = SectionType.valueOf(rs.getString("type"));
             switch (type) {
                 case PERSONAL:
                 case OBJECTIVE:
