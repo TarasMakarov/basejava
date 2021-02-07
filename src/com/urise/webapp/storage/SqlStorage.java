@@ -1,13 +1,18 @@
 package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.model.*;
+import com.urise.webapp.model.AbstractSection;
+import com.urise.webapp.model.ContactType;
+import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.SectionType;
 import com.urise.webapp.sql.SqlHelper;
+import com.urise.webapp.util.JsonParser;
 
 import java.sql.*;
-import java.util.*;
-
-import static java.lang.String.join;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SqlStorage implements Storage {
 
@@ -167,40 +172,56 @@ public class SqlStorage implements Storage {
                     SectionType type = e.getKey();
                     ps.setString(1, r.getUuid());
                     ps.setString(2, e.getKey().name());
-                    switch (type) {
-                        case PERSONAL:
-                        case OBJECTIVE:
-                            SimpleTextSection simpleTextSection = (SimpleTextSection) e.getValue();
-                            ps.setString(3, simpleTextSection.getText());
-                            ps.addBatch();
-                            break;
-                        case ACHIEVEMENT:
-                        case QUALIFICATIONS:
-                            BulletListSection bulletListSection = (BulletListSection) e.getValue();
-                            String strings = join("\n", bulletListSection.getListText());
-                            ps.setString(3, strings);
-                            ps.addBatch();
-                            break;
-                        case EDUCATION:
-                        case EXPERIENCE:
-                        default:
-                            ps.addBatch();
-                    }
-                    ps.executeBatch();
+                    AbstractSection section = e.getValue();
+                    ps.setString(3, JsonParser.write(section, AbstractSection.class));
+                    ps.addBatch();
                 }
+                ps.executeBatch();
             }
         }
     }
+//    private void insertSection(Connection conn, Resume r) throws SQLException {
+//        if (!r.getSectionMap().isEmpty()) {
+//            try (PreparedStatement ps = conn.prepareStatement("INSERT INTO  section (resume_uuid, type, value) VALUES (?, ?, ?)")) {
+//                for (Map.Entry<SectionType, AbstractSection> e : r.getSectionMap().entrySet()) {
+//                    SectionType type = e.getKey();
+//                    ps.setString(1, r.getUuid());
+//                    ps.setString(2, e.getKey().name());
+//                    switch (type) {
+//                        case PERSONAL:
+//                        case OBJECTIVE:
+//                            SimpleTextSection simpleTextSection = (SimpleTextSection) e.getValue();
+//                            ps.setString(3, simpleTextSection.getText());
+//                            ps.addBatch();
+//                            break;
+//                        case ACHIEVEMENT:
+//                        case QUALIFICATIONS:
+//                            BulletListSection bulletListSection = (BulletListSection) e.getValue();
+//                            String strings = join("\n", bulletListSection.getListText());
+//                            ps.setString(3, strings);
+//                            ps.addBatch();
+//                            break;
+//                        case EDUCATION:
+//                        case EXPERIENCE:
+//                        default:
+//                            ps.addBatch();
+//                    }
+//                    ps.executeBatch();
+//                }
+//            }
+//        }
+//    }
 
     private void deleteContact(Connection conn, String uuid) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM contact  WHERE resume_uuid = ?")) {
-            ps.setString(1, uuid);
-            ps.execute();
-        }
+        deleteAttributes(conn, uuid, "DELETE FROM contact  WHERE resume_uuid = ?");
     }
 
     private void deleteSection(Connection conn, String uuid) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM section  WHERE resume_uuid = ?")) {
+        deleteAttributes(conn, uuid, "DELETE FROM section  WHERE resume_uuid = ?");
+    }
+
+    private void deleteAttributes(Connection conn, String uuid, String commandSql) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement(commandSql)) {
             ps.setString(1, uuid);
             ps.execute();
         }
@@ -218,20 +239,27 @@ public class SqlStorage implements Storage {
         String strings = rs.getString("value");
         if (strings != null) {
             SectionType type = SectionType.valueOf(rs.getString("type"));
-            switch (type) {
-                case PERSONAL:
-                case OBJECTIVE:
-                    r.setSection(type, new SimpleTextSection(strings));
-                    break;
-                case ACHIEVEMENT:
-                case QUALIFICATIONS:
-                    r.setSection(type, new BulletListSection(Arrays.asList(strings.split("\n"))));
-                    break;
-                case EDUCATION:
-                case EXPERIENCE:
-                default:
-                    break;
-            }
+            r.setSection(type, JsonParser.read(strings, AbstractSection.class));
         }
+
+//    private void addSection(ResultSet rs, Resume r) throws SQLException {
+//        String strings = rs.getString("value");
+//        if (strings != null) {
+//            SectionType type = SectionType.valueOf(rs.getString("type"));
+//            switch (type) {
+//                case PERSONAL:
+//                case OBJECTIVE:
+//                    r.setSection(type, new SimpleTextSection(strings));
+//                    break;
+//                case ACHIEVEMENT:
+//                case QUALIFICATIONS:
+//                    r.setSection(type, new BulletListSection(Arrays.asList(strings.split("\n"))));
+//                    break;
+//                case EDUCATION:
+//                case EXPERIENCE:
+//                default:
+//                    break;
+//            }
+//        }
     }
 }
