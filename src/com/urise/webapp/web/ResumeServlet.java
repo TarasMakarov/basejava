@@ -1,7 +1,6 @@
 package com.urise.webapp.web;
 
 import com.urise.webapp.Config;
-import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.Storage;
 
 import javax.servlet.ServletConfig;
@@ -10,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
 
@@ -24,11 +21,13 @@ public class ResumeServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setHeader("Content-Type", "text/html; charset=UTF-8");
-        printResumes(response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("resumes", storage.getAllSorted());
+        request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
+//        request.setCharacterEncoding("UTF-8");
+//        response.setCharacterEncoding("UTF-8");
+//        response.setHeader("Content-Type", "text/html; charset=UTF-8");
+//        printResumes(response);
     }
 
     @Override
@@ -36,31 +35,32 @@ public class ResumeServlet extends HttpServlet {
 
     }
 
-    private void printResumes(HttpServletResponse response) throws IOException {
-        List<Resume> list = storage.getAllSorted();
-        PrintWriter writer = response.getWriter();
-
-        writer.write(
-                "<title>border-collapse</title>" +
-                        "<style>table{border: 2px double black;" +
-                        "border-collapse: collapse;}" +
-                        "th{border: 1px solid black}" +
-                        "td{border: 1px solid black;}</style>" +
-                        "<caption><h1>База резюме</h1></caption>" +
-                        "<body>" +
-                        "<table>" +
-                        "<tr>" +
-                        "<th>Уникальный идентификатор</th>" +
-                        "<th>ФИО</th>" +
-                        "</tr>");
-
-        for (Resume r : list) {
-            writer.write("<tr>");
-            writer.write("<td>" + r.getUuid() + "</td>");
-            writer.write("<td>" + r.getFullName() + "</td>");
-            writer.write("</tr>");
-        }
-
-        writer.write("</table>" + "</body");
-    }
+//    private void printResumes(HttpServletResponse response) throws IOException {
+//        List<Resume> list = storage.getAllSorted();
+//        PrintWriter writer = response.getWriter();
+//
+//        writer.write(
+//                "<title>border-collapse</title>\n" +
+//                        "<style>table{border: 2px double black;\n" +
+//                        "          border-collapse: collapse;}\n" +
+//                        "          th{border: 1px solid black}\n" +
+//                        "          td{border: 1px solid black;}\n" +
+//                        "</style>\n" +
+//                        "<caption><h1>База резюме</h1></caption>\n" +
+//                        "<body>\n" +
+//                        "<table>\n" +
+//                        "<tr>\n" +
+//                        "   <th>ФИО</th>\n" +
+//                        "   <th>Email</th>\n" +
+//                        "</tr>\n");
+//
+//        for (Resume r : list) {
+//            writer.write("<tr>\n");
+//            writer.write("  <td><a href=\"resume?uuid=" + r.getUuid() + "\">" + r.getFullName() + "</td>");
+//            writer.write("<td>" + r.getContacts(ContactType.EMAIL) + "</td>\n");
+//            writer.write("</tr>\n");
+//        }
+//
+//        writer.write("</table>\n" + "</body>");
+//    }
 }
