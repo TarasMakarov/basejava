@@ -10,9 +10,8 @@ import org.junit.Test;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
-import static com.urise.webapp.ResumeTestData.fillResume;
+import static com.urise.webapp.TestData.*;
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
@@ -21,17 +20,17 @@ public abstract class AbstractStorageTest {
 
     Storage storage;
 
-    private static final String UUID_1 = UUID.randomUUID().toString();
-    private static final Resume RESUME_1 = new Resume(UUID_1, "Name1");
-
-    private static final String UUID_2 = UUID.randomUUID().toString();
-    private static final Resume RESUME_2 = fillResume(UUID_2, "Name2");
-
-    private static final String UUID_3 = UUID.randomUUID().toString();
-    private static final Resume RESUME_3 = fillResume(UUID_3, "Name3");
-
-    private static final String UUID_4 = UUID.randomUUID().toString();
-    private static final Resume RESUME_4 = fillResume(UUID_4, "Name4");
+//    private static final String UUID_1 = UUID.randomUUID().toString();
+//    private static final Resume RESUME_1 = new Resume(UUID_1, "Name1");
+//
+//    private static final String UUID_2 = UUID.randomUUID().toString();
+//    private static final Resume RESUME_2 = fillResume(UUID_2, "Name2");
+//
+//    private static final String UUID_3 = UUID.randomUUID().toString();
+//    private static final Resume RESUME_3 = fillResume(UUID_3, "Name3");
+//
+//    private static final String UUID_4 = UUID.randomUUID().toString();
+//    private static final Resume RESUME_4 = fillResume(UUID_4, "Name4");
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
