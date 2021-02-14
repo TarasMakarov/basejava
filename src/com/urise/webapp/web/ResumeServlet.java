@@ -1,6 +1,8 @@
 package com.urise.webapp.web;
 
 import com.urise.webapp.Config;
+import com.urise.webapp.model.ContactType;
+import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.Storage;
 
 import javax.servlet.ServletConfig;
@@ -21,46 +23,50 @@ public class ResumeServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("resumes", storage.getAllSorted());
-        request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
-//        request.setCharacterEncoding("UTF-8");
-//        response.setCharacterEncoding("UTF-8");
-//        response.setHeader("Content-Type", "text/html; charset=UTF-8");
-//        printResumes(response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        String uuid = request.getParameter("uuid");
+        String fullName = request.getParameter("fullName");
+        Resume r = storage.get(uuid);
+        r.setFullName(fullName);
+        for (ContactType type : ContactType.values()) {
+            String value = request.getParameter(type.name());
+            if (value != null && value.trim().length() != 0) {
+                r.setContacts(type, value);
+            } else {
+                r.getContactsMap().remove(type);
+            }
+        }
+        storage.update(r);
+        response.sendRedirect("resume");
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String uuid = request.getParameter("uuid");
+        String action = request.getParameter("action");
+        if (action == null) {
+            request.setAttribute("resumes", storage.getAllSorted());
+            request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
+            return;
+        }
+        Resume r;
+        switch (action) {
+            case "delete":
+                storage.delete(uuid);
+                response.sendRedirect("resume");
+                return;
+            case "view":
+            case "edit":
+                r = storage.get(uuid);
+                break;
+            default:
+                throw new IllegalArgumentException("Action " + action + " is illegal");
+        }
+        request.setAttribute("resume", r);
+        request.getRequestDispatcher(
+                ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")
+        ).forward(request, response);
 
     }
-
-//    private void printResumes(HttpServletResponse response) throws IOException {
-//        List<Resume> list = storage.getAllSorted();
-//        PrintWriter writer = response.getWriter();
-//
-//        writer.write(
-//                "<title>border-collapse</title>\n" +
-//                        "<style>table{border: 2px double black;\n" +
-//                        "          border-collapse: collapse;}\n" +
-//                        "          th{border: 1px solid black}\n" +
-//                        "          td{border: 1px solid black;}\n" +
-//                        "</style>\n" +
-//                        "<caption><h1>База резюме</h1></caption>\n" +
-//                        "<body>\n" +
-//                        "<table>\n" +
-//                        "<tr>\n" +
-//                        "   <th>ФИО</th>\n" +
-//                        "   <th>Email</th>\n" +
-//                        "</tr>\n");
-//
-//        for (Resume r : list) {
-//            writer.write("<tr>\n");
-//            writer.write("  <td><a href=\"resume?uuid=" + r.getUuid() + "\">" + r.getFullName() + "</td>");
-//            writer.write("<td>" + r.getContacts(ContactType.EMAIL) + "</td>\n");
-//            writer.write("</tr>\n");
-//        }
-//
-//        writer.write("</table>\n" + "</body>");
-//    }
 }
