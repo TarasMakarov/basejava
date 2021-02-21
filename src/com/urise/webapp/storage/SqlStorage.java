@@ -180,37 +180,6 @@ public class SqlStorage implements Storage {
             }
         }
     }
-//    private void insertSection(Connection conn, Resume r) throws SQLException {
-//        if (!r.getSectionMap().isEmpty()) {
-//            try (PreparedStatement ps = conn.prepareStatement("INSERT INTO  section (resume_uuid, type, value) VALUES (?, ?, ?)")) {
-//                for (Map.Entry<SectionType, AbstractSection> e : r.getSectionMap().entrySet()) {
-//                    SectionType type = e.getKey();
-//                    ps.setString(1, r.getUuid());
-//                    ps.setString(2, e.getKey().name());
-//                    switch (type) {
-//                        case PERSONAL:
-//                        case OBJECTIVE:
-//                            SimpleTextSection simpleTextSection = (SimpleTextSection) e.getValue();
-//                            ps.setString(3, simpleTextSection.getText());
-//                            ps.addBatch();
-//                            break;
-//                        case ACHIEVEMENT:
-//                        case QUALIFICATIONS:
-//                            BulletListSection bulletListSection = (BulletListSection) e.getValue();
-//                            String strings = join("\n", bulletListSection.getListText());
-//                            ps.setString(3, strings);
-//                            ps.addBatch();
-//                            break;
-//                        case EDUCATION:
-//                        case EXPERIENCE:
-//                        default:
-//                            ps.addBatch();
-//                    }
-//                    ps.executeBatch();
-//                }
-//            }
-//        }
-//    }
 
     private void deleteContact(Connection conn, String uuid) throws SQLException {
         deleteAttributes(conn, uuid, "DELETE FROM contact  WHERE resume_uuid = ?");
@@ -241,25 +210,5 @@ public class SqlStorage implements Storage {
             SectionType type = SectionType.valueOf(rs.getString("type"));
             r.setSection(type, JsonParser.read(strings, AbstractSection.class));
         }
-
-//    private void addSection(ResultSet rs, Resume r) throws SQLException {
-//        String strings = rs.getString("value");
-//        if (strings != null) {
-//            SectionType type = SectionType.valueOf(rs.getString("type"));
-//            switch (type) {
-//                case PERSONAL:
-//                case OBJECTIVE:
-//                    r.setSection(type, new SimpleTextSection(strings));
-//                    break;
-//                case ACHIEVEMENT:
-//                case QUALIFICATIONS:
-//                    r.setSection(type, new BulletListSection(Arrays.asList(strings.split("\n"))));
-//                    break;
-//                case EDUCATION:
-//                case EXPERIENCE:
-//                default:
-//                    break;
-//            }
-//        }
     }
 }
