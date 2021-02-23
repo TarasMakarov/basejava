@@ -13,8 +13,8 @@ public class ResumeTestData {
         resume.setContacts(ContactType.PHONE, "212-85-06");
         resume.setContacts(ContactType.EMAIL, "SkyBot@ye.fi");
         resume.setContacts(ContactType.SKYPE, "skype");
-        resume.setSection(SectionType.PERSONAL, new SimpleTextSection("Boss"));
-        resume.setSection(SectionType.OBJECTIVE, new SimpleTextSection("Simple clever"));
+        resume.setSection(SectionType.PERSONAL, new SimpleTextSection("Simple clever"));
+        resume.setSection(SectionType.OBJECTIVE, new SimpleTextSection("Boss"));
         resume.setSection(SectionType.ACHIEVEMENT, new BulletListSection("Created the steering wheel, " + "designed nut"));
         resume.setSection(SectionType.QUALIFICATIONS, new BulletListSection("tester, " + "design engineer"));
 //        resume.setSection(SectionType.EXPERIENCE, new OrganizationSection(new Organization("AvtoVaz", null,
