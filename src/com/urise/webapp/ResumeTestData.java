@@ -15,8 +15,8 @@ public class ResumeTestData {
         resume.setContacts(ContactType.SKYPE, "skype");
         resume.setSection(SectionType.PERSONAL, new SimpleTextSection("Simple clever"));
         resume.setSection(SectionType.OBJECTIVE, new SimpleTextSection("Boss"));
-        resume.setSection(SectionType.ACHIEVEMENT, new BulletListSection("Created the steering wheel, ",  "designed nut"));
-        resume.setSection(SectionType.QUALIFICATIONS, new BulletListSection("tester, " + "design engineer"));
+        resume.setSection(SectionType.ACHIEVEMENT, new BulletListSection("Created the steering wheel. ",  "Designed nut"));
+        resume.setSection(SectionType.QUALIFICATIONS, new BulletListSection("Tester, " + "design engineer"));
 //        resume.setSection(SectionType.EXPERIENCE, new OrganizationSection(new Organization("AvtoVaz", null,
 //                new Organization.Experience(YearMonth.of(2000, 1), YearMonth.of(2005, 6), "assistant engineer", "carry papers"),
 //                new Organization.Experience(YearMonth.of(2005, 7), YearMonth.of(2007, 10), "engineer", "make a smart face"))));
