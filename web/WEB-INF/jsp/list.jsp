@@ -14,6 +14,11 @@
 <section>
     <table border="1" cellpadding="8" cellspacing="0">
         <tr>
+            <th align="center" colspan="2"> Добавить резюме </th>
+            <td align="center" colspan="2"><a href="resume?uuid=${resume.uuid}&action=add"><img src="img/add.png"></a></td>
+        </tr>
+
+        <tr>
             <th>Имя</th>
             <th>Email</th>
             <th></th>
@@ -23,7 +28,8 @@
             <jsp:useBean id="resume" type="com.urise.webapp.model.Resume"/>
             <tr>
                 <td><a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a></td>
-                <td><%=ContactType.EMAIL.toHtml(resume.getContacts(ContactType.EMAIL))%></td>
+                <td><%=ContactType.EMAIL.toHtml(resume.getContacts(ContactType.EMAIL))%>
+                </td>
                 <td><a href="resume?uuid=${resume.uuid}&action=delete"><img src="img/delete.png"></a></td>
                 <td><a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></td>
             </tr>
