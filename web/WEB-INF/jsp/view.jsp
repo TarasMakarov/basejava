@@ -1,3 +1,5 @@
+<%@ page import="com.urise.webapp.model.SimpleTextSection" %>
+<%@ page import="com.urise.webapp.model.BulletListSection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -19,6 +21,41 @@
                 <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
         </c:forEach>
     <p>
+    <hr>
+    <c:forEach var="sectionEntry" items="${resume.sectionMap}">
+        <jsp:useBean id="sectionEntry"
+                     type="java.util.Map.Entry<com.urise.webapp.model.SectionType, com.urise.webapp.model.AbstractSection>"/>
+        <c:set var="type" value="${sectionEntry.key}"/>
+        <c:set var="section" value="${sectionEntry.value}"/>
+        <jsp:useBean id="section"
+                     type="com.urise.webapp.model.AbstractSection"/>
+        <tr>
+            <td><h2><a name="type.name">${type.title}</a></h2></td>
+        </tr>
+        <c:choose>
+
+            <c:when test="${type=='PERSONAL' || type=='OBJECTIVE'}">
+                <%--                    <tr style="color:${'blue'}">--%>
+                <tr>
+                    <td>
+                        <h4><%=((SimpleTextSection) section).getText()%>
+                        </h4>
+                    </td>
+                </tr>
+            </c:when>
+
+            <c:when test="${type=='ACHIEVEMENT' || type=='QUALIFICATIONS'}">
+                <tr>
+                    <td>
+                        <c:forEach var="string" items="<%=((BulletListSection)section).getListText()%>">
+                            <h4>${string}</h4>
+                        </c:forEach>
+                    </td>
+                </tr>
+            </c:when>
+
+        </c:choose>
+    </c:forEach>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
