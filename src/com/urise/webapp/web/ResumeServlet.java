@@ -1,8 +1,7 @@
 package com.urise.webapp.web;
 
 import com.urise.webapp.Config;
-import com.urise.webapp.model.ContactType;
-import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.*;
 import com.urise.webapp.storage.Storage;
 
 import javax.servlet.ServletConfig;
@@ -37,6 +36,26 @@ public class ResumeServlet extends HttpServlet {
                 r.getContactsMap().remove(type);
             }
         }
+        for (SectionType type : SectionType.values()) {
+            String value = request.getParameter(type.name());
+            if (value == null) {
+                r.getContactsMap().remove(type);
+            } else {
+                switch (type) {
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        r.setSection(type, new SimpleTextSection(value));
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        r.setSection(type, new BulletListSection(value.split("\n")));
+                        break;
+//                    case EDUCATION:
+//                    case EXPERIENCE:
+//                        r.setSection(type, );
+                }
+            }
+        }
         storage.update(r);
         response.sendRedirect("resume");
     }
@@ -59,14 +78,32 @@ public class ResumeServlet extends HttpServlet {
             case "view":
             case "edit":
                 r = storage.get(uuid);
-                break;
-            default:
-                throw new IllegalArgumentException("Action " + action + " is illegal");
+                for (SectionType type : SectionType.values()) {
+                    AbstractSection section = r.getSection(type);
+                    switch (type) {
+                        case OBJECTIVE:
+                        case PERSONAL:
+                            if (section == null) {
+                                new SimpleTextSection("");
+                            }
+                            break;
+                        case ACHIEVEMENT:
+                        case QUALIFICATIONS:
+                            if (section == null) {
+                                new BulletListSection("");
+                            }
+                            break;
+//                        case EXPERIENCE:
+//                        case EDUCATION:
+//                            break;
+                        default:
+                            throw new IllegalArgumentException("Action " + action + " is illegal");
+                    }
+                    request.setAttribute("resume", r);
+                    request.getRequestDispatcher(
+                            ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")
+                    ).forward(request, response);
+                }
         }
-        request.setAttribute("resume", r);
-        request.getRequestDispatcher(
-                ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")
-        ).forward(request, response);
-
     }
 }
