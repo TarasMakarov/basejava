@@ -22,40 +22,44 @@
         </c:forEach>
     <p>
     <hr>
-    <c:forEach var="sectionEntry" items="${resume.sectionMap}">
-        <jsp:useBean id="sectionEntry"
-                     type="java.util.Map.Entry<com.urise.webapp.model.SectionType, com.urise.webapp.model.AbstractSection>"/>
-        <c:set var="type" value="${sectionEntry.key}"/>
-        <c:set var="section" value="${sectionEntry.value}"/>
-        <jsp:useBean id="section"
-                     type="com.urise.webapp.model.AbstractSection"/>
-        <tr>
-            <td><h2><a name="type.name">${type.title}</a></h2></td>
-        </tr>
-        <c:choose>
+    <table cellpadding="2">
+        <c:forEach var="sectionEntry" items="${resume.sectionMap}">
+            <jsp:useBean id="sectionEntry"
+                         type="java.util.Map.Entry<com.urise.webapp.model.SectionType, com.urise.webapp.model.AbstractSection>"/>
+            <c:set var="type" value="${sectionEntry.key}"/>
+            <c:set var="section" value="${sectionEntry.value}"/>
+            <jsp:useBean id="section"
+                         type="com.urise.webapp.model.AbstractSection"/>
+            <tr>
+                <td><h2><a name="type.name">${type.title}</a></h2></td>
+            </tr>
+            <c:choose>
 
-            <c:when test="${type=='PERSONAL' || type=='OBJECTIVE'}">
-                <%--                    <tr style="color:${'blue'}">--%>
-                <tr>
-                    <td>
-                        <h4><%=((SimpleTextSection) section).getText()%>
-                        </h4>
-                    </td>
-                </tr>
-            </c:when>
+                <c:when test="${type=='PERSONAL' || type=='OBJECTIVE'}">
+                    <tr>
+                        <td>
+                            <%=((SimpleTextSection) section).getText()%>
+                        </td>
+                    </tr>
+                </c:when>
 
-            <c:when test="${type=='ACHIEVEMENT' || type=='QUALIFICATIONS'}">
-                <tr>
-                    <td>
-                        <c:forEach var="string" items="<%=((BulletListSection)section).getListText()%>">
-                            <h4>${string}</h4>
-                        </c:forEach>
-                    </td>
-                </tr>
-            </c:when>
+                <c:when test="${type=='ACHIEVEMENT' || type=='QUALIFICATIONS'}">
+                    <tr>
+                        <td colspan="2">
+                            <c:forEach var="string" items="<%=((BulletListSection)section).getListText()%>">
+                            <li> ${string}
+                                </c:forEach>
+                        </td>
+                    </tr>
+                </c:when>
 
-        </c:choose>
-    </c:forEach>
+<%--                <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">--%>
+
+<%--                </c:when>--%>
+
+            </c:choose>
+        </c:forEach>
+    </table>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
