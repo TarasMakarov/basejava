@@ -2,11 +2,9 @@
 <%@ page import="com.urise.webapp.model.SectionType" %>
 <%@ page import="com.urise.webapp.model.BulletListSection" %>
 <%@ page import="com.urise.webapp.model.OrganizationSection" %>
-<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
 <html>
 <head>
@@ -44,10 +42,10 @@
                     </dd>
                 </c:when>
                 <c:when test="${type=='ACHIEVEMENT' || type=='QUALIFICATIONS'}">
-                    <dd>
-                        <input type="text" name="${type}" size="102"
-                               value="<%=String.join("\n", ((BulletListSection)section).getListText())%>">
-                    </dd>
+                        <dd>
+                            <input type="text" name="${type}" size="102"
+                                   value="<%=String.join("\n",((BulletListSection)section).getListText())%>">
+                        </dd>
                 </c:when>
                 <c:when test="${type=='EXPERIENCE'}">
                     <c:forEach var="org" items="<%=((OrganizationSection)section).getOrganizationList()%>"
@@ -95,7 +93,8 @@
                             <dl>
                                 <dt>Обязанности:</dt>
                                 <dd>
-                                    <textarea name="${type}${on.index}duties" rows=5 cols="110(">${exp.duties}</textarea>
+                                    <textarea name="${type}${on.index}duties" rows=5
+                                              cols="110(">${exp.duties}</textarea>
                                 </dd>
                             </dl>
                         </c:forEach>
@@ -148,7 +147,8 @@
                             <dl>
                                 <dt>Квалификация:</dt>
                                 <dd>
-                                    <textarea name="${type}${on.index}duties" rows=5 cols="110(">${edu.duties}</textarea>
+                                    <textarea name="${type}${on.index}duties" rows=5
+                                              cols="110(">${edu.duties}</textarea>
                                 </dd>
                             </dl>
                         </c:forEach>
