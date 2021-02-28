@@ -15,7 +15,7 @@
     <table border="1" cellpadding="8" cellspacing="0">
         <tr>
             <th align="center" colspan="2"> Добавить резюме </th>
-            <td align="center" colspan="2"><a href="resume?uuid=${resume.uuid}&action=add"><img src="img/add.png"></a></td>
+            <td align="center" colspan="2"><a href="resume?action=add"><img src="img/add.png"></a></td>
         </tr>
 
         <tr>
