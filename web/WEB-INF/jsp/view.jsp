@@ -1,5 +1,6 @@
 <%@ page import="com.urise.webapp.model.SimpleTextSection" %>
 <%@ page import="com.urise.webapp.model.BulletListSection" %>
+<%@ page import="com.urise.webapp.model.OrganizationSection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -53,9 +54,22 @@
                     </tr>
                 </c:when>
 
-<%--                <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">--%>
-
-<%--                </c:when>--%>
+                <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
+                    <c:forEach var="org" items="<%=((OrganizationSection)section).getOrganizationList()%>">
+                        <tr>
+                            <td colspan="2">
+                                <c:choose>
+                                    <c:when test="${empty org.organizationLink.url}">
+                                        <h4>${org.organizationLink.name}</h4>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <h4><a href="${org.organizationLink.url}">${org.organizationLink.name}</a></h4>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </c:when>
 
             </c:choose>
         </c:forEach>
