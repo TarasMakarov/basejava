@@ -1,6 +1,7 @@
 <%@ page import="com.urise.webapp.model.SimpleTextSection" %>
 <%@ page import="com.urise.webapp.model.BulletListSection" %>
 <%@ page import="com.urise.webapp.model.OrganizationSection" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -68,6 +69,18 @@
                                 </c:choose>
                             </td>
                         </tr>
+                        <c:forEach var="vacantion" items="${org.experience}">
+                            <jsp:useBean id="vacantion" type="com.urise.webapp.model.Organization.Experience"/>
+                            <%
+                                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/yyyy");
+                                String dtfStart = dateTimeFormatter.format(vacantion.getStart());
+                                String dtfFinish = dateTimeFormatter.format(vacantion.getFinish());
+                            %>
+                            <tr>
+                                <td><%=dtfStart%> - <%=dtfFinish%> </td>
+                                <td><b>${vacantion.position}</b><br>${vacantion.duties}</td>
+                            </tr>
+                        </c:forEach>
                     </c:forEach>
                 </c:when>
 
