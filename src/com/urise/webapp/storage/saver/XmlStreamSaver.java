@@ -6,7 +6,7 @@ import com.urise.webapp.util.XmlParser;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-public class XmlStreamSaver implements Saver{
+public class XmlStreamSaver implements Saver {
     private XmlParser xmlParser;
 
     public XmlStreamSaver() {
