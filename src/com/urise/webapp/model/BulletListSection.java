@@ -10,6 +10,8 @@ import java.util.Objects;
 public class BulletListSection extends AbstractSection {
     private static final long serialVersionUID = 1L;
 
+    public static final BulletListSection EMPTY = new BulletListSection("");
+
     public BulletListSection() {
     }
 

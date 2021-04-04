@@ -15,6 +15,8 @@ import java.util.Objects;
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public static final Organization EMPTY = new Organization("", "", Experience.EMPTY);
+
     private Link organizationLink;
     private List<Experience> experience;
 
@@ -60,6 +62,7 @@ public class Organization implements Serializable {
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Experience implements Serializable {
+        public static final Experience EMPTY = new Experience();
         @XmlJavaTypeAdapter(YearMonthAdapter.class)
         private YearMonth start;
         @XmlJavaTypeAdapter(YearMonthAdapter.class)
@@ -76,6 +79,9 @@ public class Organization implements Serializable {
             this.finish = finish;
             this.position = position;
             this.duties = (duties == null) ? "" : duties;
+        }
+
+        public Experience() {
         }
 
         public YearMonth getStart() {
