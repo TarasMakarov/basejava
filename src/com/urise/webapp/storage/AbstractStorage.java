@@ -19,7 +19,7 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     protected abstract boolean isExist(SK searchKey);
 
-    protected abstract void doSave(Resume r, SK searchKey) throws Exception;
+    protected abstract void doSave(Resume r, SK searchKey);
 
     protected abstract Resume doGet(SK searchKey);
 
@@ -33,7 +33,7 @@ public abstract class AbstractStorage<SK> implements Storage {
         doUpdate(resume, searchKey);
     }
 
-    public void save(Resume resume) throws Exception {
+    public void save(Resume resume) {
         LOG.info("Save " + resume);
         SK searchKey = getSearchKeyIfNotExist(resume.getUuid());
         doSave(resume, searchKey);

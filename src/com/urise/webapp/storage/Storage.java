@@ -10,7 +10,7 @@ public interface Storage {
 
     void update(Resume r);
 
-    void save(Resume r) throws Exception;
+    void save(Resume r);
 
     Resume get(String uuid);
 

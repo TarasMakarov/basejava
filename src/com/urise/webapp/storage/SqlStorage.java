@@ -52,7 +52,7 @@ public class SqlStorage implements Storage {
     }
 
     @Override
-    public void save(Resume r) throws Exception {
+    public void save(Resume r) {
         sqlHelper.transactionalExecute(conn -> {
                     try (PreparedStatement ps = conn.prepareStatement("INSERT INTO  resume (uuid, full_name) VALUES (?, ?)")) {
                         ps.setString(1, r.getUuid());
