@@ -2,6 +2,7 @@
 <%@ page import="com.urise.webapp.model.BulletListSection" %>
 <%@ page import="com.urise.webapp.model.OrganizationSection" %>
 <%@ page import="com.urise.webapp.util.YearMonthUtil" %>
+<%@ page import="com.urise.webapp.util.HtmlUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -71,8 +72,7 @@
                         <c:forEach var="vacantion" items="${org.experience}">
                             <jsp:useBean id="vacantion" type="com.urise.webapp.model.Organization.Experience"/>
                             <tr>
-                                <td><%=YearMonthUtil.formatDate
-                                        (vacantion.getStart())%> - <%=YearMonthUtil.formatDate(vacantion.getFinish())%> </td>
+                                <td><%=HtmlUtil.formatDates(vacantion)%> </td>
                                 <td><b>${vacantion.position}</b><br>${vacantion.duties}</td>
                             </tr>
                         </c:forEach>
