@@ -3,6 +3,7 @@
 <%@ page import="com.urise.webapp.model.BulletListSection" %>
 <%@ page import="com.urise.webapp.model.OrganizationSection" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="com.urise.webapp.util.YearMonthUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -64,23 +65,18 @@
                         </dl>
                         <c:forEach var="exp" items="${org.experience}">
                             <jsp:useBean id="exp" type="com.urise.webapp.model.Organization.Experience"/>
-                            <%
-                                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/yyyy");
-                                String dtfStart = dateTimeFormatter.format(exp.getStart());
-                                String dtfFinish = dateTimeFormatter.format(exp.getFinish());
-                            %>
                             <dl>
                                 <dt>Начало сотрудничества:</dt>
                                 <dd>
                                     <input type="text" name="${exp.start}start" size="10"
-                                           value="<%=dtfStart%>">
+                                           value="<%=YearMonthUtil.formatDate(exp.getStart())%>">
                                 </dd>
                             </dl>
                             <dl>
                                 <dt>Окончание сотрудничества:</dt>
                                 <dd>
                                     <input type="text" name="${exp.finish}finish" size="10"
-                                           value="<%=dtfFinish%>">
+                                           value="<%=YearMonthUtil.formatDate(exp.getFinish())%>">
                                 </dd>
                             </dl>
                             <dl>
@@ -118,23 +114,18 @@
                         </dl>
                         <c:forEach var="edu" items="${org.experience}">
                             <jsp:useBean id="edu" type="com.urise.webapp.model.Organization.Experience"/>
-                            <%
-                                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/yyyy");
-                                String dtfStart = dateTimeFormatter.format(edu.getStart());
-                                String dtfFinish = dateTimeFormatter.format(edu.getFinish());
-                            %>
                             <dl>
                                 <dt>Начало обучения:</dt>
                                 <dd>
                                     <input type="text" name="${edu.start}start" size="10"
-                                           value="<%=dtfStart%>">
+                                           value="<%=YearMonthUtil.formatDate(edu.getStart())%>">
                                 </dd>
                             </dl>
                             <dl>
                                 <dt>Окончание обучения:</dt>
                                 <dd>
                                     <input type="text" name="${edu.finish}аштшыр" size="10"
-                                           value="<%=dtfFinish%>">
+                                           value="<%=YearMonthUtil.formatDate(edu.getFinish())%>">
                                 </dd>
                             </dl>
                             <dl>
