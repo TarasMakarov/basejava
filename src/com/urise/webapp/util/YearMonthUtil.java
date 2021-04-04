@@ -12,4 +12,9 @@ public class YearMonthUtil {
             return "";
         return date.equals(NOW) ? "По настоящее время" : date.format(DATE_TIME_FORMATTER);
     }
+
+    public static YearMonth parse(String date) {
+        if (HtmlUtil.isEmpty(date) || "По настоящее время".equals(date)) return NOW;
+        return YearMonth.parse(date, DATE_TIME_FORMATTER);
+    }
 }
