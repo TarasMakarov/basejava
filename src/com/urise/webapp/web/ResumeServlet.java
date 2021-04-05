@@ -49,7 +49,7 @@ public class ResumeServlet extends HttpServlet {
         for (SectionType type : SectionType.values()) {
             String value = request.getParameter(type.name());
             String[] values = request.getParameterValues(type.name());
-            if (HtmlUtil.isEmpty(value) && values.length < 2) {
+            if (HtmlUtil.isEmpty(value)) {
                 r.getSectionMap().remove(type);
             } else {
                 switch (type) {
@@ -70,10 +70,10 @@ public class ResumeServlet extends HttpServlet {
                             if (!HtmlUtil.isEmpty(name)) {
                                 List<Organization.Experience> experiences = new ArrayList<>();
                                 String pfx = type.name() + i;
-                                String[] startDates = request.getParameterValues(pfx + "startDate");
-                                String[] endDates = request.getParameterValues(pfx + "endDate");
-                                String[] titles = request.getParameterValues(pfx + "title");
-                                String[] descriptions = request.getParameterValues(pfx + "description");
+                                String[] startDates = request.getParameterValues(pfx + "start");
+                                String[] endDates = request.getParameterValues(pfx + "finish");
+                                String[] titles = request.getParameterValues(pfx + "position");
+                                String[] descriptions = request.getParameterValues(pfx + "duties");
                                 for (int j = 0; j < titles.length; j++) {
                                     if (!HtmlUtil.isEmpty(titles[j])) {
                                         experiences.add(new Organization.Experience(YearMonthUtil.parse(startDates[j]), YearMonthUtil.parse(endDates[j]), titles[j], descriptions[j]));
