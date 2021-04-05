@@ -49,7 +49,7 @@ public class ResumeServlet extends HttpServlet {
         for (SectionType type : SectionType.values()) {
             String value = request.getParameter(type.name());
             String[] values = request.getParameterValues(type.name());
-            if (HtmlUtil.isEmpty(value)) {
+            if (HtmlUtil.isEmpty(value) || values.length < 2) {
                 r.getSectionMap().remove(type);
             } else {
                 switch (type) {
@@ -76,7 +76,8 @@ public class ResumeServlet extends HttpServlet {
                                 String[] descriptions = request.getParameterValues(pfx + "duties");
                                 for (int j = 0; j < titles.length; j++) {
                                     if (!HtmlUtil.isEmpty(titles[j])) {
-                                        experiences.add(new Organization.Experience(YearMonthUtil.parse(startDates[j]), YearMonthUtil.parse(endDates[j]), titles[j], descriptions[j]));
+                                        experiences.add(new Organization.Experience
+                                                (YearMonthUtil.parse(startDates[j]), YearMonthUtil.parse(endDates[j]), titles[j], descriptions[j]));
                                     }
                                 }
                                 orgs.add(new Organization(new Link(name, urls[i]), experiences));
