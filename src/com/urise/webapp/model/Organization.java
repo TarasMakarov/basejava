@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static com.urise.webapp.util.YearMonthUtil.NOW;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -69,6 +71,10 @@ public class Organization implements Serializable {
         private YearMonth finish;
         private String position;
         private String duties;
+
+        public Experience(YearMonth start, String position, String duties) {
+            this(start, NOW, position, duties);
+        }
 
         public Experience(YearMonth start, YearMonth finish, String position, String duties) {
             Objects.requireNonNull(start, "start must not be null");
