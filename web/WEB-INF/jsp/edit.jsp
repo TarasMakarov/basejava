@@ -2,7 +2,6 @@
 <%@ page import="com.urise.webapp.model.SectionType" %>
 <%@ page import="com.urise.webapp.model.BulletListSection" %>
 <%@ page import="com.urise.webapp.model.OrganizationSection" %>
-<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="com.urise.webapp.util.YearMonthUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -54,7 +53,7 @@
                         <dl>
                             <dt>Название организации</dt>
                             <dd>
-                                <input type="text" name="${type}name" size="83" value="${org.organizationLink.name}">
+                                <input type="text" name="${type}" size="83" value="${org.organizationLink.name}">
                             </dd>
                         </dl>
                         <dl>
@@ -103,7 +102,7 @@
                         <dl>
                             <dt>Название учебного заведения</dt>
                             <dd>
-                                <input type="text" name="${type}name" size="83" value="${org.organizationLink.name}">
+                                <input type="text" name="${type}" size="83" value="${org.organizationLink.name}">
                             </dd>
                         </dl>
                         <dl>
@@ -117,14 +116,14 @@
                             <dl>
                                 <dt>Начало обучения:</dt>
                                 <dd>
-                                    <input type="text" name="${edu.start}start" size="15"
+                                    <input type="text" name="${type}${on.index}start" size="15"
                                            value="<%=YearMonthUtil.formatDate(edu.getStart())%>" placeholder="MM/yyyy">
                                 </dd>
                             </dl>
                             <dl>
                                 <dt>Окончание обучения:</dt>
                                 <dd>
-                                    <input type="text" name="${edu.finish}finish" size="15"
+                                    <input type="text" name="${type}${on.index}finish" size="15"
                                            value="<%=YearMonthUtil.formatDate(edu.getFinish())%>" placeholder="MM/yyyy">
                                 </dd>
                             </dl>

@@ -40,7 +40,7 @@ public class ResumeServlet extends HttpServlet {
         }
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
-            if (value != null && value.trim().length() != 0) {
+            if(!(HtmlUtil.isEmpty(value))) {
                 r.setContacts(type, value);
             } else {
                 r.getContactsMap().remove(type);
@@ -49,7 +49,7 @@ public class ResumeServlet extends HttpServlet {
         for (SectionType type : SectionType.values()) {
             String value = request.getParameter(type.name());
             String[] values = request.getParameterValues(type.name());
-            if (HtmlUtil.isEmpty(value) || values.length < 2) {
+            if (HtmlUtil.isEmpty(value) && values.length < 2) {
                 r.getSectionMap().remove(type);
             } else {
                 switch (type) {
@@ -96,8 +96,10 @@ public class ResumeServlet extends HttpServlet {
         response.sendRedirect("resume");
     }
 
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
         String uuid = request.getParameter("uuid");
         String action = request.getParameter("action");
         if (action == null) {
