@@ -39,13 +39,13 @@
             <c:choose>
                 <c:when test="${type=='OBJECTIVE' || type=='PERSONAL'}">
                     <dd>
-                        <input type="text" name="${type}" size="102" value="<%=section%>">
+                        <input type="text" name="${type}" size="104" value="<%=section%>">
                     </dd>
                 </c:when>
                 <c:when test="${type=='ACHIEVEMENT' || type=='QUALIFICATIONS'}">
                         <dd>
-                            <input type="text" name="${type}" size="102"
-                                   value="<%=String.join("\n",((BulletListSection)section).getListText())%>">
+                            <textarea name="${type}" cols=105
+                                   rows=5><%=String.join("\n",((BulletListSection)section).getListText())%> </textarea>
                         </dd>
                 </c:when>
                 <c:when test="${type=='EXPERIENCE'}">
@@ -68,15 +68,15 @@
                             <dl>
                                 <dt>Начало сотрудничества:</dt>
                                 <dd>
-                                    <input type="text" name="${exp.start}start" size="10"
-                                           value="<%=YearMonthUtil.formatDate(exp.getStart())%>">
+                                    <input type="text" name="${type}${on.index}start" size="15"
+                                           value="<%=YearMonthUtil.formatDate(exp.getStart())%>" placeholder="MM/yyyy">
                                 </dd>
                             </dl>
                             <dl>
                                 <dt>Окончание сотрудничества:</dt>
                                 <dd>
-                                    <input type="text" name="${exp.finish}finish" size="10"
-                                           value="<%=YearMonthUtil.formatDate(exp.getFinish())%>">
+                                    <input type="text" name="${type}${on.index}finish" size="15"
+                                           value="<%=YearMonthUtil.formatDate(exp.getFinish())%>" placeholder="MM/yyyy">
                                 </dd>
                             </dl>
                             <dl>
@@ -90,7 +90,7 @@
                                 <dt>Обязанности:</dt>
                                 <dd>
                                     <textarea name="${type}${on.index}duties" rows=5
-                                              cols="110(">${exp.duties}</textarea>
+                                              cols="84(">${exp.duties}</textarea>
                                 </dd>
                             </dl>
                         </c:forEach>
@@ -117,15 +117,15 @@
                             <dl>
                                 <dt>Начало обучения:</dt>
                                 <dd>
-                                    <input type="text" name="${edu.start}start" size="10"
-                                           value="<%=YearMonthUtil.formatDate(edu.getStart())%>">
+                                    <input type="text" name="${edu.start}start" size="15"
+                                           value="<%=YearMonthUtil.formatDate(edu.getStart())%>" placeholder="MM/yyyy">
                                 </dd>
                             </dl>
                             <dl>
                                 <dt>Окончание обучения:</dt>
                                 <dd>
-                                    <input type="text" name="${edu.finish}аштшыр" size="10"
-                                           value="<%=YearMonthUtil.formatDate(edu.getFinish())%>">
+                                    <input type="text" name="${edu.finish}finish" size="15"
+                                           value="<%=YearMonthUtil.formatDate(edu.getFinish())%>" placeholder="MM/yyyy">
                                 </dd>
                             </dl>
                             <dl>
@@ -139,7 +139,7 @@
                                 <dt>Квалификация:</dt>
                                 <dd>
                                     <textarea name="${type}${on.index}duties" rows=5
-                                              cols="110(">${edu.duties}</textarea>
+                                              cols="84(">${edu.duties}</textarea>
                                 </dd>
                             </dl>
                         </c:forEach>
