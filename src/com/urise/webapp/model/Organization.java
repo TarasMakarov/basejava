@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.urise.webapp.util.YearMonthUtil.NOW;
-import static java.time.YearMonth.of;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
