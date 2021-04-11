@@ -20,7 +20,7 @@
         <input type="hidden" name="uuid" value="${resume.uuid}">
         <dl>
             <dt>Имя:</dt>
-            <dd><input type="text" name="fullName" size=50 value="${resume.fullName}"></dd>
+            <dd><input type="text" name="fullName" required="required" size=50 value="${resume.fullName}"></dd>
         </dl>
         <h3>Контакты:</h3>
         <c:forEach var="type" items="<%=ContactType.values()%>">
@@ -95,7 +95,6 @@
                         </c:forEach>
                     </c:forEach>
                 </c:when>
-
                 <c:when test="${type=='EDUCATION'}">
                     <c:forEach var="org" items="<%=((OrganizationSection)section).getOrganizationList()%>"
                                varStatus="on">
@@ -147,7 +146,7 @@
             </c:choose>
         </c:forEach>
         <button type="submit">Сохранить</button>
-        <button onclick="window.history.back()">Отменить</button>
+        <button type="reset" onclick="window.history.back()">Отменить</button>
     </form>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
