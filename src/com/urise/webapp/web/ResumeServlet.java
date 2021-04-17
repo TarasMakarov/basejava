@@ -144,7 +144,6 @@ public class ResumeServlet extends HttpServlet {
                             if (orgSection != null) {
                                 for (Organization org : orgSection.getOrganizationList()) {
                                     List<Organization.Experience> emptyFirstPositions = new ArrayList<>();
-                                    emptyFirstPositions.add(Organization.Experience.EMPTY);
                                     emptyFirstPositions.addAll(org.getExperience());
                                     emptyFirstOrganizations.add(new Organization(org.getOrganizationLink(), emptyFirstPositions));
                                 }
