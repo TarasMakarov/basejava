@@ -39,7 +39,7 @@
             <c:choose>
                 <c:when test="${type=='PERSONAL' || type=='OBJECTIVE'}">
                     <tr>
-                        <td>
+                        <td colspan="2">
                             <%=((SimpleTextSection) section).getText()%>
                         </td>
                     </tr>
